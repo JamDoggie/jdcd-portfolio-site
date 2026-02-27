@@ -1,0 +1,72 @@
+.portfolio-rows {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    align-items: center;
+}
+
+.first-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65%;
+    height: 20rem;
+    position: relative;
+}
+
+.portrait-image {
+    z-index: -3;
+    width: 20rem;
+    height: auto;
+    mask-image: radial-gradient(circle, black 40%, rgba(0, 0, 0, 0.2) 60%);
+    mask-size: 3px 3px;
+    mask-repeat: repeat;
+    border-radius: 50%;
+}
+
+.intro-text {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: start;
+    justify-content: center;
+    row-gap: 1rem;
+    margin-left: 2rem;
+}
+
+.section-header {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 0.03em;
+    color: white;
+    text-shadow: 0.2rem 0.2rem 0 rgba(100, 100, 100, 0.5);
+}
+
+.portrait-subheader {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0.4rem;
+
+    b {
+        font-weight: 600;
+    }
+}
+
+.skills-row {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 65%;
+    height: 20rem;
+    flex-direction: column;
+    column-gap: 0rem;
+    position: relative;
+}
+
+.skills-bubble {
+    display: flex;
+
+}

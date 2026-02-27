@@ -1,0 +1,8 @@
+<h2 class="section-header ripple-text">
+    @for (char of titleChars; track $index) {
+    <span class="ripple-char" [style.animation-delay]="$index * 0.05 + 's'" [style.--char-index]="$index"
+        [style.--total-chars]="titleChars.length" [style.--char]="char">
+        {{ char === ' ' ? '\u00A0' : char }}
+    </span>
+    }
+</h2>

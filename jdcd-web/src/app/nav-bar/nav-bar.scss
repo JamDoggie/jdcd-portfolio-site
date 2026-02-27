@@ -1,0 +1,149 @@
+@use '../_colors.scss' as colors;
+@use '../_margins.scss' as margins;
+
+:host {
+    position: relative;
+    z-index: 100;
+}
+
+/*** 3d background behind the nav bar ***/
+.nav-backdrop-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8rem;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.nav-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 120%;
+    height: 150%;
+    perspective: margins.$navPerspective;
+    transform-style: preserve-3d;
+    transform: translateY(-10%) rotateX(margins.$navDefaultRot);
+}
+
+/*** Nav bar styles ***/
+.nav-wrapper {
+    position: fixed;
+    left: 50%;
+    margin-top: 1rem;
+    transform: translateX(-50%);
+    padding: 0.5rem;
+    z-index: 2;
+}
+
+.nav-bg {
+    position: absolute;
+    inset: 0;
+    transform: perspective(margins.$navPerspective) rotateX(margins.$navDefaultRot);
+    border-radius: margins.$borderRadius;
+    background: linear-gradient(180deg, colors.$surfaceOutlineDark 0%, colors.$surfaceOutlineLight 100%);
+    padding: margins.$borderWidth;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: margins.$borderWidth;
+        background: linear-gradient(0deg, colors.$surfaceDark 0%, colors.$surfaceDark 50%, colors.$surfaceLight 50%, colors.$surfaceLight 100%);
+        border-radius: calc(margins.$borderRadius - margins.$borderWidth);
+        box-shadow: inset 0 0.5rem 1.0rem colors.$shadowColor;
+    }
+}
+
+.nav-links {
+    position: relative;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0rem 0rem;
+    margin: 0;
+    transform: perspective(margins.$navPerspective) rotateX(margins.$navDefaultRot);
+    transform-style: preserve-3d;
+
+    li {
+        position: relative;
+        padding: 0;
+        color: colors.$textColor;
+        text-decoration: none;
+        border-radius: margins.$borderRadius;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        transform: translate3d(0px, 0px, 0.2rem);
+
+        a {
+            display: block;
+            padding: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: inherit;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+            user-select: none;
+
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: margins.$borderWidth;
+            border-radius: calc(margins.$borderRadiusInner - margins.$borderWidth);
+            background: linear-gradient(180deg, colors.$fillHoverLight 0%, colors.$fillHoverDark 100%);
+            transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background-color: colors.$fillDark;
+            transform: translate3d(0px, 0px, 0px);
+            transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0;
+        }
+
+        &:hover,
+        &:has(.active) {
+            color: colors.$accentColor;
+            background: linear-gradient(0deg, colors.$fillHoverOutlineDark 0%, colors.$fillHoverOutlineLight 100%);
+            border-radius: margins.$borderRadiusInner;
+            transform: translate3d(0px, 0px, 0.5rem);
+            text-shadow: 0rem 0.4rem 0.3rem transparent;
+
+            &::after {
+                opacity: 1;
+            }
+
+            // A copy of the button that sits a little behind it and makes it look thick.
+            &::before {
+                opacity: 1;
+                transform: translate3d(0px, 0px, -0.5rem);
+            }
+        }
+
+        &:active {
+            transform: translate3d(0px, 0px, 0rem);
+
+            &::before {
+                transform: translate3d(0px, 0px, -0.1rem);
+            }
+        }
+    }
+}

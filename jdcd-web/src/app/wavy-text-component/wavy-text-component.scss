@@ -1,0 +1,52 @@
+$skillsGradientStart: #f0a030;
+$skillsGradientEnd: #f1bb7d;
+
+.ripple-text {
+    display: flex;
+    overflow: visible;
+    user-select: none;
+}
+
+.ripple-text span {
+    text-shadow:
+        0 0 1.5rem #ffffff2f
+}
+
+.ripple-char {
+    display: inline-block;
+    line-height: 1.3;
+    padding-block: 0.4rem;
+
+    background: linear-gradient(90deg, $skillsGradientStart 0%, $skillsGradientEnd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: calc(var(--total-chars) * 3ch) 100%;
+    background-position: calc(var(--char-index) * -1ch) 0;
+    animation: ripple 2s ease-in-out infinite;
+}
+
+@keyframes ripple {
+
+    0% {
+        transform: translateY(0);
+        background-position: calc(var(--char-index) * -1ch) 0;
+    }
+
+    10% {
+        transform: translateY(-1rem);
+    }
+
+    20% {
+        transform: translateY(0);
+    }
+
+    50% {
+        background-position: calc(var(--char-index) * -1ch - var(--total-chars) * 2ch) 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        background-position: calc(var(--char-index) * -1ch) 0;
+    }
+}
