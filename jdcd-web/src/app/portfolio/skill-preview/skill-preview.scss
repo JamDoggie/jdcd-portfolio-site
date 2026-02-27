@@ -21,21 +21,23 @@
     border-radius: 0.7rem;
     cursor: pointer;
     transition: box-shadow 0.2s;
+    filter: grayscale(100%) brightness(1.0) contrast(120%);
 }
 
 .skill-preview-panel {
     position: relative;
     display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    justify-content: start;
+    align-content: center;
     background: linear-gradient(180deg, colors.$surfaceLight 0%, colors.$surfaceLight 100%);
     inset: 0;
-    width: 10rem;
-    height: 12rem;
-    padding: 5rem;
+    padding: 1rem 1rem;
     border-radius: margins.$borderRadius;
     border-width: 2px;
-    border-color: rgba(202, 202, 202, 0.11);
+    border-color: rgba(116, 116, 116, 0.11);
     border-style: solid;
-    overflow: hidden;
 
     &::after {
         content: '';
@@ -48,5 +50,20 @@
 
     span {
         z-index: 1;
+        color: colors.$textColor;
+        text-align: center;
+        font-family: 'Oxanium', sans-serif;
+        font-weight: 300;
+        font-size: 1rem;
+    }
+
+    .skill-title {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 800;
+        font-size: 1rem;
+        background: linear-gradient(900deg, hsl(29, 50%, 56%) 0%, hsl(29, 50%, 21%) 100%);
+        padding: 0rem 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
     }
 }
