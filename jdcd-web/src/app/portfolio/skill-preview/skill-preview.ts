@@ -1,14 +1,23 @@
-import { Component, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'skill-preview',
-  imports: [],
   templateUrl: './skill-preview.html',
-  styleUrl: './skill-preview.scss',
+  styleUrls: ['./skill-preview.scss'],
 })
-
 export class SkillPreview {
-  skillName = input(""); // What this skill will show up as.
-  skillIcon = input(""); // The path to the skill's icon, relative to the skills folder (src/assets/skills).
-  skillYears = input(""); // Number of years experience with this skill
+  @Input() skillName: string = ''; // What this skill will show up as.
+  @Input() skillIcon: string = ''; // The path to the skill's icon, relative to the skills folder (src/assets/skills).
+  @Input() skillYears: string = ''; // Number of years experience with this skill
+  @Input() invert: boolean = false; // Whether to invert the skill icon (for better visibility on dark backgrounds)
+
+  showPanel: boolean = false;
+
+  enterPanel() {
+    this.showPanel = true;
+  }
+
+  exitPanel() {
+    this.showPanel = false;
+  }
 }

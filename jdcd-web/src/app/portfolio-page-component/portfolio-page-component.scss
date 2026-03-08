@@ -1,0 +1,54 @@
+$project-perspective: 600px;
+$layered-text-front-color: #e6b670;
+$layered-text-back-color: #886931;
+
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    perspective: $project-perspective;
+    margin-top: 8rem;
+    margin-bottom: 44rem;
+}
+
+.portfolio-projects-title {
+    --layer-step-x: 0.42px;
+    --layer-step-y: -0.28px;
+    --layer-step-z: 0.56px;
+    display: inline-grid;
+    position: relative;
+    width: max-content;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform: rotateY(25deg) translateX(7rem);
+}
+
+.layered-projects-title {
+    grid-area: 1 / 1;
+    display: inline-block;
+    position: relative;
+    font-family: 'Kanit', sans-serif;
+    font-size: 7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    text-transform: uppercase;
+    z-index: var(--z, 1);
+    transform: translate3d(calc(var(--layer-step-x) * var(--depth, 0) * -1),
+            calc(var(--layer-step-y) * var(--depth, 0) * -1),
+            calc(var(--layer-step-z) * var(--depth, 0) * -1));
+    user-select: none;
+    color: $layered-text-back-color;
+}
+
+.contents-gradient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8) 10rem);
+}
+
+.layered-projects-title.front-layer {
+    color: $layered-text-front-color;
+}

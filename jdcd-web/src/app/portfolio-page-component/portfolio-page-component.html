@@ -1,1 +1,14 @@
 <portfolio-intro-component></portfolio-intro-component>
+
+<div class="contents-gradient">
+    <div class="projects-container">
+        <div class="portfolio-projects-title" #projectsTitle [class.is-visible]="isTitleVisible">
+            @for (layer of titleLayers; track layer.depth) {
+            <span class="layered-projects-title" [class.front-layer]="layer.isFront" [class.back-layer]="layer.isBack"
+                [style.--depth]="layer.depth" [style.--z]="layer.z">
+                {{ titleText }}
+            </span>
+            }
+        </div>
+    </div>
+</div>

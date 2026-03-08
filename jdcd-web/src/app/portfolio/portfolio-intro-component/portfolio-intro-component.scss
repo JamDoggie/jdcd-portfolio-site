@@ -16,7 +16,9 @@
 
 .portrait-image {
     z-index: -3;
-    width: 20rem;
+    width: 25vw;
+    min-width: 10rem;
+    min-height: 10rem;
     height: auto;
     mask-image: radial-gradient(circle, black 40%, rgba(0, 0, 0, 0.2) 60%);
     mask-size: 3px 3px;
@@ -63,10 +65,15 @@
     height: 20rem;
     flex-direction: column;
     column-gap: 0rem;
-    row-gap: 1rem;
+    row-gap: 0rem;
     position: relative;
 }
 
 .skills-bubble {
     display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    max-width: 50%;
+    column-gap: 0.5rem;
+    row-gap: 0;
 }

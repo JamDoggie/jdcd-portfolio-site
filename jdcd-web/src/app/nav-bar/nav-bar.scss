@@ -37,16 +37,34 @@
     transform: translateX(-50%);
     padding: 0.5rem;
     z-index: 2;
+    --rotation-offset: 0deg;
+    --invis-multiplier: 0;
+    transition: transform 0.3s ease, opacity 0.1s ease, filter 0.3s ease;
+
+    &.scrolled {
+        --rotation-offset: margins.$navScrolledRot;
+        --invis-multiplier: 1;
+        transform: translateX(-50%) scale(0.9);
+    }
+
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .nav-bg {
     position: absolute;
     inset: 0;
-    transform: perspective(margins.$navPerspective) rotateX(margins.$navDefaultRot);
+    --rotation-offset: inherit;
+    --invis-multiplier: inherit;
+    transform: perspective(margins.$navPerspective) rotateX(calc(margins.$navDefaultRot + var(--rotation-offset)));
     border-radius: margins.$borderRadius;
     background: linear-gradient(180deg, colors.$surfaceOutlineDark 0%, colors.$surfaceOutlineLight 100%);
     padding: margins.$borderWidth;
     overflow: hidden;
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(10px);
+
 
     &::after {
         content: '';
@@ -55,6 +73,8 @@
         background: linear-gradient(0deg, colors.$surfaceDark 0%, colors.$surfaceDark 50%, colors.$surfaceLight 50%, colors.$surfaceLight 100%);
         border-radius: calc(margins.$borderRadius - margins.$borderWidth);
         box-shadow: inset 0 0.5rem 1.0rem colors.$shadowColor;
+        opacity: calc(1.0 - var(--invis-multiplier) * 0.1);
+        backdrop-filter: blur(10px);
     }
 }
 
@@ -67,8 +87,10 @@
     gap: 0.2rem;
     padding: 0rem 0rem;
     margin: 0;
-    transform: perspective(margins.$navPerspective) rotateX(margins.$navDefaultRot);
+    --rotation-offset: inherit;
+    transform: perspective(margins.$navPerspective) rotateX(calc(margins.$navDefaultRot + var(--rotation-offset)));
     transform-style: preserve-3d;
+    transition: transform 0.3s ease;
 
     li {
         position: relative;
