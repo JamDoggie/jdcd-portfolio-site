@@ -39,9 +39,11 @@ export class ProjectShowcase implements OnInit {
   currentIndex = signal(0);
 
   ngOnInit(): void {
-    for (const slug of this.skills()) {
-      this.http.get<SkillData>(`/api/skills/${encodeURIComponent(slug)}`).subscribe(skill => {
-        this.skillDataList.push(skill);
+    const slugs = this.skills();
+    if (slugs.length > 0) {
+      this.http.get<{ skills: SkillData[] }>('/api/skills').subscribe(res => {
+        const slugSet = new Set(slugs);
+        this.skillDataList = res.skills.filter(s => slugSet.has(s.slug));
       });
     }
 

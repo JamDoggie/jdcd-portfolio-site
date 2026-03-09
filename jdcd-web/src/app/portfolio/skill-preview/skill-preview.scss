@@ -27,7 +27,7 @@
 }
 
 .skill-preview-panel {
-    z-index: 3;
+    z-index: 5;
     opacity: 0;
     transform: translateX(-50%) translateY(2.5rem) scale(0.98);
     transition: opacity 200ms ease, transform 200ms ease;
@@ -66,7 +66,7 @@
     }
 
     span {
-        z-index: 1;
+        z-index: 5;
         color: colors.$textColor;
         text-align: center;
         font-family: 'Oxanium', sans-serif;

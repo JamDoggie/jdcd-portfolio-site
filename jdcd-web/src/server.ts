@@ -103,16 +103,37 @@ app.get('/api/skills', async (_req, res) => {
     const entries = await readdir(skillsRoot, { withFileTypes: true });
     const dirs = entries.filter(e => e.isDirectory()).map(e => e.name);
 
+    const DOMPurify = (await import('isomorphic-dompurify')).default;
+
     const skills = [];
     for (const slug of dirs) {
       const mdPath = join(skillsRoot, slug, 'skill.md');
       if (!existsSync(mdPath)) continue;
       const raw = await readFile(mdPath, 'utf-8');
-      const { data } = matter(raw);
+      const { data, content } = matter(raw);
+
+      const unsafeHtml = await marked.parse(content);
+      const sanitizedHtml = DOMPurify.sanitize(unsafeHtml);
+
+      let iconUrl = '';
+      try {
+        const imageDirPath = join(skillsRoot, slug, 'image');
+        const imageFiles = await readdir(imageDirPath);
+        const first = imageFiles.find(f => /\.(svg|png|jpg|jpeg|gif|webp)$/i.test(f));
+        if (first) {
+          iconUrl = `/api/skills/${slug}/image/${first}`;
+        }
+      } catch {
+        // no image dir – leave iconUrl empty
+      }
+
       skills.push({
         slug,
         title: typeof data['title'] === 'string' ? data['title'] : slug,
         order: typeof data['order'] === 'number' ? data['order'] : 999,
+        invert: data['invert'] === true,
+        html: sanitizedHtml,
+        iconUrl,
       });
     }
 
@@ -121,49 +142,6 @@ app.get('/api/skills', async (_req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Failed to list skills' });
-  }
-});
-
-app.get('/api/skills/:slug', async (req, res) => {
-  const slug = req.params.slug;
-  if (!isInputValid(slug)) {
-    res.status(400).json({ error: 'Invalid slug' });
-    return;
-  }
-
-  const mdPath = join(skillsRoot, slug, 'skill.md');
-  const imageDirPath = join(skillsRoot, slug, 'image');
-
-  try {
-    const raw = await readFile(mdPath, 'utf-8');
-    const { data, content } = matter(raw);
-
-    const unsafeHtml = await marked.parse(content);
-    const DOMPurify = (await import('isomorphic-dompurify')).default;
-    const sanitizedHtml = DOMPurify.sanitize(unsafeHtml);
-
-    let iconUrl = '';
-    try {
-      const imageFiles = await readdir(imageDirPath);
-      const first = imageFiles.find(f => /\.(svg|png|jpg|jpeg|gif|webp)$/i.test(f));
-      if (first) {
-        iconUrl = `/api/skills/${slug}/image/${first}`;
-      }
-    } catch {
-      // no image dir – leave iconUrl empty
-    }
-
-    res.json({
-      slug,
-      title: typeof data['title'] === 'string' ? data['title'] : slug,
-      order: typeof data['order'] === 'number' ? data['order'] : 999,
-      invert: data['invert'] === true,
-      html: sanitizedHtml,
-      iconUrl,
-    });
-  } catch (e) {
-    console.error(e);
-    res.status(404).json({ error: 'Not found' });
   }
 });
 
