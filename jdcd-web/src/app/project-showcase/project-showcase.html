@@ -1,1 +1,55 @@
-<p>project-showcase works!</p>
+<div class="project-showcase">
+  <div class="project-showcase-contents">
+    <div class="markdown-container">
+        <div class="project-header">
+          <div class="project-header-left">
+            <span class="project-title">{{ title() || slug() }}</span>
+            @if (subtitle()) {
+              <span class="project-subtitle">{{ subtitle() }}</span>
+            }
+          </div>
+          @if (skillDataList.length > 0) {
+            <div class="project-skills">
+              @for (skill of skillDataList; track skill.slug) {
+                <skill-preview
+                  [skillName]="skill.title"
+                  [skillIconUrl]="skill.iconUrl"
+                  [skillDescription]="skill.html"
+                  [invert]="skill.invert">
+                </skill-preview>
+              }
+            </div>
+          }
+        </div>
+        <div class="project-markdown" [innerHTML]="html()"></div>
+    </div>
+    <div class="media-showcase">
+      @if (media().length > 0) {
+        <div class="carousel">
+          <button class="carousel-arrow left" (click)="prev()">&lsaquo;</button>
+          <div class="carousel-viewport">
+            <div class="carousel-track"
+              [style.--track-size]="(media().length / effectiveVisibleCount() * 100) + '%'"
+              [style.--track-offset]="trackOffset() + '%'">
+              @for (url of media(); track url) {
+                <div class="carousel-slide">
+                  @if (isVideo(url)) {
+                    <video [src]="url" class="carousel-media" controls></video>
+                  } @else {
+                    <img [src]="url" class="carousel-media" [alt]="slug()" />
+                  }
+                </div>
+              }
+            </div>
+          </div>
+          <button class="carousel-arrow right" (click)="next()">&rsaquo;</button>
+        </div>
+        <div class="carousel-dots">
+          @for (page of pages(); track page) {
+            <button class="carousel-dot" [class.active]="page === currentIndex()" (click)="goTo(page)"></button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

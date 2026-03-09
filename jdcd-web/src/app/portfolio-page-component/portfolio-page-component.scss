@@ -9,7 +9,7 @@ $layered-text-back-color: #886931;
     justify-content: center;
     perspective: $project-perspective;
     margin-top: 8rem;
-    margin-bottom: 44rem;
+    margin-bottom: 5rem;
 }
 
 .portfolio-projects-title {
@@ -46,9 +46,25 @@ $layered-text-back-color: #886931;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
     background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8) 10rem);
 }
 
 .layered-projects-title.front-layer {
     color: $layered-text-front-color;
+}
+
+@media (max-width: 1024px) {
+    .layered-projects-title {
+        font-size: 12vmin;
+    }
+
+    .portfolio-projects-title {
+        transform: rotateY(25deg) translateX(8vmin);
+    }
+
+    .contents-gradient {
+        gap: 8rem;
+    }
 }

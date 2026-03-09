@@ -17,8 +17,8 @@
 .portrait-image {
     z-index: -3;
     width: 25vw;
-    min-width: 10rem;
-    min-height: 10rem;
+    min-width: 7rem;
+    min-height: 7rem;
     height: auto;
     mask-image: radial-gradient(circle, black 40%, rgba(0, 0, 0, 0.2) 60%);
     mask-size: 3px 3px;
@@ -76,4 +76,25 @@
     max-width: 50%;
     column-gap: 0.5rem;
     row-gap: 0;
+}
+
+@media (max-width: 1024px) {
+    .skills-bubble {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .section-header {
+        font-size: 1.8rem;
+    }
+
+    .portrait-subheader {
+        font-size: 0.8rem;
+        line-height: 0.8rem;
+    }
+
+    .first-row {
+        width: 80%;
+    }
 }

@@ -88,3 +88,9 @@
         box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.3);
     }
 }
+
+@media (max-width: 480px) {
+    .skill-preview-panel {
+        left: var(--panel-left, 50%);
+    }
+}

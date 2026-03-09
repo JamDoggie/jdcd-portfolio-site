@@ -36,7 +36,8 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "externalDependencies": ["isomorphic-dompurify", "gray-matter"]
           },
           "configurations": {
             "production": {

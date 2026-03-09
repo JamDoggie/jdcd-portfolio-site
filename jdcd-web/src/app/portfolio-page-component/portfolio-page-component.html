@@ -10,5 +10,10 @@
             </span>
             }
         </div>
+
     </div>
+
+    @for (project of projects; track project.slug) {
+        <app-project-showcase [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
+    }
 </div>

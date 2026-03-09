@@ -1,4 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -9,12 +10,35 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './nav-bar.scss',
 })
 
-export class NavBar {
+export class NavBar implements OnInit {
   scrollPosY: number = 0;
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll(event: Event): void {
-    const target = event.target as Document;
-    this.scrollPosY = target.defaultView?.scrollY ?? 0;
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
+
+  ngOnInit(): void {
+    this.updateScrollPosition();
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.updateScrollPosition();
+  }
+
+  @HostListener('document:scroll')
+  onDocumentScroll(): void {
+    this.updateScrollPosition();
+  }
+
+  @HostListener('body:scroll')
+  onBodyScroll(): void {
+    this.updateScrollPosition();
+  }
+
+  private updateScrollPosition(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    this.scrollPosY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
 }
