@@ -40,3 +40,23 @@ html {
     font-size: 18px;
     overflow-x: clip;
 }
+
+a {
+    color: hsl(268, 100%, 78%);
+}
+
+a:link {
+    color: hsl(268, 100%, 78%);
+}
+
+a:visited {
+    color: hsl(268, 100%, 87%);
+}
+
+a:hover {
+    color: hsl(268, 44%, 61%);
+}
+
+a:active {
+    color: hsl(268, 100%, 78%);
+}

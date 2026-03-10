@@ -1,9 +1,13 @@
 <div class="skill-preview-wrapper">
     <div #iconEl class="skill-preview-icon" [class.invert]="invert">
-        <img [src]="skillIconUrl" (mouseenter)="enterPanel()" (mouseleave)="exitPanel()" />
+        <img
+            [src]="skillIconUrl"
+            [class.use-grayscale]="useGrayscale"
+            (mouseenter)="enterPanel()"
+            (mouseleave)="exitPanel()" />
     </div>
 
-    <div class="skill-preview-panel" [class.visible]="showPanel" [style.--panel-left]="panelLeft">
+    <div #panelEl class="skill-preview-panel" [class.visible]="showPanel" [style.--panel-left]="panelLeft">
         <span class="skill-preview-name skill-title">{{ skillName }}</span>
         <span class="skill-preview-years" [innerHTML]="skillDescription"></span>
     </div>

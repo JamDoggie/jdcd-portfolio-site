@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, DestroyRef, inject, Inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { SkillPreview } from '../portfolio/skill-preview/skill-preview';
 
 interface SkillData {
@@ -25,11 +25,12 @@ export class ProjectShowcase implements OnInit {
   html = input<string>('');
   media = input<string[]>([]);
   skills = input<string[]>([]);
+  flipped = input<boolean>(false);
   desktopVisibleCount = input<number>(1);
   mobileVisibleCount = input<number>(1);
 
   private readonly http = inject(HttpClient);
-  skillDataList: SkillData[] = [];
+  skillDataList = signal<SkillData[]>([]);
 
   private readonly mobileBreakpoint = 768;
   private readonly platformId = inject(PLATFORM_ID);
@@ -37,13 +38,18 @@ export class ProjectShowcase implements OnInit {
 
   effectiveVisibleCount = signal(1);
   currentIndex = signal(0);
+  fullscreenImageUrl = signal<string | null>(null);
+  viewerVisible = signal(false);
+
+  private readonly viewerFadeMs = 320;
+  private closeViewerTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     const slugs = this.skills();
     if (slugs.length > 0) {
       this.http.get<{ skills: SkillData[] }>('/api/skills').subscribe(res => {
         const slugSet = new Set(slugs);
-        this.skillDataList = res.skills.filter(s => slugSet.has(s.slug));
+        this.skillDataList.set(res.skills.filter(s => slugSet.has(s.slug)));
       });
     }
 
@@ -64,6 +70,11 @@ export class ProjectShowcase implements OnInit {
     update(mql);
     mql.addEventListener('change', update);
     this.destroyRef.onDestroy(() => mql.removeEventListener('change', update));
+    this.destroyRef.onDestroy(() => {
+      if (this.closeViewerTimeout) {
+        clearTimeout(this.closeViewerTimeout);
+      }
+    });
   }
 
   trackOffset = computed(() => {
@@ -99,5 +110,36 @@ export class ProjectShowcase implements OnInit {
 
   isVideo(url: string): boolean {
     return /\.(mp4|webm|ogg)$/i.test(url);
+  }
+
+  openImageViewer(url: string): void {
+    if (this.closeViewerTimeout) {
+      clearTimeout(this.closeViewerTimeout);
+      this.closeViewerTimeout = null;
+    }
+
+    this.fullscreenImageUrl.set(url);
+
+    if (isPlatformBrowser(this.platformId)) {
+      requestAnimationFrame(() => this.viewerVisible.set(true));
+      return;
+    }
+
+    this.viewerVisible.set(true);
+  }
+
+  closeImageViewer(): void {
+    this.viewerVisible.set(false);
+
+    this.closeViewerTimeout = setTimeout(() => {
+      this.fullscreenImageUrl.set(null);
+      this.closeViewerTimeout = null;
+    }, this.viewerFadeMs);
+  }
+
+  closeImageViewerOnBackdrop(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeImageViewer();
+    }
   }
 }

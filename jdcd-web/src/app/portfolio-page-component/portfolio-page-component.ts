@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { PortfolioIntroComponent } from '../portfolio/portfolio-intro-component/portfolio-intro-component';
 import { ProjectShowcase } from '../project-showcase/project-showcase';
 
@@ -23,24 +23,22 @@ export class PortfolioPageComponent implements AfterViewInit, OnDestroy, OnInit 
   @ViewChild('projectsTitle')
   private readonly projectsTitle?: ElementRef<HTMLElement>;
 
-  protected isTitleVisible = false;
+  protected isTitleVisible = signal(false);
   protected readonly titleText = 'My Projects';
   protected readonly titleLayers = this.buildLayers(16);
 
   private titleObserver?: IntersectionObserver;
 
-  protected projects: ProjectData[] = [];
+  protected projects = signal<ProjectData[]>([]);
 
-  constructor(
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly http: HttpClient,
-  ) { }
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly http = inject(HttpClient);
 
   ngOnInit(): void {
     this.http.get<{ projects: string[] }>('/api/projects').subscribe(({ projects }) => {
       for (const slug of projects) {
         this.http.get<ProjectData>(`/api/projects/${encodeURIComponent(slug)}`).subscribe((data) => {
-          this.projects.push(data);
+          this.projects.update(prev => [...prev, data]);
         });
       }
     });
@@ -75,7 +73,7 @@ export class PortfolioPageComponent implements AfterViewInit, OnDestroy, OnInit 
     this.titleObserver = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        this.isTitleVisible = Boolean(entry?.isIntersecting);
+        this.isTitleVisible.set(Boolean(entry?.isIntersecting));
       },
       {
         threshold: 0.35,

@@ -1,7 +1,7 @@
 .portfolio-rows {
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 0rem;
     align-items: center;
 }
 
@@ -10,7 +10,6 @@
     align-items: center;
     justify-content: center;
     width: 65%;
-    height: 20rem;
     position: relative;
 }
 

@@ -1,6 +1,9 @@
 @use '../../_colors.scss' as colors;
 @use '../../_margins.scss' as margins;
 
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+
 .skill-preview-wrapper {
     position: relative;
     display: flex;
@@ -19,6 +22,9 @@
     border-radius: 0.7rem;
     cursor: pointer;
     transition: box-shadow 0.2s;
+}
+
+.skill-preview-icon img.use-grayscale {
     filter: grayscale(100%) brightness(1.5) contrast(100%);
 }
 
@@ -40,7 +46,7 @@
     }
 
     position: absolute;
-    left: 50%;
+    left: var(--panel-left, 50%);
     top: 50%;
     display: flex;
     flex-direction: column;
@@ -50,7 +56,7 @@
     background: linear-gradient(180deg, colors.$surfaceLight 0%, colors.$surfaceLight 100%);
     width: auto;
     height: auto;
-    padding: 1rem;
+    padding: 1.0rem;
     border-radius: margins.$borderRadius;
     border-width: 2px;
     border-color: rgba(116, 116, 116, 0.11);
@@ -69,28 +75,24 @@
         z-index: 5;
         color: colors.$textColor;
         text-align: center;
-        font-family: 'Oxanium', sans-serif;
-        font-weight: 300;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-weight: 500;
         font-size: 1rem;
         min-width: 15rem;
         overflow-wrap: anywhere;
     }
 
     .skill-title {
-        font-family: 'Inter', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+        font-family: 'IBM Plex Sans', sans-serif;
         font-weight: 600;
         font-size: 1.05rem;
         letter-spacing: 0.02rem;
         text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.65);
-        background: linear-gradient(900deg, hsl(29, 50%, 56%) 0%, hsl(29, 50%, 21%) 100%);
+        background: linear-gradient(190deg, hsl(31, 78%, 62%) 0%, hsl(28, 72%, 48%) 52%, hsl(24, 68%, 35%) 100%);
+        outline: 2px solid hsla(31, 100%, 50%, 0.452);
         padding: 0rem 1rem;
         border-radius: 0.5rem;
         box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.3);
     }
 }
 
-@media (max-width: 480px) {
-    .skill-preview-panel {
-        left: var(--panel-left, 50%);
-    }
-}

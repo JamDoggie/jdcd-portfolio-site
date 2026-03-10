@@ -12,12 +12,13 @@
     <div class="skills-row">
         <app-wavy-text-component class="skills-header section-header" />
         <div class="skills-bubble">
-            @for (skill of skills; track skill.slug) {
+            @for (skill of skills(); track skill.slug) {
                 <skill-preview
                     [skillName]="skill.title"
                     [skillIconUrl]="skill.iconUrl"
                     [skillDescription]="skill.html"
-                    [invert]="skill.invert"></skill-preview>
+                    [invert]="skill.invert"
+                    [useGrayscale]="true"></skill-preview>
             }
         </div>
     </div>

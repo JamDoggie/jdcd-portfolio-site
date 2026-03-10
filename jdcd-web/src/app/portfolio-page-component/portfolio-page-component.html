@@ -2,7 +2,7 @@
 
 <div class="contents-gradient">
     <div class="projects-container">
-        <div class="portfolio-projects-title" #projectsTitle [class.is-visible]="isTitleVisible">
+        <div class="portfolio-projects-title" #projectsTitle [class.is-visible]="isTitleVisible()">
             @for (layer of titleLayers; track layer.depth) {
             <span class="layered-projects-title" [class.front-layer]="layer.isFront" [class.back-layer]="layer.isBack"
                 [style.--depth]="layer.depth" [style.--z]="layer.z">
@@ -13,7 +13,7 @@
 
     </div>
 
-    @for (project of projects; track project.slug) {
-        <app-project-showcase [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
+    @for (project of projects(); track project.slug; let i = $index) {
+        <app-project-showcase [flipped]="i % 2 === 0" [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
     }
 </div>

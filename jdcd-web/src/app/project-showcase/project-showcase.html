@@ -1,5 +1,5 @@
 <div class="project-showcase">
-  <div class="project-showcase-contents">
+  <div class="project-showcase-contents" [class.flipped]="flipped()">
     <div class="markdown-container">
         <div class="project-header">
           <div class="project-header-left">
@@ -8,14 +8,15 @@
               <span class="project-subtitle">{{ subtitle() }}</span>
             }
           </div>
-          @if (skillDataList.length > 0) {
+          @if (skillDataList().length > 0) {
             <div class="project-skills">
-              @for (skill of skillDataList; track skill.slug) {
+              @for (skill of skillDataList(); track skill.slug) {
                 <skill-preview
                   [skillName]="skill.title"
                   [skillIconUrl]="skill.iconUrl"
                   [skillDescription]="skill.html"
-                  [invert]="skill.invert">
+                  [invert]="skill.invert"
+                  [useGrayscale]="true">
                 </skill-preview>
               }
             </div>
@@ -36,7 +37,7 @@
                   @if (isVideo(url)) {
                     <video [src]="url" class="carousel-media" controls></video>
                   } @else {
-                    <img [src]="url" class="carousel-media" [alt]="slug()" />
+                    <img [src]="url" class="carousel-media clickable-image" [alt]="slug()" (click)="openImageViewer(url)" />
                   }
                 </div>
               }
@@ -52,4 +53,11 @@
       }
     </div>
   </div>
+
+  @if (fullscreenImageUrl(); as imageUrl) {
+    <div class="fullscreen-image-overlay" [class.open]="viewerVisible()" (click)="closeImageViewerOnBackdrop($event)">
+      <button class="return-to-page" (click)="closeImageViewer()">↑ Return to page ↑</button>
+      <img [src]="imageUrl" class="fullscreen-image" [alt]="slug()" />
+    </div>
+  }
 </div>
