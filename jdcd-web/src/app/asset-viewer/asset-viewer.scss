@@ -1,0 +1,232 @@
+:host {
+	display: block;
+	height: 100%;
+	position: relative;
+	z-index: 0;
+}
+
+:host(:hover) {
+	z-index: 10;
+}
+
+:host(.fullscreen-open) {
+	z-index: 1000;
+}
+
+.asset-viewer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	height: 100%;
+	opacity: 0;
+	transform: translateY(1.75rem) scale(0.985);
+	transition: opacity 0.65s ease, transform 0.65s ease;
+
+	&.visible {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.asset-preview {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.45rem;
+	flex: 1;
+	min-height: 0;
+}
+
+.asset-title-card {
+	padding: 0.4rem 0.85rem;
+	border-radius: 999px;
+	font-family: 'Oxanium', sans-serif;
+    color: white;
+    font-size: 2rem;
+    font-weight: 500;
+    font-style: italic;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+	letter-spacing: 0.06em;
+	color: rgba(249, 251, 255, 0.95);
+	opacity: 0;
+	transform: translateY(0.35rem) scale(0.98);
+	transition: opacity 220ms ease, transform 220ms ease;
+	pointer-events: none;
+}
+
+.asset-preview:hover .asset-title-card,
+.asset-preview:focus-within .asset-title-card {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+.asset-viewer-shell {
+	border-radius: 1.25rem;
+	overflow: hidden;
+	flex: 1;
+	min-height: 0;
+	cursor: pointer;
+	position: relative;
+}
+
+.asset-loader {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.asset-loader-spinner {
+	width: 2.4rem;
+	height: 2.4rem;
+	border: 3px solid rgba(255, 255, 255, 0.15);
+	border-top-color: rgba(255, 255, 255, 0.7);
+	border-radius: 50%;
+	animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}
+
+.asset-viewer-shell canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.asset-viewer-skills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	align-items: center;
+	justify-content: center;
+	min-height: 3rem;
+}
+
+.asset-viewer-skills skill-preview {
+	opacity: 0.2;
+	transition: opacity 180ms ease;
+}
+
+.asset-viewer-skills skill-preview:hover,
+.asset-viewer-skills skill-preview:focus-within {
+	opacity: 1;
+}
+
+@media (max-width: 1024px) {
+    .asset-viewer-shell {
+        width: 60%;
+    }
+}
+
+// Maximize button
+.maximize-btn {
+	position: absolute;
+	top: 0.6rem;
+	right: 0.6rem;
+	width: 2rem;
+	height: 2rem;
+	padding: 0.35rem;
+	border: none;
+	border-radius: 0.4rem;
+	background: rgba(255, 255, 255, 0.00);
+	color: rgba(255, 255, 255, 0.45);
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 180ms ease, background 180ms ease, color 180ms ease;
+	z-index: 2;
+
+	svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	&:hover {
+		color: rgba(255, 255, 255, 0.85);
+	}
+}
+
+.asset-viewer-shell:hover .maximize-btn {
+	opacity: 1;
+}
+
+// Fullscreen overlay
+.fullscreen-overlay {
+	--viewer-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	background: rgba(0, 0, 0, 0.88);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 3rem 2rem 2rem;
+	box-sizing: border-box;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.32s var(--viewer-ease);
+
+	&.open {
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+.fullscreen-close {
+	border: none;
+	background: transparent;
+	color: white;
+	font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 200;
+	font-size: 1.1rem;
+	cursor: pointer;
+	padding: 0;
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity 0.32s var(--viewer-ease), transform 0.32s var(--viewer-ease);
+}
+
+.fullscreen-viewer-shell {
+	width: min(92vw, 1100px);
+	height: calc(100vh - 10rem);
+	border-radius: 0.6rem;
+	overflow: hidden;
+	opacity: 0;
+	transform: translateY(14px) scale(0.985);
+	transition: opacity 0.32s var(--viewer-ease), transform 0.32s var(--viewer-ease);
+
+	canvas {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.fullscreen-overlay.open {
+	.fullscreen-close,
+	.fullscreen-viewer-shell {
+		opacity: 1;
+		transform: translateY(2.5rem) scale(1);
+	}
+}
+
+@media (max-width: 1024px) {
+    .fullscreen-overlay.open {
+	.fullscreen-close,
+	.fullscreen-viewer-shell {
+		opacity: 1;
+		transform: translateY(5rem) scale(1);
+	}
+}
+}

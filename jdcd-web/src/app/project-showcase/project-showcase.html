@@ -1,4 +1,4 @@
-<div class="project-showcase">
+<div class="project-showcase" [class.visible]="visible()" [class.flipped-entrance]="flipped()">
   <div class="project-showcase-contents" [class.flipped]="flipped()">
     <div class="markdown-container">
         <div class="project-header">
@@ -54,10 +54,22 @@
     </div>
   </div>
 
-  @if (fullscreenImageUrl(); as imageUrl) {
-    <div class="fullscreen-image-overlay" [class.open]="viewerVisible()" (click)="closeImageViewerOnBackdrop($event)">
-      <button class="return-to-page" (click)="closeImageViewer()">↑ Return to page ↑</button>
-      <img [src]="imageUrl" class="fullscreen-image" [alt]="slug()" />
-    </div>
-  }
+
 </div>
+
+@if (fullscreenImageUrl(); as mediaUrl) {
+  <div class="fullscreen-image-overlay" [class.open]="viewerVisible()" (click)="closeImageViewerOnBackdrop($event)">
+    <button class="return-to-page" (click)="closeImageViewer()">↑ Return to page ↑</button>
+    <div class="fullscreen-content">
+      <button class="fullscreen-arrow left" (click)="fullscreenPrev(); $event.stopPropagation()">&lsaquo;</button>
+      <div class="fullscreen-slide-wrapper" [attr.data-slide]="fullscreenSlide()">
+        @if (fullscreenIsVideo()) {
+          <video [src]="mediaUrl" class="fullscreen-image" controls></video>
+        } @else {
+          <img [src]="mediaUrl" class="fullscreen-image" [alt]="slug()" />
+        }
+      </div>
+      <button class="fullscreen-arrow right" (click)="fullscreenNext(); $event.stopPropagation()">&rsaquo;</button>
+    </div>
+  </div>
+}

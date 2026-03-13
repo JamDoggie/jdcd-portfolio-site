@@ -1,0 +1,9 @@
+{
+    "title": "Monster (Prototype)",
+    "description": "",
+    "thumbnailUrl": "",
+    "skills": ["blender", "substance-painter", "godot", "cascadeur"],
+    "order": 5,
+    "spanX": 1,
+    "spanY": 2
+}

@@ -1,8 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { PortfolioIntroComponent } from '../portfolio/portfolio-intro-component/portfolio-intro-component';
 import { ProjectShowcase } from '../project-showcase/project-showcase';
+import { WavyTextComponent } from '../wavy-text-component/wavy-text-component';
+import { AssetViewer } from '../asset-viewer/asset-viewer';
+import { Footer } from '../footer/footer';
 
 interface ProjectData {
   slug: string;
@@ -13,34 +16,78 @@ interface ProjectData {
   skills: string[];
 }
 
+interface ModelData {
+  slug: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  modelUrl: string;
+  skills: string[];
+  spanX: number;
+  spanY: number;
+}
+
 @Component({
   selector: 'app-portfolio-page-component',
-  imports: [PortfolioIntroComponent, ProjectShowcase],
+  imports: [PortfolioIntroComponent, ProjectShowcase, WavyTextComponent, AssetViewer, Footer],
   templateUrl: './portfolio-page-component.html',
   styleUrl: './portfolio-page-component.scss',
 })
-export class PortfolioPageComponent implements AfterViewInit, OnDestroy, OnInit {
-  @ViewChild('projectsTitle')
-  private readonly projectsTitle?: ElementRef<HTMLElement>;
-
+export class PortfolioPageComponent implements AfterViewInit, OnInit {
   protected isTitleVisible = signal(false);
+  protected hasBeenSeen = signal(false);
+  protected isReturning = signal(false);
   protected readonly titleText = 'My Projects';
   protected readonly titleLayers = this.buildLayers(16);
 
-  private titleObserver?: IntersectionObserver;
+  private firstSeen = false;
+  private hasLeftViewport = false;
 
   protected projects = signal<ProjectData[]>([]);
+  protected models = signal<ModelData[]>([]);
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly http = inject(HttpClient);
+  private readonly el = inject(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const titleElement = this.el.nativeElement.querySelector('.portfolio-projects-title');
+    if (!titleElement) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isVisible = Boolean(entry?.isIntersecting);
+        this.isTitleVisible.set(isVisible);
+
+        if (isVisible) {
+          if (!this.firstSeen) {
+            this.firstSeen = true;
+            setTimeout(() => this.hasBeenSeen.set(true), 850);
+          } else if (this.hasLeftViewport) {
+            this.isReturning.set(true);
+          }
+        } else if (this.firstSeen) {
+          this.hasLeftViewport = true;
+          this.isReturning.set(false);
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(titleElement);
+    this.destroyRef.onDestroy(() => observer.disconnect());
+  }
 
   ngOnInit(): void {
-    this.http.get<{ projects: string[] }>('/api/projects').subscribe(({ projects }) => {
-      for (const slug of projects) {
-        this.http.get<ProjectData>(`/api/projects/${encodeURIComponent(slug)}`).subscribe((data) => {
-          this.projects.update(prev => [...prev, data]);
-        });
-      }
+    this.http.get<{ projects: ProjectData[] }>('/api/projects').subscribe(({ projects }) => {
+      this.projects.set(projects);
+    });
+
+    this.http.get<{ models: ModelData[] }>('/api/models').subscribe(({ models }) => {
+      this.models.set(models);
     });
   }
 
@@ -58,32 +105,5 @@ export class PortfolioPageComponent implements AfterViewInit, OnDestroy, OnInit 
         isBack: depth === totalLayers - 1,
       };
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    const titleElement = this.projectsTitle?.nativeElement;
-    if (!titleElement) {
-      return;
-    }
-
-    this.titleObserver = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        this.isTitleVisible.set(Boolean(entry?.isIntersecting));
-      },
-      {
-        threshold: 0.35,
-      },
-    );
-
-    this.titleObserver.observe(titleElement);
-  }
-
-  ngOnDestroy(): void {
-    this.titleObserver?.disconnect();
   }
 }

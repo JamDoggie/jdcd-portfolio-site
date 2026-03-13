@@ -1,16 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, DestroyRef, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, DestroyRef, ElementRef, inject, input, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { SkillPreview } from '../portfolio/skill-preview/skill-preview';
-
-interface SkillData {
-  slug: string;
-  title: string;
-  order: number;
-  invert: boolean;
-  html: string;
-  iconUrl: string;
-}
+import { SkillsDataService } from '../skills-data.service';
 
 @Component({
   selector: 'app-project-showcase',
@@ -18,7 +9,7 @@ interface SkillData {
   templateUrl: './project-showcase.html',
   styleUrl: './project-showcase.scss',
 })
-export class ProjectShowcase implements OnInit {
+export class ProjectShowcase implements OnInit, AfterViewInit {
   slug = input.required<string>();
   title = input<string>('');
   subtitle = input<string>('');
@@ -29,8 +20,18 @@ export class ProjectShowcase implements OnInit {
   desktopVisibleCount = input<number>(1);
   mobileVisibleCount = input<number>(1);
 
-  private readonly http = inject(HttpClient);
-  skillDataList = signal<SkillData[]>([]);
+  private readonly skillsData = inject(SkillsDataService);
+  private readonly el = inject(ElementRef);
+  skillDataList = computed(() => {
+    const slugs = this.skills();
+    if (slugs.length === 0) {
+      return [];
+    }
+
+    const slugSet = new Set(slugs);
+    return this.skillsData.skills().filter(s => slugSet.has(s.slug));
+  });
+  visible = signal(false);
 
   private readonly mobileBreakpoint = 768;
   private readonly platformId = inject(PLATFORM_ID);
@@ -40,19 +41,15 @@ export class ProjectShowcase implements OnInit {
   currentIndex = signal(0);
   fullscreenImageUrl = signal<string | null>(null);
   viewerVisible = signal(false);
+  fullscreenSlide = signal<'center' | 'exit-left' | 'exit-right' | 'enter-left' | 'enter-right'>('center');
+  private fullscreenIndex = 0;
+  private sliding = false;
 
   private readonly viewerFadeMs = 320;
+  private readonly slideDurationMs = 250;
   private closeViewerTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
-    const slugs = this.skills();
-    if (slugs.length > 0) {
-      this.http.get<{ skills: SkillData[] }>('/api/skills').subscribe(res => {
-        const slugSet = new Set(slugs);
-        this.skillDataList.set(res.skills.filter(s => slugSet.has(s.slug)));
-      });
-    }
-
     if (!isPlatformBrowser(this.platformId)) {
       this.effectiveVisibleCount.set(this.desktopVisibleCount());
       return;
@@ -75,6 +72,22 @@ export class ProjectShowcase implements OnInit {
         clearTimeout(this.closeViewerTimeout);
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          this.visible.set(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(this.el.nativeElement);
+    this.destroyRef.onDestroy(() => observer.disconnect());
   }
 
   trackOffset = computed(() => {
@@ -112,12 +125,52 @@ export class ProjectShowcase implements OnInit {
     return /\.(mp4|webm|ogg)$/i.test(url);
   }
 
+  fullscreenPrev(): void {
+    this.slideFullscreen('prev');
+  }
+
+  fullscreenNext(): void {
+    this.slideFullscreen('next');
+  }
+
+  private slideFullscreen(dir: 'prev' | 'next'): void {
+    const urls = this.media();
+    if (urls.length <= 1 || this.sliding) return;
+    this.sliding = true;
+
+    // Phase 1: slide current media out
+    this.fullscreenSlide.set(dir === 'next' ? 'exit-left' : 'exit-right');
+
+    setTimeout(() => {
+      // Update index & URL
+      this.fullscreenIndex = dir === 'next'
+        ? (this.fullscreenIndex + 1) % urls.length
+        : (this.fullscreenIndex - 1 + urls.length) % urls.length;
+      this.fullscreenImageUrl.set(urls[this.fullscreenIndex]);
+
+      // Phase 2: position new media off-screen (no transition)
+      this.fullscreenSlide.set(dir === 'next' ? 'enter-right' : 'enter-left');
+
+      // Phase 3: slide new media in (next frame so browser picks up the position first)
+      requestAnimationFrame(() => {
+        this.fullscreenSlide.set('center');
+        setTimeout(() => this.sliding = false, this.slideDurationMs);
+      });
+    }, this.slideDurationMs);
+  }
+
+  fullscreenIsVideo(): boolean {
+    const url = this.fullscreenImageUrl();
+    return url ? this.isVideo(url) : false;
+  }
+
   openImageViewer(url: string): void {
     if (this.closeViewerTimeout) {
       clearTimeout(this.closeViewerTimeout);
       this.closeViewerTimeout = null;
     }
 
+    this.fullscreenIndex = this.media().indexOf(url);
     this.fullscreenImageUrl.set(url);
 
     if (isPlatformBrowser(this.platformId)) {

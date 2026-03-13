@@ -1,0 +1,27 @@
+<div class="win98-window">
+    <div class="title-bar">
+        <span class="title-bar-text">Footer</span>
+        <div class="title-bar-controls">
+            <button class="title-bar-btn title-bar-minimize" aria-label="Minimize">0</button>
+            <button class="title-bar-btn title-bar-maximize" aria-label="Maximize">1</button>
+            <button class="title-bar-btn title-bar-close" aria-label="Close">r</button>
+        </div>
+    </div>
+    <div class="window-body">
+        <span class="footer-text">© 2026 John-Daniel Calvin Doody (MIT License)</span>
+        <span class="footer-text">This website is open-source and available on GitHub.</span>
+        <button class="win98-btn footer-github-btn" onclick="window.open('https://github.com/JamDoggie/jdcd-portfolio-site', '_blank', 'noopener,noreferrer')">
+            <img src="assets/images/common/github-original.svg" alt="" aria-hidden="true" />
+            <span>Take me there!</span>
+        </button>
+        <hr class="win98-hr" />
+        <span class="footer-text">Contact me:</span>
+        <div class="footer-email-row">
+            <span class="footer-email-text">doodyjohndaniel&#64;gmail.com</span>
+            <div class="copy-btn-wrapper">
+                <span class="copied-label" [class.copied-visible]="showCopiedLabel">Copied to your clipboard!</span>
+                <button class="win98-btn" (click)="copyEmail()" aria-label="Copy email address to clipboard">Copy Email</button>
+            </div>
+        </div>
+    </div>
+</div>

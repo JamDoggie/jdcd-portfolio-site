@@ -5,6 +5,14 @@ $skillsGradientEnd: #f1bb7d;
     display: flex;
     overflow: visible;
     user-select: none;
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .ripple-text span {

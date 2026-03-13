@@ -1,0 +1,5 @@
+{
+	"title": "Spooky Manor Level Editor",
+	"subtitle": "A Blender level editor pipeline for Godot 4.",
+	"skills": ["csharp", "godot", "blender", "python"]
+}

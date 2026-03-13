@@ -7,6 +7,25 @@
                 I'm a <b><i>software developer</i></b>,
                 <b><i>game developer</i></b>, and <b><i>3D artist</i></b> based
                 in Orlando, FL.</span>
+            <div class="social-links-row">
+                @for (link of socialLinks; track link.name) {
+                    <div class="social-link-wrapper">
+                        <a
+                            class="social-link"
+                            [href]="link.url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            [attr.aria-label]="'Visit ' + link.name">
+                            <img
+                                [src]="link.iconUrl"
+                                [alt]="link.name + ' icon'"
+                                [class.invert-logo]="link.name === 'LinkedIn' || link.name === 'Twitter / X'"
+                                [class.github-logo]="link.name === 'GitHub'" />
+                        </a>
+                        <span class="social-link-hover-name">{{ link.name }}</span>
+                    </div>
+                }
+            </div>
         </div>
     </div>
     <div class="skills-row">

@@ -1,0 +1,9 @@
+{
+    "title": "Bus Sign",
+    "description": "",
+    "thumbnailUrl": "",
+    "skills": ["blender", "substance-painter", "godot"],
+    "order": 9,
+    "spanX": 1,
+    "spanY": 1
+}

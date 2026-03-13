@@ -1,0 +1,40 @@
+<section class="asset-viewer" [class.visible]="visible()">
+    <div class="asset-preview">
+        <div class="asset-title-card" aria-hidden="true">{{ displayTitle }}</div>
+        <div #viewerShell class="asset-viewer-shell" (dblclick)="openFullscreen()">
+            <canvas #viewerCanvas aria-label="3D model preview"></canvas>
+            @if (loading()) {
+                <div class="asset-loader">
+                    <div class="asset-loader-spinner"></div>
+                </div>
+            }
+            <button class="maximize-btn" (click)="openFullscreen()" aria-label="Expand model viewer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
+                    <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    @if (skillDataList().length > 0) {
+        <div class="asset-viewer-skills">
+            @for (skill of skillDataList(); track skill.slug) {
+                <skill-preview
+                    [skillName]="skill.title"
+                    [skillIconUrl]="skill.iconUrl"
+                    [skillDescription]="skill.html"
+                    [invert]="skill.invert"
+                    [useGrayscale]="true">
+                </skill-preview>
+            }
+        </div>
+    }
+</section>
+
+@if (fullscreenOpen()) {
+    <div class="fullscreen-overlay" [class.open]="fullscreenVisible()" (click)="closeFullscreenOnBackdrop($event)">
+        <button class="fullscreen-close" (click)="closeFullscreen()">↑ Return to page ↑</button>
+        <div #fullscreenShell class="fullscreen-viewer-shell"></div>
+    </div>
+}

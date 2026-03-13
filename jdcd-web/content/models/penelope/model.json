@@ -1,0 +1,9 @@
+{
+    "title": "Penelope",
+    "description": "",
+    "thumbnailUrl": "",
+    "skills": ["blender", "substance-painter", "godot", "cascadeur"],
+    "order": 4,
+    "spanX": 1,
+    "spanY": 2
+}

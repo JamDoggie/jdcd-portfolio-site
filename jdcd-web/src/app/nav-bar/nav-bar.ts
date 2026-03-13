@@ -24,16 +24,6 @@ export class NavBar implements OnInit {
     this.updateScrollPosition();
   }
 
-  @HostListener('document:scroll')
-  onDocumentScroll(): void {
-    this.updateScrollPosition();
-  }
-
-  @HostListener('body:scroll')
-  onBodyScroll(): void {
-    this.updateScrollPosition();
-  }
-
   private updateScrollPosition(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;

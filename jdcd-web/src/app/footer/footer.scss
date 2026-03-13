@@ -1,0 +1,257 @@
+// Windows 98 stock palette
+$win98-bg: #c0c0c0;
+$win98-highlight: #ffffff;
+$win98-light: #dfdfdf;
+$win98-shadow: #808080;
+$win98-dark-shadow: #000000;
+$win98-title-active: #000080;
+$win98-title-active-secondary: #1084d0;
+$win98-title-text: #ffffff;
+$win98-text: #000000;
+
+// Classic Win98 beveled border (outset)
+@mixin win98-outset {
+  border-top: 2px solid $win98-highlight;
+  border-left: 2px solid $win98-highlight;
+  border-right: 2px solid $win98-dark-shadow;
+  border-bottom: 2px solid $win98-dark-shadow;
+  box-shadow: inset 1px 1px 0 $win98-light, inset -1px -1px 0 $win98-shadow;
+}
+
+// Classic Win98 beveled border (inset / sunken)
+@mixin win98-inset {
+  border-top: 2px solid $win98-shadow;
+  border-left: 2px solid $win98-shadow;
+  border-right: 2px solid $win98-highlight;
+  border-bottom: 2px solid $win98-highlight;
+  box-shadow: inset 1px 1px 0 $win98-dark-shadow, inset -1px -1px 0 $win98-light;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+.win98-window {
+  @include win98-outset;
+  background: $win98-bg;
+  width: 80%;
+  font-family: Tahoma, 'MS Sans Serif', 'Microsoft Sans Serif', Geneva, sans-serif;
+  font-size: 11px;
+  color: $win98-text;
+  padding: 3px;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+
+  @media (max-width: 900px) {
+    width: 70vw;
+  }
+
+  @media (max-width: 600px) {
+    width: 90vw;
+  }
+}
+
+// ── Title bar ──────────────────────────────────────────
+.title-bar {
+  background: linear-gradient(to right, $win98-title-active, $win98-title-active-secondary);
+  color: $win98-title-text;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 2px;
+  padding: 2px 3px;
+  height: 18px;
+  user-select: none;
+}
+
+.title-bar-text {
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0;
+  padding-left: 2px;
+}
+
+.title-bar-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.title-bar-btn {
+  @include win98-outset;
+  background: $win98-bg;
+  width: 16px;
+  height: 14px;
+  font-family: Marlett, sans-serif;
+  font-size: 9px;
+  line-height: 14px;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  color: $win98-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active {
+    @include win98-inset;
+    padding-top: 1px;
+    padding-left: 1px;
+  }
+}
+
+.title-bar-close {
+  margin-left: 2px;
+}
+
+// ── Window body ────────────────────────────────────────
+.window-body {
+  @include win98-inset;
+  background: $win98-bg;
+  margin: 3px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: $win98-text;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+  text-rendering: optimizeSpeed;
+  text-align: center;
+}
+
+
+
+.win98-hr {
+  width: 30%;
+  border: none;
+  border-top: 1px solid $win98-shadow;
+  border-bottom: 1px solid $win98-highlight;
+  margin: 1rem 0 0.7rem 0;
+}
+
+// ── Email row ──────────────────────────────────────────
+.footer-email-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 0.25rem;
+}
+
+.footer-email-text {
+  @include win98-inset;
+  background: #ffffff;
+  padding: 2px 4px;
+  font-size: 14px;
+  color: #000000;
+}
+
+// ── Copy button wrapper + floating tooltip ─────────────
+.copy-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+// ── Win98 button ───────────────────────────────────────
+.win98-btn {
+  @include win98-outset;
+  background: $win98-bg;
+  font-family: Tahoma, 'MS Sans Serif', 'Microsoft Sans Serif', Geneva, sans-serif;
+  font-size: 14px;
+  color: $win98-text;
+  padding: 2px 12px;
+  min-width: 75px;
+  cursor: pointer;
+  text-align: center;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+
+  &:active {
+    @include win98-inset;
+    padding: 3px 11px 1px 13px;
+  }
+
+  &:focus-visible {
+    outline: 1px dotted $win98-text;
+    outline-offset: -4px;
+  }
+}
+
+.footer-github-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  img {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+}
+
+// ── XP-style notification balloon ──────────────────────
+.copied-label {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #f1f1f1;
+  color: #111111;
+  font-family: Tahoma, 'MS Sans Serif', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 300;
+  padding: 8px 12px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+
+  // Balloon tail pointing down
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #f1f1f1;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: #000000;
+  }
+
+  &.copied-visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

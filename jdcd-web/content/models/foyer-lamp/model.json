@@ -1,0 +1,9 @@
+{
+    "title": "Foyer Lamp",
+    "description": "Stylized foyer lamp study.",
+    "thumbnailUrl": "",
+    "skills": ["godot", "blender", "substance-painter"],
+    "order": 1,
+    "spanX": 1,
+    "spanY": 1
+}

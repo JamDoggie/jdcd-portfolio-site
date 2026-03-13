@@ -44,13 +44,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.3MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "8kB",
+                  "maximumError": "9kB"
                 }
               ],
               "outputHashing": "all"
@@ -70,7 +70,8 @@
               "buildTarget": "jdcd-web:build:production"
             },
             "development": {
-              "buildTarget": "jdcd-web:build:development"
+              "buildTarget": "jdcd-web:build:development",
+              "hmr": false
             }
           },
           "defaultConfiguration": "development"

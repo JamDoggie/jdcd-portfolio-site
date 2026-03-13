@@ -1,16 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
 import { WavyTextComponent } from '../../wavy-text-component/wavy-text-component';
 import { SkillPreview } from '../skill-preview/skill-preview';
+import { SkillsDataService } from '../../skills-data.service';
 
-interface SkillData {
-  slug: string;
-  title: string;
-  order: number;
-  invert: boolean;
-  html: string;
+interface SocialLink {
+  name: string;
+  url: string;
   iconUrl: string;
 }
 
@@ -21,9 +16,29 @@ interface SkillData {
   styleUrl: './portfolio-intro-component.scss',
 })
 export class PortfolioIntroComponent {
-  private http = inject(HttpClient);
-  skills = toSignal(
-    this.http.get<{ skills: SkillData[] }>('/api/skills').pipe(map(res => res.skills)),
-    { initialValue: [] as SkillData[] },
-  );
+  private readonly skillsData = inject(SkillsDataService);
+  socialLinks: SocialLink[] = [
+    {
+      name: 'GitHub',
+      url: 'https://github.com/JamDoggie',
+      iconUrl: 'assets/images/common/github-original.svg',
+    },
+    {
+      name: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/john-daniel-doody-26313a326/',
+      iconUrl: 'assets/images/common/linkedin-plain.svg',
+    },
+    {
+      name: 'Twitter / X',
+      url: 'https://x.com/jamdoggie',
+      iconUrl: 'assets/images/common/twitter-original.svg',
+    },
+    {
+      name: 'Bluesky',
+      url: 'https://bsky.app/profile/jamdoggie.spkymnr.xyz',
+      iconUrl: 'assets/images/common/bluesky.svg',
+    },
+  ];
+
+  skills = this.skillsData.skills;
 }

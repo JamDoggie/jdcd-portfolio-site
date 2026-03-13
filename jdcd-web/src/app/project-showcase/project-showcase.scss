@@ -8,6 +8,20 @@
     flex-direction: column;
     margin: 4rem;
     flex-shrink: 1;
+    transform-style: preserve-3d;
+
+    opacity: 0;
+    transform: translateX(-30rem) rotateY(40deg) perspective(100px);
+    transition: opacity 0.7s cubic-bezier(.09,.82,.41,1), transform 0.7s cubic-bezier(.09,.82,.41,1);
+
+    &.flipped-entrance {
+        transform: translateX(30rem) rotateY(-40deg) perspective(100px);
+    }
+
+    &.visible {
+        opacity: 1;
+        transform: translateX(0) rotateX(0) perspective(100px);
+    }
 }
 
 .project-showcase-contents {
@@ -31,7 +45,7 @@
     max-height: 20rem;
     overflow: auto;
     scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-
+    
     font-family: 'IBM Plex Sans', sans-serif;
 
     &::-webkit-scrollbar {
@@ -46,6 +60,14 @@
         background: rgba(255, 255, 255, 0.4);
         border-radius: 4px;
     }
+}
+
+:host ::ng-deep .project-markdown p {
+    text-indent: 2em;
+}
+
+:host ::ng-deep .project-markdown li {
+    margin-left: 0;
 }
 
 .project-header {
@@ -169,7 +191,7 @@
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.88);
+    background: rgba(0, 0, 0, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -192,6 +214,7 @@
     background: transparent;
     color: white;
     font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 200;
     font-size: 1.1rem;
     cursor: pointer;
     padding: 0;
@@ -203,7 +226,7 @@
 }
 
 .fullscreen-image {
-    max-width: min(92vw, 1300px);
+    max-width: 100%;
     max-height: calc(100vh - 8rem);
     width: auto;
     height: auto;
@@ -216,11 +239,80 @@
         transform 0.32s var(--viewer-ease);
 }
 
+.fullscreen-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: min(100%, 1400px);
+    max-height: calc(100vh - 8rem);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.fullscreen-slide-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    flex: 1 1 auto;
+    transition: transform 0.25s var(--viewer-ease), opacity 0.25s var(--viewer-ease);
+    transform: translateX(0);
+    opacity: 1;
+
+    &[data-slide='exit-left'] {
+        transform: translateX(-40%);
+        opacity: 0;
+    }
+
+    &[data-slide='exit-right'] {
+        transform: translateX(40%);
+        opacity: 0;
+    }
+
+    &[data-slide='enter-right'],
+    &[data-slide='enter-left'] {
+        transition: none;
+        opacity: 0;
+    }
+
+    &[data-slide='enter-right'] {
+        transform: translateX(40%);
+    }
+
+    &[data-slide='enter-left'] {
+        transform: translateX(-40%);
+    }
+}
+
+.fullscreen-arrow {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    opacity: 0;
+    transition:
+        opacity 0.32s var(--viewer-ease),
+        transform 0.32s var(--viewer-ease);
+    flex-shrink: 0;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
 .fullscreen-image-overlay.open {
     .return-to-page,
     .fullscreen-image {
         opacity: 1;
         transform: translateY(0) scale(1);
+    }
+
+    .fullscreen-arrow {
+        opacity: 0.6;
     }
 }
 
@@ -272,7 +364,7 @@
 
 @media (max-width: 1024px) {
     .project-showcase {
-        margin: 3rem 0;
+        margin: 6rem 0rem;
     }
 
     .project-showcase-contents {
@@ -288,6 +380,14 @@
     .markdown-container {
         width: 100%;
         font-size: 0.7rem;
+        line-height: 1.2rem;
+        text-align: center;
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+
+    :host ::ng-deep .project-markdown p {
+        text-indent: 0;
     }
 
     .media-showcase {
@@ -301,6 +401,10 @@
         text-align: center;
     }
 
+    .project-title {
+        white-space: normal;
+    }
+
     .project-header-left {
         align-items: center;
     }
@@ -308,5 +412,31 @@
     .project-skills {
         justify-content: center;
         margin-top: 0.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .media-showcase {
+        width: calc(100vw - 1.5rem);
+        max-width: calc(100vw - 1.5rem);
+    }
+
+    .fullscreen-image-overlay {
+        padding: 3.5rem 0.4rem 0.4rem;
+        gap: 0.35rem;
+    }
+
+    .fullscreen-content {
+        gap: 0.2rem;
+        max-height: calc(100vh - 4.5rem);
+    }
+
+    .fullscreen-image {
+        max-height: calc(100vh - 4.5rem);
+    }
+
+    .fullscreen-arrow {
+        padding: 0.1rem;
+        font-size: 2.2rem;
     }
 }

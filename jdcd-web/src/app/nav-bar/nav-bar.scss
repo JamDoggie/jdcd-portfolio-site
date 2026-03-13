@@ -116,7 +116,7 @@
             position: relative;
             z-index: 2;
             user-select: none;
-
+            
         }
 
         &::after {
@@ -165,6 +165,18 @@
 
             &::before {
                 transform: translate3d(0px, 0px, -0.1rem);
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        li {
+            a {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+                white-space: nowrap;
             }
         }
     }

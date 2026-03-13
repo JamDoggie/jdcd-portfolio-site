@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'skill-preview',
@@ -17,8 +17,14 @@ export class SkillPreview {
 
   showPanel: boolean = false;
   panelLeft: string = '50%';
+  panelAbove: boolean = false;
 
   enterPanel() {
+    this.updatePanelPosition();
+    this.showPanel = true;
+  }
+
+  private updatePanelPosition() {
     const wrapper = this.iconEl.nativeElement.closest('.skill-preview-wrapper')! as HTMLElement;
     const wrapperRect = wrapper.getBoundingClientRect();
     // offsetWidth gives layout width unaffected by CSS transforms (e.g. scale)
@@ -39,11 +45,26 @@ export class SkillPreview {
       leftPx -= viewportRight - (window.innerWidth - margin);
     }
 
+    const wrapperCenterY = wrapperRect.top + (wrapperRect.height / 2);
+    this.panelAbove = wrapperCenterY > (window.innerHeight / 2);
     this.panelLeft = leftPx + 'px';
-    this.showPanel = true;
   }
 
   exitPanel() {
     this.showPanel = false;
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if (this.showPanel) {
+      this.updatePanelPosition();
+    }
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    if (this.showPanel) {
+      this.updatePanelPosition();
+    }
   }
 }

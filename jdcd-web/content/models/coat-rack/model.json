@@ -1,0 +1,9 @@
+{
+    "title": "Coat Rack",
+    "description": "",
+    "thumbnailUrl": "",
+    "skills": ["blender", "substance-painter", "godot"],
+    "order": 2,
+    "spanX": 1,
+    "spanY": 1
+}

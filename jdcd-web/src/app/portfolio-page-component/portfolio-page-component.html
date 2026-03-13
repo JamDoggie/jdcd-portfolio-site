@@ -2,7 +2,7 @@
 
 <div class="contents-gradient">
     <div class="projects-container">
-        <div class="portfolio-projects-title" #projectsTitle [class.is-visible]="isTitleVisible()">
+        <div class="portfolio-projects-title" [class.is-visible]="isTitleVisible()" [class.has-been-seen]="hasBeenSeen()" [class.is-returning]="isReturning()">
             @for (layer of titleLayers; track layer.depth) {
             <span class="layered-projects-title" [class.front-layer]="layer.isFront" [class.back-layer]="layer.isBack"
                 [style.--depth]="layer.depth" [style.--z]="layer.z">
@@ -14,6 +14,15 @@
     </div>
 
     @for (project of projects(); track project.slug; let i = $index) {
-        <app-project-showcase [flipped]="i % 2 === 0" [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
+        <app-project-showcase class="project-showcase" [flipped]="i % 2 === 0" [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
     }
+
+    <app-wavy-text-component class="asset-showcase" [title]="'Asset Portfolio'"></app-wavy-text-component>
+    <div class="asset-showcase-grid">
+        @for (model of models(); track model.slug;) {
+            <app-asset-viewer [assetName]="model.title" [modelUrl]="model.modelUrl" [skills]="model.skills" [spanX]="model.spanX" [spanY]="model.spanY"></app-asset-viewer>
+        }
+    </div>
+
+    <app-footer class="app-footer-class"></app-footer>
 </div>

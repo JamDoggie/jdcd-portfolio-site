@@ -1,0 +1,9 @@
+{
+    "title": "Bench",
+    "description": "",
+    "thumbnailUrl": "",
+    "skills": ["blender", "substance-painter", "godot"],
+    "order": 10,
+    "spanX": 1,
+    "spanY": 1
+}

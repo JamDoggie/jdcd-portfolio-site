@@ -1,4 +1,4 @@
-<h2 class="section-header ripple-text">
+<h2 class="section-header ripple-text" [class.visible]="visible()">
     @for (char of titleChars; track $index) {
     <span class="ripple-char" [style.animation-delay]="$index * 0.05 + 's'" [style.--char-index]="$index"
         [style.--total-chars]="titleChars.length" [style.--char]="char">
