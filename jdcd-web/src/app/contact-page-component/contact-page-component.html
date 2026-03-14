@@ -1,7 +1,7 @@
 <div class="contact-container">
     <div class="intro-row" [class.visible]="introVisible()">
         <video autoplay muted playsinline preload="auto" class="book-anim" oncontextmenu="return false;">
-            <source src="assets/videos/book-anim.webm" type="video/webm">
+            <source [src]="bookAnimSrc" [type]="bookAnimType">
         </video>
         <div class="text-column">
             <span class="header-text">Contact me!</span>

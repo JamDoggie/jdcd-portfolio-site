@@ -5,7 +5,7 @@ import { isPlatformBrowser } from '@angular/common';
   selector: 'skill-preview',
   templateUrl: './skill-preview.html',
   styleUrls: ['./skill-preview.scss'],
-  host: { '[class.visible]': 'visible()' },
+  host: { '[class.visible]': 'visible()', '[class.panel-open]': 'showPanel' },
 })
 export class SkillPreview implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);

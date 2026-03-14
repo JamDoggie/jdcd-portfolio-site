@@ -26,10 +26,31 @@ export class ContactPageComponent implements AfterViewInit {
   contactSubject = '';
   contactMessage = '';
 
+  readonly bookAnimSrc: string;
+  readonly bookAnimType: string;
+
   constructor(
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    const useMp4 = this.shouldUseMp4BookAnim();
+    this.bookAnimSrc = useMp4 ? 'assets/videos/book-anim.mp4' : 'assets/videos/book-anim.webm';
+    this.bookAnimType = useMp4 ? 'video/mp4' : 'video/webm';
+  }
+
+  private shouldUseMp4BookAnim(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+
+    const userAgent = navigator.userAgent;
+    const vendor = navigator.vendor || '';
+
+    const isSafariEngine = /Safari/i.test(userAgent) && /Apple/i.test(vendor);
+    const isOtherIosBrowser = /CriOS|FxiOS|EdgiOS|OPiOS|GSA/i.test(userAgent);
+
+    return isSafariEngine && !isOtherIosBrowser;
+  }
 
   copyEmail(): void {
     navigator.clipboard.writeText('doodyjohndaniel@gmail.com');

@@ -8,10 +8,16 @@
     opacity: 0;
     transform: translateY(1.5rem);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    position: relative;
+    z-index: 1;
 
     &.visible {
         opacity: 1;
         transform: translateY(0);
+    }
+
+    &.panel-open {
+        z-index: 100;
     }
 }
 
