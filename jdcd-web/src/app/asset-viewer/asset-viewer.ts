@@ -6,6 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SkillsDataService } from '../skills-data.service';
 import { SharedRendererService } from './shared-renderer.service';
+import { ActiveViewerService, MobileViewerHandle } from './active-viewer.service';
 
 @Component({
   selector: 'app-asset-viewer',
@@ -13,9 +14,10 @@ import { SharedRendererService } from './shared-renderer.service';
   templateUrl: './asset-viewer.html',
   styleUrl: './asset-viewer.scss',
 })
-export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
+export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy, MobileViewerHandle {
   @Input() assetName = '';
   @Input({ required: true }) modelUrl = '';
+  @Input() thumbnailUrl = '';
   @Input() skills: string[] = [];
   @Input() spanX = 1;
   @Input() spanY = 1;
@@ -36,11 +38,15 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly skillsData = inject(SkillsDataService);
   private readonly sharedRenderer = inject(SharedRendererService);
+  private readonly activeViewerService = inject(ActiveViewerService);
   private readonly el = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
+  protected readonly isMobile = this.activeViewerService.isMobile;
+  //protected readonly isMobile = () => true; // Simple mobile breakpoint check; can be replaced with a more robust solution if needed
   protected visible = signal(false);
   protected loading = signal(false);
+  protected active = signal(false);
   protected fullscreenOpen = signal(false);
   protected fullscreenVisible = signal(false);
 
@@ -48,7 +54,9 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   private camera?: THREE.PerspectiveCamera;
   private controls?: OrbitControls;
   private resizeObserver?: ResizeObserver;
+  private visibilityObserver?: IntersectionObserver;
   private sceneReady = false;
+  private sceneInitializing = false;
   protected skillDataList = computed(() => {
     const slugs = this.skills;
     if (slugs.length === 0) {
@@ -65,20 +73,24 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   private fullscreenTransitioning = false;
 
   async ngAfterViewInit(): Promise<void> {
-    if (!this.isBrowser || !this.canvasRef) return;
+    if (!this.isBrowser) return;
 
-    const observer = new IntersectionObserver(
+    this.visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           this.visible.set(true);
-          observer.disconnect();
-          void this.initScene();
+
+          if (!this.isMobile() && !this.sceneReady) {
+            void this.initScene();
+            this.visibilityObserver?.disconnect();
+            this.visibilityObserver = undefined;
+          }
         }
       },
       { threshold: 0.15 }
     );
-    observer.observe(this.el.nativeElement);
-    this.destroyRef.onDestroy(() => observer.disconnect());
+    this.visibilityObserver.observe(this.el.nativeElement);
+    this.destroyRef.onDestroy(() => this.visibilityObserver?.disconnect());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -89,46 +101,98 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private async initScene(): Promise<void> {
-    if (!this.canvasRef) return;
-    const canvas = this.canvasRef.nativeElement;
+    if (!this.canvasRef || this.sceneReady || this.sceneInitializing) return;
+    this.sceneInitializing = true;
 
-    this.scene = new THREE.Scene();
-    this.scene.background = null;
+    try {
+      const canvas = this.canvasRef.nativeElement;
 
-    this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
-    this.camera.position.set(0, 1, 4.5);
+      this.scene = new THREE.Scene();
+      this.scene.background = null;
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, 0.65));
-    const key = new THREE.DirectionalLight(0xffffff, 1.15);
-    key.position.set(4, 6, 6);
-    this.scene.add(key);
-    const fill = new THREE.DirectionalLight(0x8fb6ff, 0.35);
-    fill.position.set(-3, 2, -4);
-    this.scene.add(fill);
+      this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+      this.camera.position.set(0, 1, 4.5);
 
-    this.controls = new OrbitControls(this.camera, canvas);
-    this.controls.enableDamping = false;
-    this.controls.addEventListener('change', () => this.render());
-    this.controls.enableZoom = true;
-    this.controls.enablePan = true;
+      this.scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+      const key = new THREE.DirectionalLight(0xffffff, 1.15);
+      key.position.set(4, 6, 6);
+      this.scene.add(key);
+      const fill = new THREE.DirectionalLight(0x8fb6ff, 0.35);
+      fill.position.set(-3, 2, -4);
+      this.scene.add(fill);
 
-    this.resizeObserver = new ResizeObserver(() => this.resize());
-    this.resizeObserver.observe(canvas.parentElement ?? canvas);
-    this.resize();
+      this.controls = new OrbitControls(this.camera, canvas);
+      this.controls.enableDamping = false;
+      this.controls.addEventListener('change', () => this.render());
+      this.controls.enableZoom = true;
+      this.controls.enablePan = true;
 
-    this.sceneReady = true;
-    await this.loadModel();
+      this.resizeObserver = new ResizeObserver(() => this.resize());
+      this.resizeObserver.observe(canvas.parentElement ?? canvas);
+      this.resize();
+
+      this.sceneReady = true;
+      await this.loadModel();
+    } finally {
+      this.sceneInitializing = false;
+    }
   }
 
   ngOnDestroy(): void {
+    this.activeViewerService.deactivate(this);
+    this.visibilityObserver?.disconnect();
+
     if (this.closeTimeout) {
       clearTimeout(this.closeTimeout);
       this.closeTimeout = null;
     }
 
-    this.controls?.dispose();
-    this.resizeObserver?.disconnect();
-    this.fsResizeObserver?.disconnect();
+    this.disposeScene();
+  }
+
+  activate(): void {
+    if (!this.isBrowser || this.active()) return;
+
+    this.active.set(true);
+    this.visible.set(true);
+    this.scheduleSceneInit();
+  }
+
+  deactivate(): void {
+    this.fullscreenVisible.set(false);
+    this.fullscreenOpen.set(false);
+
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
+
+    this.disposeScene();
+    this.active.set(false);
+    this.loading.set(false);
+    this.activeViewerService.deactivate(this);
+  }
+
+  protected activateMobileViewer(): void {
+    if (!this.isMobile()) return;
+
+    this.activeViewerService.activate(this);
+    this.activate();
+  }
+
+  private scheduleSceneInit(retries = 4): void {
+    requestAnimationFrame(() => {
+      if (!this.active()) return;
+
+      if (!this.canvasRef) {
+        if (retries > 0) {
+          this.scheduleSceneInit(retries - 1);
+        }
+        return;
+      }
+
+      void this.initScene();
+    });
   }
 
   openFullscreen(): void {
@@ -221,7 +285,7 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
 
     // Clear previous model
     const old = this.scene.getObjectByName('__model__');
-    if (old) this.scene.remove(old);
+    if (old) this.disposeModel(old);
 
     this.loading.set(true);
     try {
@@ -268,6 +332,65 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
     if (this.scene && this.camera && this.canvasRef) {
       this.sharedRenderer.render(this.scene, this.camera, this.canvasRef.nativeElement);
     }
+  }
+
+  private disposeScene(): void {
+    this.controls?.dispose();
+    this.controls = undefined;
+
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
+
+    this.fsResizeObserver?.disconnect();
+    this.fsResizeObserver = undefined;
+
+    const currentModel = this.scene?.getObjectByName('__model__');
+    if (currentModel) {
+      this.disposeModel(currentModel);
+    }
+
+    this.scene = undefined;
+    this.camera = undefined;
+    this.sceneReady = false;
+    this.sceneInitializing = false;
+  }
+
+  private disposeModel(model: THREE.Object3D): void {
+    model.traverse((obj) => {
+      const mesh = obj as THREE.Mesh;
+      if (!mesh.isMesh) return;
+
+      mesh.geometry?.dispose();
+
+      if (!mesh.material) {
+        return;
+      }
+
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      materials.forEach(material => this.disposeMaterial(material));
+    });
+
+    model.removeFromParent();
+  }
+
+  private disposeMaterial(material: THREE.Material): void {
+    const materialAny = material as THREE.Material & Record<string, unknown>;
+
+    Object.values(materialAny).forEach((value) => {
+      if (value instanceof THREE.Texture) {
+        value.dispose();
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          if (item instanceof THREE.Texture) {
+            item.dispose();
+          }
+        });
+      }
+    });
+
+    material.dispose();
   }
 
   private resize(): void {

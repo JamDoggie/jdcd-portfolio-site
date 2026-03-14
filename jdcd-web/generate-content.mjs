@@ -106,7 +106,7 @@ async function generateModels() {
       slug,
       title: typeof meta.title === 'string' ? meta.title : slug,
       description: typeof meta.description === 'string' ? meta.description : '',
-      thumbnailUrl: typeof meta.thumbnailUrl === 'string' ? meta.thumbnailUrl : '',
+      thumbnailUrl: `thumbnails/${slug}.png`,
       modelUrl: `content/models/${slug}/${modelFile}`,
       skills: Array.isArray(meta.skills) ? meta.skills.filter(s => typeof s === 'string') : [],
       order: typeof meta.order === 'number' ? meta.order : 999,

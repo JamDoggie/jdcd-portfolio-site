@@ -20,7 +20,7 @@
     <app-wavy-text-component class="asset-showcase" [title]="'Asset Portfolio'"></app-wavy-text-component>
     <div class="asset-showcase-grid">
         @for (model of models(); track model.slug;) {
-            <app-asset-viewer [assetName]="model.title" [modelUrl]="model.modelUrl" [skills]="model.skills" [spanX]="model.spanX" [spanY]="model.spanY"></app-asset-viewer>
+            <app-asset-viewer [assetName]="model.title" [modelUrl]="model.modelUrl" [thumbnailUrl]="model.thumbnailUrl" [skills]="model.skills" [spanX]="model.spanX" [spanY]="model.spanY"></app-asset-viewer>
         }
     </div>
 

@@ -1,19 +1,36 @@
 <section class="asset-viewer" [class.visible]="visible()">
     <div class="asset-preview">
         <div class="asset-title-card" aria-hidden="true">{{ displayTitle }}</div>
-        <div #viewerShell class="asset-viewer-shell" (dblclick)="openFullscreen()">
-            <canvas #viewerCanvas aria-label="3D model preview"></canvas>
-            @if (loading()) {
+        <div #viewerShell class="asset-viewer-shell" (dblclick)="active() && openFullscreen()">
+            @if (isMobile() && !active()) {
+                <button class="mobile-activate" (click)="activateMobileViewer()" aria-label="Load 3D model viewer">
+                    @if (thumbnailUrl) {
+                        <img class="mobile-thumbnail" [src]="thumbnailUrl" [alt]="displayTitle" />
+                    }
+                    <span class="mobile-activate-label">View in 3D</span>
+                </button>
+            } @else {
+                <canvas #viewerCanvas aria-label="3D model preview"></canvas>
+                @if (loading()) {
+                    <div class="asset-loader">
+                        <div class="asset-loader-spinner"></div>
+                    </div>
+                }
+                <button class="maximize-btn" (click)="openFullscreen()" aria-label="Expand model viewer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
+                        <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                </button>
+            }
+            @if (isMobile() && active()) {
+                <button class="mobile-close" (click)="deactivate()" aria-label="Close 3D model viewer">Close</button>
+            }
+            @if (isMobile() && !active() && loading()) {
                 <div class="asset-loader">
                     <div class="asset-loader-spinner"></div>
                 </div>
             }
-            <button class="maximize-btn" (click)="openFullscreen()" aria-label="Expand model viewer">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                    <polyline points="15 3 21 3 21 9" /><line x1="21" y1="3" x2="14" y2="10" />
-                    <polyline points="9 21 3 21 3 15" /><line x1="3" y1="21" x2="10" y2="14" />
-                </svg>
-            </button>
         </div>
     </div>
 
