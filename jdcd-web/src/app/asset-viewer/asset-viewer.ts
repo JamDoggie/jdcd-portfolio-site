@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SkillsDataService } from '../skills-data.service';
+import { SharedRendererService } from './shared-renderer.service';
 
 @Component({
   selector: 'app-asset-viewer',
@@ -34,6 +35,7 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly skillsData = inject(SkillsDataService);
+  private readonly sharedRenderer = inject(SharedRendererService);
   private readonly el = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -42,15 +44,11 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   protected fullscreenOpen = signal(false);
   protected fullscreenVisible = signal(false);
 
-  private renderer?: THREE.WebGLRenderer;
   private scene?: THREE.Scene;
   private camera?: THREE.PerspectiveCamera;
   private controls?: OrbitControls;
   private resizeObserver?: ResizeObserver;
   private sceneReady = false;
-  private contextLost = false;
-  private onContextLost = (e: Event) => { e.preventDefault(); this.contextLost = true; };
-  private onContextRestored = () => { this.contextLost = false; void this.restoreAfterContextLoss(); };
   protected skillDataList = computed(() => {
     const slugs = this.skills;
     if (slugs.length === 0) {
@@ -94,18 +92,11 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
     if (!this.canvasRef) return;
     const canvas = this.canvasRef.nativeElement;
 
-    canvas.addEventListener('webglcontextlost', this.onContextLost);
-    canvas.addEventListener('webglcontextrestored', this.onContextRestored);
-
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
     this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
     this.camera.position.set(0, 1, 4.5);
-
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    this.renderer.setClearColor(0x000000, 0);
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.65));
     const key = new THREE.DirectionalLight(0xffffff, 1.15);
@@ -135,29 +126,9 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
       this.closeTimeout = null;
     }
 
-    const canvas = this.canvasRef?.nativeElement;
-    if (canvas) {
-      canvas.removeEventListener('webglcontextlost', this.onContextLost);
-      canvas.removeEventListener('webglcontextrestored', this.onContextRestored);
-    }
-
     this.controls?.dispose();
     this.resizeObserver?.disconnect();
     this.fsResizeObserver?.disconnect();
-    this.renderer?.forceContextLoss();
-    this.renderer?.dispose();
-  }
-
-  private async restoreAfterContextLoss(): Promise<void> {
-    if (!this.canvasRef || !this.sceneReady) return;
-    const canvas = this.canvasRef.nativeElement;
-
-    this.renderer?.dispose();
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    this.renderer.setClearColor(0x000000, 0);
-    this.resize();
-    await this.loadModel();
   }
 
   openFullscreen(): void {
@@ -294,19 +265,21 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private render(): void {
-    if (this.contextLost) return;
-    if (this.renderer && this.scene && this.camera) {
-      this.renderer.render(this.scene, this.camera);
+    if (this.scene && this.camera && this.canvasRef) {
+      this.sharedRenderer.render(this.scene, this.camera, this.canvasRef.nativeElement);
     }
   }
 
   private resize(): void {
-    if (!this.canvasRef || !this.renderer || !this.camera) return;
-    const host = this.canvasRef.nativeElement.parentElement ?? this.canvasRef.nativeElement;
-    const w = Math.max(1, Math.floor(host.clientWidth));
-    const h = Math.max(1, Math.floor(host.clientHeight));
-    this.renderer.setSize(w, h, false);
-    this.camera.aspect = w / h;
+    if (!this.canvasRef || !this.camera) return;
+    const canvas = this.canvasRef.nativeElement;
+    const host = canvas.parentElement ?? canvas;
+    const cssW = Math.max(1, Math.floor(host.clientWidth));
+    const cssH = Math.max(1, Math.floor(host.clientHeight));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(cssW * dpr);
+    canvas.height = Math.floor(cssH * dpr);
+    this.camera.aspect = cssW / cssH;
     this.camera.updateProjectionMatrix();
     this.render();
   }
