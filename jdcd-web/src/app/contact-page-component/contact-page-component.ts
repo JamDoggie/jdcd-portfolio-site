@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, NgZone, PLATFORM_ID, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, NgZone, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Footer } from '../footer/footer';
@@ -13,6 +13,8 @@ export class ContactPageComponent implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly el = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+
+  @ViewChild('bookVideo', { static: false }) bookVideoRef!: ElementRef<HTMLVideoElement>;
 
   introVisible = signal(false);
   formVisible = signal(false);
@@ -84,6 +86,10 @@ export class ContactPageComponent implements AfterViewInit {
       this.introVisible.set(true);
       this.formVisible.set(true);
       return;
+    }
+
+    if (this.bookVideoRef) {
+      this.bookVideoRef.nativeElement.load();
     }
 
     const introRow = this.el.nativeElement.querySelector('.intro-row');

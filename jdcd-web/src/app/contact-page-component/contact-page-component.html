@@ -1,6 +1,6 @@
 <div class="contact-container">
     <div class="intro-row" [class.visible]="introVisible()">
-        <video autoplay muted playsinline preload="auto" class="book-anim" oncontextmenu="return false;">
+        <video #bookVideo autoplay muted playsinline preload="auto" class="book-anim" oncontextmenu="return false;">
             <source [src]="bookAnimSrc" [type]="bookAnimType">
         </video>
         <div class="text-column">
