@@ -1,0 +1,6 @@
+{
+	"title": "Godot Steam Audio FMOD Integration",
+	"subtitle": "A Godot Steam Audio integration with support for FMOD, written in C#.",
+	"skills": ["csharp", "godot", "fmod"],
+	"order": 3
+}

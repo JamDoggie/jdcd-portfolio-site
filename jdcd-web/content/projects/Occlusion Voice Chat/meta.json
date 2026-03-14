@@ -1,0 +1,6 @@
+{
+	"title": "Occlusion Voice Chat",
+	"subtitle": "A non intrusive server-side voice chat mod for Minecraft.",
+	"skills": ["csharp", "xaml", "java"],
+	"order": 5
+}

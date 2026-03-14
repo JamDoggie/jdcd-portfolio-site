@@ -1,0 +1,8 @@
+## <u>**For the video, make sure you are using headphones!**</u>
+
+[Godot Steam Audio Dot Net](https://github.com/JamDoggie/godot-steamaudio-dotnet) is an implementation of the [Steam Audio API](https://valvesoftware.github.io/steam-audio/doc/capi/index.html) using pure C# and P/Invoke. Steam Audio provides the framework for incredibly immersive spatial audio, and has always been a technology I have wanted to utilize to set my games apart. They key differences from the existing Steam Audio Godot addon are:
+
+- <u>**FMOD integration**</u>. This was the main goal of this project. I always use FMOD in my projects for its flexibility, and it has always been a shame that there is no useable integration for FMOD and Steam Audio for Godot 4.
+- **C# Implementation**. More useful for Godot projects already heavily using C#. GDExtensions are very nice, but if you are already intent on using C#, this codebase can be much easier to tailor to your needs
+
+The combination of FMOD and Steam Audio means that you can author procedural sound effects in FMOD, and pipe them through Steam Audio's spatial audio layer. Steam Audio is fed information about your game environment, and calculates reverb, occlusion, and HRTFs in real-time. In FMOD, the source audio can be put together with pretty much anything. You can put together as many audio tracks as you want, apply all sorts of effects, and even wire up variables that control those effects.

@@ -4,6 +4,17 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&display=swap');
 
 
+:host {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .skill-preview-wrapper {
     position: relative;
     display: flex;

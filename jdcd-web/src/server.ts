@@ -361,7 +361,7 @@ app.get('/api/models/:slug/file/:filename', async (req, res) => {
   }
 
   res.sendFile(filePath, (error) => {
-    if (error) {
+    if (error && !res.headersSent) {
       res.status(404).json({ error: 'Not found' });
     }
   });
@@ -419,7 +419,7 @@ app.get('/api/skills/:slug/image/:filename', async (req, res) => {
   }
 
   res.sendFile(filePath, (error) => {
-    if (error) {
+    if (error && !res.headersSent) {
       res.status(404).json({ error: 'Not found' });
     }
   });
@@ -449,7 +449,7 @@ app.get('/api/projects/:slug/media/:filename', async (req, res) => {
   }
 
   res.sendFile(filePath, (error) => {
-    if (error) {
+    if (error && !res.headersSent) {
       res.status(404).json({ error: 'Not found' });
     }
   });

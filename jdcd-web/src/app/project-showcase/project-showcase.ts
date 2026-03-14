@@ -108,16 +108,19 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
   prev(): void {
     const total = this.totalPages();
     if (total === 0) return;
+    this.pauseAllVideos();
     this.currentIndex.update(i => (i - 1 + total) % total);
   }
 
   next(): void {
     const total = this.totalPages();
     if (total === 0) return;
+    this.pauseAllVideos();
     this.currentIndex.update(i => (i + 1) % total);
   }
 
   goTo(index: number): void {
+    this.pauseAllVideos();
     this.currentIndex.set(index);
   }
 
@@ -137,6 +140,8 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
     const urls = this.media();
     if (urls.length <= 1 || this.sliding) return;
     this.sliding = true;
+
+    this.pauseAllVideos();
 
     // Phase 1: slide current media out
     this.fullscreenSlide.set(dir === 'next' ? 'exit-left' : 'exit-right');
@@ -182,6 +187,7 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
   }
 
   closeImageViewer(): void {
+    this.pauseAllVideos();
     this.viewerVisible.set(false);
 
     this.closeViewerTimeout = setTimeout(() => {
@@ -194,5 +200,10 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
     if (event.target === event.currentTarget) {
       this.closeImageViewer();
     }
+  }
+
+  private pauseAllVideos(): void {
+    const videos = (this.el.nativeElement as HTMLElement).querySelectorAll('video');
+    videos.forEach(v => v.pause());
   }
 }

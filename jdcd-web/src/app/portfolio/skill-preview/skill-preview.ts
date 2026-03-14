@@ -1,11 +1,18 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, HostListener, inject, Input, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'skill-preview',
   templateUrl: './skill-preview.html',
   styleUrls: ['./skill-preview.scss'],
+  host: { '[class.visible]': 'visible()' },
 })
-export class SkillPreview {
+export class SkillPreview implements AfterViewInit {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly el = inject(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
+
+  visible = signal(false);
   @Input() skillName: string = '';
   @Input() skillIconUrl: string = '';
   @Input() skillDescription: string = '';
@@ -66,5 +73,24 @@ export class SkillPreview {
     if (this.showPanel) {
       this.updatePanelPosition();
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.visible.set(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          this.visible.set(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(this.el.nativeElement);
+    this.destroyRef.onDestroy(() => observer.disconnect());
   }
 }

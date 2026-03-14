@@ -1,0 +1,296 @@
+@use '../_colors.scss' as colors;
+@use '../_margins.scss' as margins;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+// ── Intro row ────────────────────────────────────────────
+
+.intro-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
+    transform: translateX(-3rem) translateY(1.5rem);
+
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateX(-3rem) translateY(0);
+    }
+}
+
+.book-anim {
+    height: 25rem;
+    width: 25rem;
+    filter: invert(100%) drop-shadow(0 0 3rem rgba(0,0,0,1));
+}
+
+.header-text {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 0.03em;
+}
+
+.subheader-text {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.text-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+// ── Email copy tooltip ────────────────────────────────────
+
+.email-copy-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.email-copy {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-underline-offset: 3px;
+
+    &:hover {
+        text-decoration-color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+.copied-tooltip {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.copied-visible {
+        opacity: 1;
+        transform: translateY(8px);
+    }
+}
+
+// ── Contact card ──────────────────────────────────────────
+
+.contact-card {
+    position: relative;
+    width: 500px;
+    max-width: 90vw;
+    margin-top: 2rem;
+    margin-bottom: 6rem;
+    border-radius: margins.$borderRadius;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px;
+
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-title {
+    display: block;
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: white;
+    padding: 1.75rem 0 0.5rem 0;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.form-body {
+    position: relative;
+    z-index: 1;
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+// The inset fill (mirrors .markdown-container::after)
+.contact-card::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: 2px;
+    background: colors.$fillDark;
+    border-radius: calc(margins.$borderRadius - margins.$borderWidth);
+    backdrop-filter: blur(10px);
+}
+
+// ── Form elements ─────────────────────────────────────────
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    label {
+        font-family: 'Oxanium', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+    }
+
+    input,
+    textarea {
+        position: relative;
+        background:
+            linear-gradient(0deg, colors.$surfaceDark, colors.$surfaceDark) padding-box,
+            linear-gradient(0deg, colors.$surfaceOutlineDark 0%, colors.$surfaceOutlineLight 100%) border-box;
+        border: 0.15rem solid transparent;
+        border-radius: margins.$borderRadiusInner;
+        color: white;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 0.95rem;
+        padding: 0.55rem 0.75rem;
+        outline: none;
+        transition: background 0.2s ease, border-color 0.2s ease;
+        width: 20rem;
+        max-width: 70vw;
+
+        &:focus {
+            background:
+                linear-gradient(0deg, colors.$surfaceDark, colors.$surfaceDark) padding-box,
+                linear-gradient(0deg, colors.$fillHoverOutlineDark 0%, colors.$fillHoverOutlineLight 100%) border-box;
+            border-color: transparent;
+        }
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 7rem;
+    }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.25rem;
+}
+
+
+.send-btn {
+    position: relative;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: colors.$textColor;
+    background: transparent;
+    border: none;
+    border-radius: margins.$borderRadiusInner;
+    padding: 0.75rem 1.75rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 0;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        z-index: -2;
+        background: linear-gradient(0deg, colors.$surfaceOutlineDark 0%, colors.$surfaceOutlineLight 100%);
+        transition: background 0.2s ease;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: margins.$borderWidth;
+        border-radius: calc(margins.$borderRadiusInner - margins.$borderWidth);
+        z-index: -1;
+        background: linear-gradient(180deg, colors.$surfaceDark 0%, colors.$surfaceLight 100%);
+        transition: background 0.2s ease;
+    }
+
+    &:hover {
+        color: colors.$accentColor;
+
+        &::before {
+            background: linear-gradient(0deg, colors.$fillHoverOutlineDark 0%, colors.$fillHoverOutlineLight 100%);
+        }
+        &::after {
+            background: linear-gradient(180deg, colors.$fillHoverLight 0%, colors.$fillHoverDark 100%);
+        }
+    }
+
+    &:active {
+        color: colors.$accentColor;
+        filter: brightness(0.85);
+    }
+}
+
+// ── Responsive ────────────────────────────────────────────
+
+@media (max-width: 768px) {
+    .intro-row {
+        flex-direction: column;
+        gap: 2rem;
+        transform: translateY(1.5rem);
+
+        &.visible {
+            transform: translateY(0);
+        }
+    }
+
+    .book-anim {
+        height: 20rem;
+        width: 20rem;
+    }
+
+    .header-text {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .subheader-text {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .contact-card {
+        margin-top: 6rem;
+    }
+}

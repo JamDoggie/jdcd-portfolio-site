@@ -1,1 +1,43 @@
-<p>contact-page-component works!</p>
+<div class="contact-container">
+    <div class="intro-row" [class.visible]="introVisible()">
+        <video autoplay muted playsinline class="book-anim" oncontextmenu="return false;">
+            <source src="assets/videos/book-anim.webm" type="video/webm">
+        </video>
+        <div class="text-column">
+            <span class="header-text">Contact me!</span>
+            <span class="subheader-text">You can reach me at
+                <span class="email-copy-wrapper">
+                    <span class="email-copy" (click)="copyEmail()">doodyjohndaniel&#64;gmail.com</span>
+                    <span class="copied-tooltip" [class.copied-visible]="showCopiedLabel">Copied to your clipboard!</span>
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="contact-card" [class.visible]="formVisible()">
+        <span class="form-title">Send a Message</span>
+        <div class="form-body">
+            <div class="form-group">
+                <label for="contact-name">Name</label>
+                <input id="contact-name" type="text" [(ngModel)]="contactName" />
+            </div>
+            <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input id="contact-email" type="email" [(ngModel)]="contactEmail" />
+            </div>
+            <div class="form-group">
+                <label for="contact-subject">Subject</label>
+                <input id="contact-subject" type="text" [(ngModel)]="contactSubject" />
+            </div>
+            <div class="form-group">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" rows="6" [(ngModel)]="contactMessage"></textarea>
+            </div>
+            <div class="form-actions">
+                <button class="send-btn" (click)="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>

@@ -1,5 +1,6 @@
 {
 	"title": "In My Shadow",
 	"subtitle": "Tank-controlled horror game currently in active development.",
-	"skills": ["csharp", "godot", "blender", "substance-painter", "substance-designer"]
+	"skills": ["csharp", "godot", "blender", "substance-painter", "substance-designer", "cascadeur", "fmod"],
+	"order": 0
 }
