@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBar } from './nav-bar/nav-bar';
 
@@ -9,6 +9,15 @@ import { NavBar } from './nav-bar/nav-bar';
   styleUrl: './app.scss'
 })
   
-export class App {
+export class App implements AfterViewInit {
   protected readonly title = signal('jdcd-web');
+
+  @ViewChild('bgVideo') bgVideo!: ElementRef<HTMLVideoElement>;
+
+  ngAfterViewInit(): void {
+    const video = this.bgVideo.nativeElement;
+    if (video.paused) {
+      video.play().catch(() => {});
+    }
+  }
 }

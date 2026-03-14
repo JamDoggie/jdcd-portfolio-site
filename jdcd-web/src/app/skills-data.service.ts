@@ -17,7 +17,7 @@ export class SkillsDataService {
   private readonly http = inject(HttpClient);
 
   private readonly skills$ = this.http
-    .get<{ skills: SkillData[] }>('/api/skills')
+    .get<{ skills: SkillData[] }>('api/skills.json')
     .pipe(
       map(res => res.skills),
       shareReplay({ bufferSize: 1, refCount: false }),

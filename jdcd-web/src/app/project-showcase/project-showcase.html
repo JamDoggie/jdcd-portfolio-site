@@ -35,7 +35,9 @@
               @for (url of media(); track url) {
                 <div class="carousel-slide">
                   @if (isVideo(url)) {
-                    <video [src]="url" class="carousel-media" controls></video>
+                    <video class="carousel-media" controls playsinline preload="none">
+                      <source [src]="url" [type]="mimeType(url)">
+                    </video>
                   } @else {
                     <img [src]="url" class="carousel-media clickable-image" [alt]="slug()" (click)="openImageViewer(url)" />
                   }
@@ -64,7 +66,9 @@
       <button class="fullscreen-arrow left" (click)="fullscreenPrev(); $event.stopPropagation()">&lsaquo;</button>
       <div class="fullscreen-slide-wrapper" [attr.data-slide]="fullscreenSlide()">
         @if (fullscreenIsVideo()) {
-          <video [src]="mediaUrl" class="fullscreen-image" controls></video>
+          <video class="fullscreen-image" controls playsinline preload="auto">
+            <source [src]="mediaUrl" [type]="mimeType(mediaUrl)">
+          </video>
         } @else {
           <img [src]="mediaUrl" class="fullscreen-image" [alt]="slug()" />
         }

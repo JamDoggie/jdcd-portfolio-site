@@ -128,6 +128,16 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
     return /\.(mp4|webm|ogg)$/i.test(url);
   }
 
+  mimeType(url: string): string {
+    const ext = url.split('.').pop()?.toLowerCase();
+    switch (ext) {
+      case 'mp4': return 'video/mp4';
+      case 'webm': return 'video/webm';
+      case 'ogg': return 'video/ogg';
+      default: return '';
+    }
+  }
+
   fullscreenPrev(): void {
     this.slideFullscreen('prev');
   }

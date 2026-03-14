@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:jdcd-web": "node dist/jdcd-web/server/server.mjs"
+    "start": "node generate-content.mjs && ng serve",
+    "build": "node generate-content.mjs && ng build && node -e \"require('fs').copyFileSync('dist/jdcd-web/browser/index.html','dist/jdcd-web/browser/404.html')\"",
+    "watch": "node generate-content.mjs && ng build --watch --configuration development",
+    "test": "ng test"
   },
   "prettier": {
     "printWidth": 100,
@@ -29,16 +28,9 @@
     "@angular/core": "^21.2.1",
     "@angular/forms": "^21.2.1",
     "@angular/platform-browser": "^21.2.1",
-    "@angular/platform-server": "^21.2.1",
     "@angular/router": "^21.2.1",
-    "@angular/ssr": "^21.1.4",
     "angular-three": "^4.0.9",
     "animate.css": "^4.1.1",
-    "dompurify": "^3.3.2",
-    "express": "^5.1.0",
-    "gray-matter": "^4.0.3",
-    "isomorphic-dompurify": "^3.0.0",
-    "marked": "^17.0.4",
     "rxjs": "~7.8.0",
     "three": "^0.182.0",
     "tslib": "^2.3.0"
@@ -47,11 +39,13 @@
     "@angular/build": "^21.2.1",
     "@angular/cli": "^21.1.4",
     "@angular/compiler-cli": "^21.2.1",
-    "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "@types/three": "^0.183.1",
     "angular-three-plugin": "^4.0.9",
+    "dompurify": "^3.3.2",
+    "gray-matter": "^4.0.3",
     "jsdom": "^27.1.0",
+    "marked": "^17.0.4",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

@@ -48,6 +48,9 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   private controls?: OrbitControls;
   private resizeObserver?: ResizeObserver;
   private sceneReady = false;
+  private contextLost = false;
+  private onContextLost = (e: Event) => { e.preventDefault(); this.contextLost = true; };
+  private onContextRestored = () => { this.contextLost = false; void this.restoreAfterContextLoss(); };
   protected skillDataList = computed(() => {
     const slugs = this.skills;
     if (slugs.length === 0) {
@@ -91,6 +94,9 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
     if (!this.canvasRef) return;
     const canvas = this.canvasRef.nativeElement;
 
+    canvas.addEventListener('webglcontextlost', this.onContextLost);
+    canvas.addEventListener('webglcontextrestored', this.onContextRestored);
+
     this.scene = new THREE.Scene();
     this.scene.background = null;
 
@@ -129,11 +135,29 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
       this.closeTimeout = null;
     }
 
+    const canvas = this.canvasRef?.nativeElement;
+    if (canvas) {
+      canvas.removeEventListener('webglcontextlost', this.onContextLost);
+      canvas.removeEventListener('webglcontextrestored', this.onContextRestored);
+    }
+
     this.controls?.dispose();
     this.resizeObserver?.disconnect();
     this.fsResizeObserver?.disconnect();
     this.renderer?.forceContextLoss();
     this.renderer?.dispose();
+  }
+
+  private async restoreAfterContextLoss(): Promise<void> {
+    if (!this.canvasRef || !this.sceneReady) return;
+    const canvas = this.canvasRef.nativeElement;
+
+    this.renderer?.dispose();
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setClearColor(0x000000, 0);
+    this.resize();
+    await this.loadModel();
   }
 
   openFullscreen(): void {
@@ -270,6 +294,7 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private render(): void {
+    if (this.contextLost) return;
     if (this.renderer && this.scene && this.camera) {
       this.renderer.render(this.scene, this.camera);
     }

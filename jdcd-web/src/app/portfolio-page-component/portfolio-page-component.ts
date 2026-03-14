@@ -82,11 +82,11 @@ export class PortfolioPageComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<{ projects: ProjectData[] }>('/api/projects').subscribe(({ projects }) => {
+    this.http.get<{ projects: ProjectData[] }>('api/projects.json').subscribe(({ projects }) => {
       this.projects.set(projects);
     });
 
-    this.http.get<{ models: ModelData[] }>('/api/models').subscribe(({ models }) => {
+    this.http.get<{ models: ModelData[] }>('api/models.json').subscribe(({ models }) => {
       this.models.set(models);
     });
   }
