@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	
+	<body onresize="scaleElements()">
+		<div class="vignette" id="vignette_id">
+			<div class="center_div" id="center_div_id">
+			
+				
+				
+				<button src="team_1.svg" onmouseover="sizeTeamOne()" onmouseout="scaleElements()" onmouseup="clickTeamOne()" class="team1icon" id="team1icon_id">
+					<!-- <ol class="team_list" id="team_list_orange">
+						<li>
+							<img class="avatar" src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/4d/4d2357044677e8652198ff0b5d15c0e928aa3956_medium.jpg"></img>
+						</li>
+						
+						<li>
+							<img class="avatar" src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/4d/4d2357044677e8652198ff0b5d15c0e928aa3956_medium.jpg"></img>
+						</li>
+					</ol> -->
+				</button>
+				<text class="team1_text" id="team1_text_id">Orange Team</text>
+				
+				<text class="orange_players" id="orange_players_id">
+				0 Players
+				</text>
+				
+				<text class="blue_players" id="blue_players_id">
+				0 Players
+				</text>
+				
+				
+				<button src="team_2.svg" onmouseover="sizeTeamTwo()" onmouseout="scaleElements()" onmouseup="clickTeamTwo()" class="team2icon" id="team2icon_id"></button>
+				<text class="team2_text" id="team2_text_id">Blue Team</text>
+						
+						
+				<script>
+				// Element Scaling
+				// PS: I promise i am not committing a crime with this
+				// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+				var centerDiv = document.getElementById("center_div_id");
+				
+				var bluePlayers = document.getElementById("blue_players_id");
+				var orangePlayers = document.getElementById("orange_players_id");
+				
+				var teamOneIcon = document.getElementById("team1icon_id");
+				var teamTwoIcon = document.getElementById("team2icon_id");
+				
+				var teamOneText = document.getElementById("team1_text_id");
+				var teamTwoText = document.getElementById("team2_text_id");
+				var avatars = document.getElementsByClassName("avatar");
+				
+				var vignette = document.getElementById("vignette_id");
+					
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+					
+				var selectedButton = -1;
+					
+				function updateSizeVars()
+				{
+					vw = document.documentElement.clientWidth / 100;
+					vh = document.documentElement.clientHeight / 100;
+					
+					vmin = vh
+				
+					if (vw < vh)
+					{
+						vmin = vw;
+					}
+					
+					vmax = vw;
+				
+					if (vh > vw)
+					{
+						vmax = vh;
+					}
+				}
+					
+				function scaleElements()
+				{
+					updateSizeVars();
+				
+					var centerHeight = (vmin * 50);
+					centerDiv.style.setProperty("height", centerHeight.toString() + "px");
+					var centerWidth = (vmin * 85);
+					centerDiv.style.setProperty("width", centerWidth.toString() + "px");
+				
+					var shadowSize = 3 * vmin;
+					
+					
+					// ICON SCALING 
+					teamOneIcon.style.setProperty("box-shadow", "0px 0px " + (shadowSize) + "px rgba(0,0,0,0.5)");
+					teamOneIcon.style.setProperty("width", (40 * vmin).toString() + "px");
+					teamOneIcon.style.setProperty("height", "100%");
+					teamOneIcon.style.setProperty("left", "0%");
+						
+
+					teamTwoIcon.style.setProperty("box-shadow", "0px 0px " + (shadowSize) + "px rgba(0,0,0,0.5)");
+					teamTwoIcon.style.setProperty("width", (40 * vmin).toString() + "px");
+					teamTwoIcon.style.setProperty("height", "100%");
+					teamTwoIcon.style.setProperty("left", "100%");
+					
+					
+					
+					// TEXT SCALING
+					teamOneText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					teamOneText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					teamOneText.style.setProperty("left", "0px");
+					teamOneText.style.setProperty("top", "105%");
+					teamOneText.style.setProperty("opacity", "0");
+					teamOneText.style.setProperty("-webkit-transform", "rotate(-20deg) translate(130%, -20%)");
+
+					teamTwoText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					teamTwoText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					teamTwoText.style.setProperty("left", "60%");
+					teamTwoText.style.setProperty("top", "105%");
+					teamTwoText.style.setProperty("opacity", "0");
+					teamTwoText.style.setProperty("-webkit-transform", "rotate(20deg) translate(-50%, -230%)");
+					
+					bluePlayers.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					bluePlayers.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					bluePlayers.style.setProperty("top", "0%");
+					bluePlayers.style.setProperty("opacity", "0.7");
+					
+					orangePlayers.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					orangePlayers.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					orangePlayers.style.setProperty("top", "0%");
+					orangePlayers.style.setProperty("opacity", "0.7");
+					
+					vignette.style.setProperty("box-shadow", "0 0 " + (5 * (vmax * vmin)).toString() + "px rgba(0,0,0,0.9) inset");
+					
+					
+					for(var i = 0; i < avatars.length; i++)
+					{
+						avatars[i].style.setProperty("width", (5 * vmin).toString() + "px");
+						
+						avatars[i].style.setProperty("border-radius", (1.5 * vmin).toString() + "px");
+						
+						avatars[i].style.setProperty("opacity", "0.3");
+					}
+				}
+				
+				
+				
+				function sizeTeamOne()
+				{
+					teamOneIcon.style.setProperty("width", (43 * vmin).toString() + "px");
+					teamOneIcon.style.setProperty("height", "110%");
+					teamOneIcon.style.setProperty("left", "-2%");
+					
+					teamOneText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					teamOneText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					teamOneText.style.setProperty("left", "0px");
+					teamOneText.style.setProperty("top", "110%");
+					teamOneText.style.setProperty("opacity", "1");
+					teamOneText.style.setProperty("-webkit-transform", "rotate(0deg) translate(50%, 0%)");
+					
+					for(var i = 0; i < avatars.length; i++)
+					{
+						if (teamOneIcon.contains(avatars[i]))
+						{
+							avatars[i].style.setProperty("opacity", "1");
+							avatars[i].style.setProperty("width", (6 * vmin).toString() + "px");
+						}
+						
+					}
+					
+					orangePlayers.style.setProperty("top", "-10%");
+					orangePlayers.style.setProperty("opacity", "1");
+				}
+				
+				function sizeTeamTwo()
+				{
+					teamTwoIcon.style.setProperty("width", (43 * vmin).toString() + "px");
+					teamTwoIcon.style.setProperty("height", "110%");
+					teamTwoIcon.style.setProperty("left", "102%");
+					
+					teamTwoText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					teamTwoText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					teamTwoText.style.setProperty("left", "60%");
+					teamTwoText.style.setProperty("top", "110%");
+					teamTwoText.style.setProperty("opacity", "1");
+					teamTwoText.style.setProperty("-webkit-transform", "rotate(0deg) translate(50%, 0%)");
+					
+					for(var i = 0; i < avatars.length; i++)
+					{
+						if (teamTwoIcon.contains(avatars[i]))
+						{
+							avatars[i].style.setProperty("opacity", "1");
+							avatars[i].style.setProperty("width", (6 * vmin).toString() + "px");
+						}
+						
+					}
+					
+					bluePlayers.style.setProperty("top", "-10%");
+					bluePlayers.style.setProperty("opacity", "1");
+				}
+				
+				function setTeamPlayerCount(id, count)
+				{
+					if (count != 1)
+					{
+						var countString = count.toString() + " Players"
+					}
+					else
+					{
+						var countString = count.toString() + " Player"
+					}
+					
+					
+					if (id == 0)
+					{
+						if (orangePlayers.textContent != countString)
+						{
+							orangePlayers.textContent = countString;
+						}
+					}
+					else
+					{
+						if (bluePlayers.textContent != countString)
+						{
+							bluePlayers.textContent = countString;
+						}
+					}
+				}
+				
+				function clickTeamOne()
+				{
+					playfight.selectTeam(0);
+				}
+				
+				function clickTeamTwo()
+				{
+					playfight.selectTeam(1);
+				}
+				
+				// Do it when the script is started, since scaleElements() is usually only called on window resize
+				scaleElements();
+
+			</script>
+			
+			</div>
+		</div>
+	</body>
+</html>

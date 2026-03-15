@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	
+	<body onresize="scaleElements()">
+	
+		<text class="votetext" id="votetext_id">Please wait for admins to vote on gamemode config.</text>
+		
+		<script>
+			var voteText = document.getElementById("votetext_id");
+		
+			var vw = document.documentElement.clientWidth / 100;
+			var vh = document.documentElement.clientHeight / 100;
+			
+			var vmin = vh
+			
+			if (vw < vh)
+			{
+				vmin = vw;
+			}
+			
+			var vmax = vw;
+			
+			if (vh > vw)
+			{
+				vmax = vh;
+			}
+				
+			var selectedButton = -1;
+				
+			function updateSizeVars()
+			{
+				vw = document.documentElement.clientWidth / 100;
+				vh = document.documentElement.clientHeight / 100;
+				
+				vmin = vh
+			
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				vmax = vw;
+			
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+			}
+		
+			scaleElements();
+		
+			function scaleElements()
+			{
+				updateSizeVars();
+				
+				voteText.style.setProperty("font-size", (4 * vmin).toString() + "px");
+				voteText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+			}
+		</script>
+		
+	</body>
+</html>

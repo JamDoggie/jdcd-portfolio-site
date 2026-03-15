@@ -29,6 +29,11 @@
                 "input": "public"
               },
               {
+                "glob": "**/*",
+                "input": "playfight-pages",
+                "output": "playfight-pages"
+              },
+              {
                 "glob": "**/*.{png,jpg,jpeg,gif,webp,svg,mp4,webm,ogg,glb,gltf,bin}",
                 "input": "content",
                 "output": "content"

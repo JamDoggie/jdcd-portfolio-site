@@ -1,0 +1,185 @@
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.center_div {
+	position: absolute;
+	left:50%;
+	top:50%;
+	-webkit-transform: translate(-50%, -50%);
+}
+
+.button {
+	overflow: hidden;
+}
+
+.team1icon {
+	position: absolute;
+	
+	height: 100%;
+
+	-webkit-transition-property: left top width height background-size transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	background-image: url( 'team_1.svg'); 
+	background-size: 100%;
+    background-position: center;
+	
+	outline: none;
+	border: none;
+}
+
+.team_list {
+	position: absolute;
+	top: 0%;
+	margin:2% 0%;
+	padding:0;
+	float: left;
+}
+
+.team_list li {
+	list-style-type: none;
+	margin: 0px;
+  
+	font-family: Gill Sans, sans-serif;
+	font-weight: 300;
+	color: white;
+	display: block;
+}
+
+.orange_players {
+	position: absolute;
+	
+	left: 22%;
+	-webkit-transform: translate(-50%, -150%);
+	z-index: 1;
+	
+	font-family: Gill Sans, sans-serif;
+	font-weight: 700;
+	
+	-webkit-transition-property: left top width height opacity transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	color: white;
+	
+	user-select: none;
+}
+
+.blue_players {
+	position: absolute;
+	
+	left: 75%;
+	-webkit-transform: translate(-50%, -150%);
+	
+	font-family: Gill Sans, sans-serif;
+	font-weight: 700;
+	
+	-webkit-transition-property: left top width height opacity transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	color: white;
+	
+	user-select: none;
+}
+
+.avatar {
+	position: relative;
+	opacity: 0.3;
+	
+	-webkit-transition-property: opacity width;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+.team1_text {
+	position: absolute;
+	
+	-webkit-transition-property: left top width height opacity transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	font-family: Gill Sans, sans-serif;
+	font-weight: 700;
+	
+	color: white;
+	user-select: none;
+	pointer-events: none;
+}
+
+.team2_text {
+	position: absolute;
+	
+	-webkit-transition-property: left top width height opacity transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	font-family: Gill Sans, sans-serif;
+	font-weight: 700;
+	
+	color: white;
+	user-select: none;
+	pointer-events: none;
+}
+
+.team1icon:active {
+	
+	background-size: 120%;
+}
+
+.team1icon:hover {
+	position: absolute;
+	
+	
+	-webkit-transition-property: left top width height transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+
+	-webkit-transform: translate(0%, -5%);
+}
+
+.team2icon {
+	position: absolute;
+
+	height: 100%;
+	-webkit-transform: translate(-100%, 0%);
+	left: 100%;
+	-webkit-transition-property: left top width height transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	
+	background-image: url( 'team_2.svg'); 
+	background-size: 100%;
+    background-position: center;
+	
+	outline: none;
+	border: none;
+}
+
+.team2icon:active {
+	background-size: 120%;
+}
+
+.team2icon:hover {
+	position: absolute;
+	
+	
+	
+	-webkit-transition-property: left top width height transform;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	
+	-webkit-transform: translate(-100%, -5%);
+
+}
+

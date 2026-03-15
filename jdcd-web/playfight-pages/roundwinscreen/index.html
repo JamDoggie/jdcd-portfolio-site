@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+	</head>
+	
+	<body onresize="scaleElements()">
+		<div class="main_div" id="main_div_id">
+			<img class="pf_guy" id="pf_guy_id" src="playfight_load_svg_1.svg"></img>
+			<div class="player-div-contents">
+				<img class="player-avatar" id="player_avatar"></img>
+				<div class="player-stats" id="player_won_name">Player won!</div>
+				<div class="player-stats damage-dealt" id="player_won_damage">Total damage dealt: 150%</div>
+				<div class="player-stats player-kills" id="player_won_kills">Kills this round: 4</div>
+				<div class="player-stats player-health" id="player_won_health">Health: 10%</div>
+			</div>
+		</div>
+
+		<div class="main_div" id="team_div_id">
+			<img class="pf_guy pf_team1" id="pf_team1_id" src="team_1.svg"></img>
+			<img class="pf_guy pf_team2" id="pf_team2_id" src="team_2.svg"></img>
+			<div class="player-div-contents">
+				<div class="player-stats" id="team_won_name">Team won!</div>
+				<div class="player-stats mvp" id="team_won_mvp">MVP: Player</div>
+				<div class="player-stats fun-fact" id="team_won_fun_fact">Player died within 30 seconds...</div>
+			</div>
+		</div>
+
+		<div class="main_div" id="generic_div_id">
+			<img class="win-guy-1" id="win_guy_1" src="team_1.svg"></img>
+			<img class="win-guy-2" id="win_guy_2" src="team_2.svg"></img>
+			<div class="player-div-contents">
+				<div class="player-stats generic-round-message" id="generic_round_message">Draw!</div>
+			</div>
+		</div>
+		
+		<script>
+			var youDied = document.getElementById("you_died_id");
+			var pfGuy = document.getElementById("pf_guy_id");
+			var pfTeam1 = document.getElementById("pf_team1_id");
+			var pfTeam2 = document.getElementById("pf_team2_id");
+			var winGuy1 = document.getElementById("win_guy_1");
+			var winGuy2 = document.getElementById("win_guy_2");
+			var mainDiv = document.getElementById("main_div_id");
+			var teamDiv = document.getElementById("team_div_id");
+			var genericDiv = document.getElementById("generic_div_id");
+			var avatarButton = document.getElementById("avatar_button_id");
+			var playerNameDiv = document.getElementById("player_name_div_id");
+			var playerNameText = document.getElementById("player_name_id");
+			var killInfoDiv = document.getElementById("kill_info_div_id");
+			var killInfo = document.getElementById("kill_info_id");
+			
+			var playerWonName = document.getElementById("player_won_name");
+			var playerWonDamage = document.getElementById("player_won_damage");
+			var playerWonKills = document.getElementById("player_won_kills");
+			var playerWonHealth = document.getElementById("player_won_health");
+
+			var teamWonName = document.getElementById("team_won_name");
+			var teamWonMvp = document.getElementById("team_won_mvp");
+			var teamWonFunFact = document.getElementById("team_won_fun_fact");
+
+			var genericRoundMessage = document.getElementById("generic_round_message");
+
+			// Element Scaling
+			// PS: I promise I am not committing a crime with this
+			// GMOD Awesomium has forced my hand since I cannot use vmin, vmax, vh or vw.
+			
+			function scaleElements()
+			{
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh;
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+			
+				pfGuy.style.setProperty("height", (vmin * 80).toString() + "px");
+				pfTeam1.style.setProperty("height", (vmin * 60).toString() + "px");
+				pfTeam2.style.setProperty("height", (vmin * 60).toString() + "px");
+				winGuy1.style.setProperty("height", (vmin * 40).toString() + "px");
+				winGuy2.style.setProperty("height", (vmin * 40).toString() + "px");
+				
+				var player_stats_list = document.getElementsByClassName("player-stats");
+				for(var i = 0; i < player_stats_list.length; i++)
+				{
+					player_stats_list[i].style.setProperty("margin-left", (vh * 6).toString() + "px");
+					player_stats_list[i].style.setProperty("font-size", (vh * 4).toString() + "px");
+				}
+
+				playerWonDamage.style.setProperty("font-size", (vh * 2).toString() + "px");
+				playerWonKills.style.setProperty("font-size", (vh * 2).toString() + "px");
+				playerWonHealth.style.setProperty("font-size", (vh * 2).toString() + "px");
+				teamWonMvp.style.setProperty("font-size", (vh * 2).toString() + "px");
+
+				var funfact_list = document.getElementsByClassName("fun-fact");
+				for(var i = 0; i < funfact_list.length; i++)
+				{
+					funfact_list[i].style.setProperty("font-size", (vh * 2).toString() + "px");
+				}
+			}
+			
+			function showScreenPlayer(playerName, avatar, damageDealt, kills, health)
+			{
+				hideScreen();
+
+				// Animations
+				if (mainDiv.classList.contains("animated"))
+				{
+					mainDiv.classList.remove("animated")
+				}
+				
+				mainDiv.classList.add("animated")
+				
+				if (pfGuy.classList.contains("animated"))
+				{
+					pfGuy.classList.remove("animated")
+				}
+				
+				pfGuy.classList.add("animated")
+
+				// Set all the text
+				playerWonName.textContent = playerName + " won!";
+				playerWonDamage.textContent = "Total damage dealt: " + damageDealt + "%";
+				playerWonKills.textContent = "Kills this round: " + kills;
+				playerWonHealth.textContent = "Health: " + health + "%";
+
+				document.getElementById('player_avatar').src = avatar;
+			}
+
+			function showScreenTeam(teamName, mvp, funfact, teamIndex)
+			{
+				hideScreen();
+
+				// Show different images based on what team won
+				pfTeam1.style.visibility = "hidden";
+				pfTeam2.style.visibility = "hidden";
+
+				if (teamIndex == 0)
+				{
+					pfTeam1.style.visibility = "visible";
+				}
+				else if (teamIndex == 1)
+				{
+					pfTeam2.style.visibility = "visible";
+				}
+
+				// Animations
+				if (teamDiv.classList.contains("animated"))
+				{
+					teamDiv.classList.remove("animated")
+				}
+				
+				teamDiv.classList.add("animated")
+				
+
+				if (pfTeam1.classList.contains("animated"))
+				{
+					pfTeam1.classList.remove("animated")
+				}
+				
+				pfTeam1.classList.add("animated")
+
+
+				if (pfTeam2.classList.contains("animated"))
+				{
+					pfTeam2.classList.remove("animated")
+				}
+				
+				pfTeam2.classList.add("animated")
+
+				if (teamWonFunFact.classList.contains("animated"))
+				{
+					teamWonFunFact.classList.remove("animated")
+				}
+				
+				teamWonFunFact.classList.add("animated")
+
+				// Set all the text
+				teamWonName.textContent = teamName + " won!";
+				teamWonMvp.textContent = "MVP: " + mvp;
+				teamWonFunFact.textContent = funfact;
+			}
+
+			function showScreenGeneric(message)
+			{
+				hideScreen();
+
+				// Animations
+				if (genericDiv.classList.contains("animated"))
+				{
+					genericDiv.classList.remove("animated")
+				}
+				
+				genericDiv.classList.add("animated")
+				
+
+				if (winGuy1.classList.contains("animated"))
+				{
+					winGuy1.classList.remove("animated")
+				}
+				
+				winGuy1.classList.add("animated")
+
+
+				if (winGuy2.classList.contains("animated"))
+				{
+					winGuy2.classList.remove("animated")
+				}
+				
+				winGuy2.classList.add("animated")
+
+				// Set all the text
+				genericRoundMessage.textContent = message;
+			}
+			
+			function hideScreen()
+			{
+				if (mainDiv.classList.contains("animated"))
+				{
+					mainDiv.classList.remove("animated")
+				}
+
+				if (pfGuy.classList.contains("animated"))
+				{
+					pfGuy.classList.remove("animated")
+				}
+
+				if (pfTeam1.classList.contains("animated"))
+				{
+					pfTeam1.classList.remove("animated")
+				}
+
+				if (pfTeam2.classList.contains("animated"))
+				{
+					pfTeam2.classList.remove("animated")
+				}
+
+				if (teamDiv.classList.contains("animated"))
+				{
+					teamDiv.classList.remove("animated")
+				}
+
+				if (genericDiv.classList.contains("animated"))
+				{
+					genericDiv.classList.remove("animated")
+				}
+
+				if (winGuy1.classList.contains("animated"))
+				{
+					winGuy1.classList.remove("animated")
+				}
+
+				if (winGuy2.classList.contains("animated"))
+				{
+					winGuy2.classList.remove("animated")
+				}
+
+				if (teamWonFunFact.classList.contains("animated"))
+				{
+					teamWonFunFact.classList.remove("animated")
+				}
+			}
+			
+			//showScreenPlayer("JamDoggie", "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/4d/4d2357044677e8652198ff0b5d15c0e928aa3956_full.jpg", 150, 5, 7);
+			//showScreenTeam("Orange", "JamDoggie", "JamDoggie is a terrible player", 0);
+			//showScreenGeneric("Game end. I am the winner!");
+
+
+			// Do it when the script is started, since scaleElements() is usually only called on window resize
+			scaleElements();
+		</script>
+	</body>
+</html>

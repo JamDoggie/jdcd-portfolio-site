@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+	</head>
+	
+	<body onresize="scaleElements()">
+		<div class="container">
+			<img src="playfight_load_svg_2.svg" class="img1" id="image1transition"></img>
+			<img src="playfight_load_svg_1.svg" class="img2" id="image2transition"></img>
+			<text class="img3" id="image3transition">Play Fight</text>
+		</div>
+		
+		<div class="loading_info" id="loading_info_id">
+			<text class="now_loading" id="now_loading_id">Now loading map </text>
+			<text class="server_status" id="server_status_id">.</text>
+			<text class="file_status" id="file_status_id"></text>
+			<div class="loading_bar_div" id="loading_bar_div_id">
+				<div class="loading_bar_foreground" id="loading_bar_foreground_id">
+					<div id="loading_bar_padding">
+						<text class="loading_bar_count" id="loading_bar_count_id">0/0 Files</text>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+			var imgOne = document.getElementById("image1transition");
+			var imgTwo = document.getElementById("image2transition");
+			var playfightText = document.getElementById("image3transition");
+			
+			var infoDiv = document.getElementById("loading_info_id");
+			var nowLoading = document.getElementById("now_loading_id");
+			var serverStatus = document.getElementById("server_status_id");
+			var fileStatus = document.getElementById("file_status_id");
+			var loadingDiv = document.getElementById("loading_bar_div_id");
+			var loadingFrontDiv = document.getElementById("loading_bar_foreground_id"); // This is the actual blue progress bar part
+			var loadingCount = document.getElementById("loading_bar_count_id");
+			var loadingPadding = document.getElementById("loading_bar_padding");
+			
+			// Element Scaling
+			// PS: I promise i am not committing a crime with this
+			// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+			function scaleElements()
+			{
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh;
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+				
+				
+				imgOne.style.setProperty("height", (45 * vmin).toString() + "px");
+				imgTwo.style.setProperty("height", (50 * vmin).toString() + "px");
+				playfightText.style.setProperty("font-size", (15 * vmin).toString() + "px");
+				
+				infoDiv.style.setProperty("line-height", (3 * vmin).toString() + "px");
+				infoDiv.style.setProperty("padding", (1 * vmin).toString() + "px");
+				infoDiv.style.setProperty("border-radius", (1 * vmin).toString() + "px");
+				
+				
+				nowLoading.style.setProperty("font-size", (2 * vmin).toString() + "px");
+				
+				serverStatus.style.setProperty("font-size", (1.75 * vmin).toString() + "px");
+				
+				fileStatus.style.setProperty("font-size", (1.75 * vmin).toString() + "px");
+				
+				
+				loadingDiv.style.setProperty("border-radius", (vmin * 1).toString() + "px");
+				loadingCount.style.setProperty("font-size", (1.75 * vmin).toString() + "px");
+				
+				loadingFrontDiv.style.setProperty("border-radius", (vmin * 1).toString() + "px");
+				loadingPadding.style.setProperty("padding", "0px " + (vmin * 1.5).toString() + "px");
+			}
+			
+			
+			var numFiles = 0;
+			
+			/*
+			Called at the start, when the loading screen finishes loading all assets.
+			
+			serverName - Server's name.
+				Convar: hostname
+				For exmaple: "Garry's Mod Server"
+			serverURL - URL for the loading screen. 
+				Convar: sv_loadingurl
+				For example: "http://mywebsite.com/myloadingscreen.html"
+			mapName - The name of the map the server is playing. 
+				For example: "cs_office"
+			maxPlayers - Maximum number of players for the server.
+				Convar: maxplayers
+			steamID - 64-bit, numeric Steam community ID of the client joining. 
+				For example: 76561198012345678
+			gamemode - The gamemode the server is currently playing. 
+				Convar: gamemode
+				For example: "deathrun"
+			volume - The value of the player's in-game 'volume' console variable, from 0 to 1
+			language - The value of the player's in-game 'gmod_language' console variable, a two letter representation of the player's main menu language
+			*/
+			function GameDetails( servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language ) 
+			{
+				nowLoading.textContent = "Now loading map " + mapname + "...";
+			}
+			
+			/*
+				Called at the start
+
+				total- Total number of files the client will have to download.
+			*/
+			function SetFilesTotal( total ) 
+			{
+				numFiles = total;
+			}
+			
+			/*
+				Called when the client starts downloading a file.
+
+				fileName- The full path and name of the file the client is downloading.
+					This path represents the resource's location rather than the actual file's location on the server.
+					For example, the file "garrysmod/addons/myAddon/materials/models/bobsModels/car.mdl" will be:
+						"materials/models/bobsModels/car.mdl"
+			*/
+			function DownloadingFile( fileName ) 
+			{
+				fileStatus.textContent = "Downloading file \"" + fileName + "\"";  
+			}
+
+			/*
+				Called when the client's joining status changes.
+
+				status- Current joining status.
+					For example: "Sending client info..."
+
+				Under normal conditions this would not be fired until game client starts interacting with server files/workshop. This
+				means you probably can't use "Retrieving server info" and everything that goes before downloads.
+			*/
+			function SetStatusChanged( status ) 
+			{
+				serverStatus.textContent = status;
+			}
+			
+			
+			
+			/*
+				Called when the number of files remaining for the client to download changes.
+
+				needed- Number of files left for the client to download.
+			*/
+			function SetFilesNeeded( needed ) 
+			{
+				var left = numFiles - needed;
+				if (left < 0)
+				{
+					left = 0;
+				}
+			
+				loadingCount.textContent = left.toString() + "/" + numFiles + " Files";
+				
+				var progress = (left / numFiles) * 100;
+				loadingFrontDiv.style.setProperty("width", progress.toString() + "%");
+			}
+			
+			scaleElements();
+		</script>
+	</body>
+</html>

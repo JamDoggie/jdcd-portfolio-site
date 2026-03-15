@@ -1,0 +1,123 @@
+body {
+  overflow: hidden; /* Hide scrollbars */
+  background-color: #FFF;
+  user-select: none;
+}
+
+
+.img1 {
+  left: 18%;
+  top: 18%;
+  position: absolute;
+  
+  -webkit-animation-name: guy_anim_1;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.img2 {
+  left: 60%;
+  top: 18%;
+  position: absolute;
+  
+  -webkit-animation-name: guy_anim_2;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
+}
+
+
+.img3 {
+  left: 35%;
+  top: 60%;
+  position: absolute;
+  
+  -webkit-animation-name: text_anim;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-fill-mode: forwards;
+  
+  font-family: Roboto, sans-serif;
+  
+  color: rgb(94,94,94);
+}
+
+.loading_info {
+	position: absolute;
+	right: 16px;
+	top: 16px;
+	width: 35%;
+	background-color: rgba(225, 225, 225, 0.9);
+	user-select: none;
+	overflow: hidden;
+}
+
+.now_loading {
+	display: block;
+	position: relative;
+	font-family: Roboto, sans-serif;
+	color: rgb(84,84,84);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.server_status {
+	display: block;
+	position: relative;
+	font-family: Roboto, sans-serif;
+	color: rgb(84,84,84);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.file_status {
+	display: block;
+	position: relative;
+	font-family: Roboto, sans-serif;
+	color: rgb(84,84,84);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.loading_bar_div {
+	position: relative;
+	background-color: rgb(235, 235, 235);
+	padding: 0;
+	
+}
+
+#loading_bar_foreground_id {
+	background-color: rgb(0, 162, 232);
+	width: 0px;
+	-webkit-transition-property: width;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+	white-space: nowrap;
+}
+
+.loading_bar_count {
+	font-family: Roboto, sans-serif;
+	color: rgb(84,84,84);
+}
+
+@-webkit-keyframes guy_anim_1 {
+  0% {left: -5%; top: 0%; -webkit-transform: rotate(0deg);}
+  100% {left: 18%; top: 18%; -webkit-transform: rotate(10deg);}
+}
+
+@-webkit-keyframes guy_anim_2 {
+  0% {left: 100%; top: 0%; -webkit-transform: rotate(0deg);}
+  100% {left: 60%; top: 18%; -webkit-transform: rotate(-10deg);}
+}
+
+@-webkit-keyframes text_anim {
+  0% {left: 0%; top: 70%; -webkit-transform: rotate(5deg);}
+  100% {left: 35%; top: 70%; -webkit-transform: rotate(-5deg);}
+}

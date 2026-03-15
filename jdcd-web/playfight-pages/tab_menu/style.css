@@ -1,0 +1,299 @@
+body 
+{
+	margin:0px;
+	font-family: Gill Sans, sans-serif;
+}
+
+/* This is a little hack to pre load the muted and unmuted icons since they seem to flicker in the first time they're on screen */
+body::after
+{
+   position:absolute; width:0; height:0; overflow:hidden; z-index:-1; // hide images
+   content:url('mic_muted_icon.svg') url('mic_icon.svg');   // load images
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+	-webkit-transition-property: background-color;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+	background-color: #888; 
+	
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	
+	-webkit-transition-property: background-color;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+    background-color: #777; 
+  
+}
+
+#rightclick_text {
+	position: absolute;
+	color: white;
+	
+	left: 50%;
+	top: 18%;
+	
+	-webkit-transform: translate(-50%, 0%);
+	user-select: none;
+}
+
+
+ol {
+	margin:0px;
+	padding:0;
+}
+
+ol li{
+  list-style-type: none;
+  margin: 0px;
+  
+  font-family: Gill Sans, sans-serif;
+  font-weight: 300;
+  color: white;
+}
+
+.center_div {
+	position: absolute;
+	left:50%;
+	top:50%;
+	-webkit-transform: translate(-50%, -50%);
+	-webkit-transition-property: width;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+}
+
+
+.center_div_blue {
+	position: absolute;
+	left:0%;
+	top:50%;
+	
+	-webkit-transform: translate(-50%, -50%);
+	-webkit-transition-property: width;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+}
+
+.scoreboard_entry {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(66,66,66,0.6);
+	
+}
+
+.team_label {
+	position: absolute;
+	background-color: rgba(0, 163, 232, 1);
+	left: 2%;
+	width: 30%;
+	text-align: center;
+	padding: 5px;
+	-webkit-transform: translate(0%, -100%);
+	user-select: none;
+	opacity: 0;
+}
+
+.wins_label {
+	position: absolute;
+	background-color: rgba(0, 163, 232, 1);
+	left: 34%;
+	width: auto;
+	text-align: center;
+	padding: 5px;
+	-webkit-transform: translate(0%, -100%);
+	user-select: none;
+	opacity: 0;
+}
+
+.team_label_line {
+	position: absolute;
+	background-color: rgba(0, 163, 232, 1);
+	width: 100%;
+	-webkit-transform: translate(0%, -100%);
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+}
+
+.team_label_text {
+	margin: 5px;
+	color: white;
+}
+
+.player_name {
+	display: inline;
+	position: absolute;
+	top: 0%;
+	width: 20%;
+	height: 100%;
+	background-color: rgba(100,100,100,0.6);
+	margin: 0px;
+}
+
+.player_name text {
+	position: absolute;
+	max-width: 87%;
+	top: 50%;
+	
+	overflow: hidden;
+	white-space: nowrap;
+	left: 50%;
+	
+	-webkit-transform: translate(-50%, -50%);
+	text-overflow: ellipsis;
+	user-select: none;
+}
+
+.stat_text {
+	display: block;
+	float: left;
+	position: relative;
+	max-width: 50%;
+	
+	left: 27%;
+	top: 50%;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 1.5%;
+	
+	user-select: none;
+	
+	-webkit-transform: translate(0%, -50%);
+}
+
+#health_text {
+	width: 7%;
+}
+
+#wins_text {
+	width: 12%;
+}
+
+#kills_text {
+	width: 30%;
+}
+
+.tabimg {
+	position: absolute;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	left: 0%;
+	top: 0%;
+	
+	background-size: 100%;
+    background-position: center;
+	
+	outline: none;
+	border: none;
+	
+	-webkit-transition-property: transform background-size;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+	
+	z-index: 3;
+}
+
+.tabimg:hover { 
+	-webkit-transform: scale(1.1);
+	z-index: 5;
+}
+
+.tabimg:active {
+	background-size: 120%;
+}
+
+.ping_text {
+	display: inline-block;
+	position: absolute;
+	
+	max-width: 16%;
+	
+	left: 87%;
+	top: 50%;
+
+	overflow: hidden;
+	white-space: nowrap;
+	
+	-webkit-transform: translate(-50%, -50%);
+	text-overflow: ellipsis;
+	
+	user-select: none;
+}
+
+.mute_button {
+	
+	
+	display:block;
+	position: relative;
+	
+	height: 100%;
+	float: right;
+	margin: 0px;
+	padding: 0px;
+	top: 0%;
+	background-image: url('mic_icon.svg');
+	background-size: 100%;
+    background-position: center;
+	background-color: transparent;
+	
+	outline: none;
+	border: none;
+	
+	-webkit-transform: scale(0.8);
+	-webkit-transition-property: transform background-size;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.175, 1.5);
+	
+	z-index: 4;
+}
+
+.mute_button:active {
+	-webkit-transform: scale(0.6);
+	-webkit-transition-duration: 0.1s;
+	-webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+
+.mutebackground {
+	
+	display:block;
+	position: absolute;
+	
+	height: 100%;
+	float: right;
+	margin: 0px;
+	padding: 0px;
+	left: 100%;
+	top: 0%;
+	background-color: white;
+	
+	outline: none;
+	border: none;
+	
+	-webkit-transition-property: transform background-size;
+    -webkit-transition-duration: 0.1s;
+    -webkit-transition-timing-function: ease;
+	
+	-webkit-transform: translate(-100%, 0%);
+	
+	z-index: 3;
+}

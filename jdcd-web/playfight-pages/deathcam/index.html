@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+	</head>
+	
+	<body onresize="scaleElements()">
+	
+		<div class="player_info_div" id="player_info_div_id">
+			<button class="avatar_button" id="avatar_button_id"></button>
+			<div class="player_name_div" id="player_name_div_id">
+				<text class="player_name" id="player_name_id">
+					Player
+				</text>
+			</div>
+			<div class="kill_info_div" id="kill_info_div_id">
+				<text class="kill_info" id="kill_info_id">
+					killed you doing ____%
+				</text>
+			</div>
+		</div>
+	
+		<div class="bottom_div" id="bottom_div_id">
+			<text class="you_died_text" id="you_died_id">
+				You died
+			</text>
+		
+			<img class="pf_guy" id="pf_guy_id" src="playfight_load_svg_1.svg"></img>
+		</div>
+		
+		
+		
+		<script>
+		
+			var youDied = document.getElementById("you_died_id");
+			var pfGuy = document.getElementById("pf_guy_id");
+			var bottomDiv = document.getElementById("bottom_div_id");
+			var playerInfo = document.getElementById("player_info_div_id");
+			var avatarButton = document.getElementById("avatar_button_id");
+			var playerNameDiv = document.getElementById("player_name_div_id");
+			var playerNameText = document.getElementById("player_name_id");
+			var killInfoDiv = document.getElementById("kill_info_div_id");
+			var killInfo = document.getElementById("kill_info_id");
+			
+			// Element Scaling
+			// PS: I promise i am not committing a crime with this
+			// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+			
+			function scaleElements()
+			{
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh;
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+				
+				
+				playerInfo.style.setProperty("width", (vmin * 48).toString() + "px");
+				playerInfo.style.setProperty("height", (vmin * 14).toString() + "px");
+				
+				avatarButton.style.setProperty("width", (vmin * 14).toString() + "px");
+				
+				playerNameDiv.style.setProperty("width", (vmin * 34).toString() + "px");
+				
+				killInfo.style.setProperty("font-size", (vmin * 2.3).toString() + "px");
+				playerNameText.style.setProperty("font-size", (vmin * 1.8).toString() + "px");
+				
+				
+				youDied.style.setProperty("font-size", (vmin * 5).toString() + "px");
+				pfGuy.style.setProperty("height", (vmin * 20).toString() + "px");
+				
+			}
+			
+			function showScreen(playerName, avatar, health, damage)
+			{
+				if (bottomDiv.classList.contains("animated"))
+				{
+					bottomDiv.classList.remove("animated")
+				}
+				
+				bottomDiv.classList.add("animated")
+				
+				
+				if (pfGuy.classList.contains("animated"))
+				{
+					pfGuy.classList.remove("animated")
+				}
+				
+				pfGuy.classList.add("animated")
+				
+				
+				if (youDied.classList.contains("animated"))
+				{
+					youDied.classList.remove("animated")
+				}
+				
+				youDied.classList.add("animated")
+				
+				
+				if (playerInfo.classList.contains("animated"))
+				{
+					playerInfo.classList.remove("animated")
+				}
+				
+				playerInfo.classList.add("animated")
+				
+				
+				
+				playerNameText.textContent = playerName + ", " + health + "%";
+				
+				killInfo.textContent = "killed you doing " + damage + "%";
+				
+				avatarButton.style.setProperty("background-image", "url('" + avatar + "')");
+			}
+			
+			function hideScreen()
+			{
+				if (bottomDiv.classList.contains("animated"))
+				{
+					bottomDiv.classList.remove("animated")
+				}
+
+				if (pfGuy.classList.contains("animated"))
+				{
+					pfGuy.classList.remove("animated")
+				}
+				
+				if (youDied.classList.contains("animated"))
+				{
+					youDied.classList.remove("animated")
+				}
+			}
+			
+			//showScreen("JamDoggie", "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/4d/4d2357044677e8652198ff0b5d15c0e928aa3956_full.jpg", 100, 45);
+			
+			// Do it when the script is started, since scaleElements() is usually only called on window resize
+			scaleElements();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	
+	<body onresize="scaleElements()">
+		<div class="vignette" id="vignette_id">
+			<div class="center_div" id="center_div_id">
+			
+			
+				<button src="pf_ffa.svg" onmouseover="sizeFFA()" onmouseout="scaleElements()" onmouseup="clickFFA()" class="ffaicon" id="pf_ffa_icon"></button>
+				<text class="ffa_text" id="ffa_text_id">Free for All</text>
+				
+				<button src="pf_team.svg" onmouseover="sizeTeam()" onmouseout="scaleElements()" onmouseup="clickTeam()" class="teamicon" id="pf_team_icon"></button>
+				<text class="team_text" id="team_text_id">Teams</text>
+				
+				<button src="pf_vote.svg" onmouseover="sizeVote()" onmouseout="scaleElements()" onmouseup="clickVote()" class="voteicon" id="pf_vote_icon"></button>
+				<text class="vote_text" id="vote_text_id">Server vote</text>
+				
+				<img src="checkmark.svg" class="checkmark_ffa" id="checkmark_ffa_id"></img>
+				<img src="checkmark.svg" class="checkmark_team" id="checkmark_team_id"></img>
+				<img src="checkmark.svg" class="checkmark_vote" id="checkmark_vote_id"></img>
+						
+						
+				<script>
+				// Element Scaling
+				// PS: I promise i am not committing a crime with this
+				// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+				var centerDiv = document.getElementById("center_div_id");
+				
+				var ffaIcon = document.getElementById("pf_ffa_icon");
+				var teamIcon = document.getElementById("pf_team_icon");
+				var voteIcon = document.getElementById("pf_vote_icon");
+					
+				var ffaText = document.getElementById("ffa_text_id");
+				var teamText = document.getElementById("team_text_id");
+				var voteText = document.getElementById("vote_text_id");
+					
+				var ffaCheck = document.getElementById("checkmark_ffa_id");
+				var teamCheck = document.getElementById("checkmark_team_id");
+				var voteCheck = document.getElementById("checkmark_vote_id");
+					
+				var vignette = document.getElementById("vignette_id");
+					
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+					
+				var selectedButton = -1;
+					
+				function updateSizeVars()
+				{
+					vw = document.documentElement.clientWidth / 100;
+					vh = document.documentElement.clientHeight / 100;
+					
+					vmin = vh
+				
+					if (vw < vh)
+					{
+						vmin = vw;
+					}
+					
+					vmax = vw;
+				
+					if (vh > vw)
+					{
+						vmax = vh;
+					}
+				}
+					
+				function scaleElements()
+				{
+					updateSizeVars();
+				
+					var centerHeight = (vmin * 30);
+					centerDiv.style.setProperty("height", centerHeight.toString() + "px");
+					var centerWidth = (vmin * 100);
+					centerDiv.style.setProperty("width", centerWidth.toString() + "px");
+				
+					var shadowSize = 3 * vmin;
+					ffaIcon.style.setProperty("box-shadow", "0px 0px " + (shadowSize) + "px rgba(0,0,0,0.5)");
+					ffaIcon.style.setProperty("width", (30 * vmin).toString() + "px");
+					
+					teamIcon.style.setProperty("box-shadow", "0px 0px " + (shadowSize) + "px rgba(0,0,0,0.5)");
+					teamIcon.style.setProperty("width", (30 * vmin).toString() + "px");
+					
+					voteIcon.style.setProperty("box-shadow", "0px 0px " + (shadowSize) + "px rgba(0,0,0,0.5)");
+					voteIcon.style.setProperty("width", (30 * vmin).toString() + "px");
+				
+					/*ffaIcon.style.setProperty("left", "0%");
+					ffaIcon.style.setProperty("top", "0%");
+					ffaIcon.style.setProperty("width", (40 * vmin).toString() + "px");
+					ffaIcon.style.setProperty("height", "100%");
+					
+					teamIcon.style.setProperty("left", "50%");
+					teamIcon.style.setProperty("top", "0%");
+					teamIcon.style.setProperty("width", (40 * vmin).toString() + "px");
+					teamIcon.style.setProperty("height", (40 * vmin).toString() + "px");
+					
+					voteIcon.style.setProperty("left", (66 * vmax).toString() + "px");
+					voteIcon.style.setProperty("top", "25%");
+					voteIcon.style.setProperty("width", (40 * vmin).toString() + "px");
+					voteIcon.style.setProperty("height", (40 * vmin).toString() + "px");
+					*/
+					ffaText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					ffaText.style.setProperty("left", "0px");
+					ffaText.style.setProperty("top", "115%");
+					ffaText.style.setProperty("opacity", "0");
+					ffaText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+				
+					ffaText.style.setProperty("-webkit-transform", "translate(40%, 0%)");
+					
+					teamText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					teamText.style.setProperty("left", "45%");
+					teamText.style.setProperty("top", "115%");
+					teamText.style.setProperty("opacity", "0");
+					teamText.style.setProperty("-webkit-transform", "translate(0%, 0%)");
+					teamText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					
+					voteText.style.setProperty("font-size", (3 * vmin).toString() + "px");
+					voteText.style.setProperty("left", "77%");
+					voteText.style.setProperty("top", "115%");
+					voteText.style.setProperty("opacity", "0");
+					voteText.style.setProperty("-webkit-transform", "translate(0%, 0%)");
+					voteText.style.setProperty("text-shadow", "0px 0px " + (3 * vmin).toString() + "px rgba(0,0,0,0.5)");
+					
+					vignette.style.setProperty("box-shadow", "0 0 " + (5 * (vmax * vmin)).toString() + "px rgba(0,0,0,0.9) inset");
+					
+					updateCheckmarks();
+				}
+				
+				function updateCheckmarks()
+				{
+					if (selectedButton == 0)
+					{
+						ffaCheck.style.setProperty("opacity", "1");
+						ffaCheck.style.setProperty("top", "70%");
+					}
+					else
+					{
+						ffaCheck.style.setProperty("opacity", "0");
+						ffaCheck.style.setProperty("top", "80%");
+					}
+					
+					if (selectedButton == 1)
+					{
+						teamCheck.style.setProperty("opacity", "1");
+						teamCheck.style.setProperty("top", "70%");
+					}
+					else
+					{
+						teamCheck.style.setProperty("opacity", "0");
+						teamCheck.style.setProperty("top", "80%");
+					}
+					
+					if (selectedButton == 2)
+					{
+						voteCheck.style.setProperty("opacity", "1");
+						voteCheck.style.setProperty("top", "70%");
+					}
+					else
+					{
+						voteCheck.style.setProperty("opacity", "0");
+						voteCheck.style.setProperty("top", "80%");
+					}
+				}
+				
+				function sizeFFA()
+				{
+					/*updateSizeVars();
+				
+					ffaIcon.style.setProperty("left", (13 * vmax).toString() + "px");
+					ffaIcon.style.setProperty("top", "23%");
+					ffaIcon.style.setProperty("width", (43 * vmin).toString() + "px");
+					ffaIcon.style.setProperty("height", (43 * vmin).toString() + "px");
+					*/
+					ffaText.style.setProperty("font-size", (3.3 * vmin).toString() + "px");
+					ffaText.style.setProperty("top", "110%");
+					ffaText.style.setProperty("opacity", "1");
+					ffaText.style.setProperty("-webkit-transform", "translate(32%, 0%)");	
+					
+					ffaIcon.style.setProperty("width", (33 * vmin).toString() + "px");
+				}
+				
+				function sizeTeam()
+				{
+					/*updateSizeVars();
+				
+					teamIcon.style.setProperty("left", (39 * vmax).toString() + "px");
+					teamIcon.style.setProperty("top", "23%");
+					teamIcon.style.setProperty("width", (43 * vmin).toString() + "px");
+					teamIcon.style.setProperty("height", (43 * vmin).toString() + "px");*/
+					
+					teamText.style.setProperty("font-size", (3.3 * vmin).toString() + "px");
+					teamText.style.setProperty("top", "110%");
+					teamText.style.setProperty("opacity", "1");
+					teamText.style.setProperty("-webkit-transform", "translate(-3%, 0%)");
+					
+					teamIcon.style.setProperty("width", (33 * vmin).toString() + "px");
+				}
+				
+				function sizeVote()
+				{
+					/*updateSizeVars();
+				
+					voteIcon.style.setProperty("left", (65 * vmax).toString() + "px");
+					voteIcon.style.setProperty("top", "23%");
+					voteIcon.style.setProperty("width", (43 * vmin).toString() + "px");
+					voteIcon.style.setProperty("height", (43 * vmin).toString() + "px");*/
+					
+					voteText.style.setProperty("font-size", (3.3 * vmin).toString() + "px");
+					voteText.style.setProperty("top", "110%");
+					voteText.style.setProperty("opacity", "1");
+					voteText.style.setProperty("-webkit-transform", "translate(-3%, 0%)");
+					
+					voteIcon.style.setProperty("width", (33 * vmin).toString() + "px");
+				}
+				
+				function clickFFA()
+				{
+					if (selectedButton == -1)
+					{
+						selectedButton = 0;
+						updateCheckmarks();
+						playfight.voteGamemode(0);
+					}
+				}
+				
+				function clickTeam()
+				{
+					if (selectedButton == -1)
+					{
+						selectedButton = 1;
+						updateCheckmarks();
+						playfight.voteGamemode(1);
+					}
+				}
+				
+				function clickVote()
+				{
+					if (selectedButton == -1)
+					{
+						selectedButton = 2;
+						updateCheckmarks();
+						playfight.voteGamemode(2);
+					}
+				}
+				
+				
+				// Do it when the script is started, since scaleElements() is usually only called on window resize
+				scaleElements();
+
+			</script>
+			
+			</div>
+		</div>
+	</body>
+</html>

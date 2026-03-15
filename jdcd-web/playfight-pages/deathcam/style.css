@@ -1,0 +1,126 @@
+html {
+	overflow: hidden;
+}
+
+body {
+	margin:0px;
+	font-family: Roboto, sans-serif;
+}
+
+.player_info_div {
+	position: absolute;
+	left: 50%;
+	top: 5%;
+	opacity: 0;
+	-webkit-transform: translate(-50%, 0%);
+	
+	background-color: rgb(230, 230, 230);
+}
+
+.player_info_div.animated {
+	-webkit-animation-name: info_anim;
+    -webkit-animation-duration: 0.85s;
+    -webkit-animation-timing-function: ease;
+	-webkit-animation-fill-mode: forwards;
+}
+
+.avatar_button {
+	height: 100%;
+	background-size: 100%;
+    background-position: center;
+	border: none;
+	outline: none;
+}
+
+.player_name_div {
+	display: inline;
+	position: absolute;
+	padding: 1% 0%;
+	top: 0%;
+	background-color: rgb(210, 210, 210);
+}
+
+.player_name_div text {
+	margin: 2%;
+	color: rgb(64, 64, 64);
+}
+
+.kill_info_div {
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	left: 40%;
+	top: 50%;
+}
+
+
+
+.bottom_div {
+	position: absolute;
+	width: 100%;
+	height: 25%;
+	top: 100%;
+	left: 0%;
+	background-color: rgb(230, 230, 230);
+}
+
+.bottom_div.animated {
+	-webkit-animation-name: bar_anim;
+    -webkit-animation-duration: 0.85s;
+    -webkit-animation-timing-function: ease;
+	-webkit-animation-fill-mode: forwards;
+}
+
+.you_died_text {
+	position: absolute;
+	color: rgb(94, 94, 94);
+	left: 0%;
+	top: 45%;
+	transform: rotate(20deg);
+	
+}
+
+.you_died_text.animated {
+	-webkit-animation-name: text_anim;
+    -webkit-animation-duration: 0.85s;
+    -webkit-animation-timing-function: ease;
+	-webkit-animation-fill-mode: forwards;
+}
+
+.pf_guy {
+	position: relative;
+	left: 90%; 
+	top: 10%;
+}
+
+.pf_guy.animated {
+	-webkit-animation-name: guy_anim;
+    -webkit-animation-duration: 0.85s;
+    -webkit-animation-timing-function: ease;
+	-webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes vignette_anim {
+  0% {height: 100%;}
+  100% {height: 75%;}
+}
+
+@-webkit-keyframes text_anim {
+  0% {left: 0%; top: 45%; -webkit-transform: rotate(20deg);}
+  100% {left: 40%; top: 45%; -webkit-transform: rotate(-5deg);}
+}
+
+@-webkit-keyframes guy_anim {
+  0% {left: 90%; top: 10%; -webkit-transform: rotate(-20deg);}
+  100% {left: 55%; top: 10%; -webkit-transform: rotate(5deg);}
+}
+
+@-webkit-keyframes bar_anim {
+  0% {top: 100%;}
+  100% {top: 75%;}
+}
+
+@-webkit-keyframes info_anim {
+  0% {top: 0%; opacity: 0;}
+  100% {top: 5%; opacity: 1;}
+}

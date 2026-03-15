@@ -1,0 +1,435 @@
+html {
+	font-family: Gill Sans, sans-serif;
+	overflow: hidden;
+	scrollbar-color: #555 #333;
+}
+
+.body {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	
+	margin:0px;
+	padding: 0;
+	height: 100vh;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+	width: 0.7em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+.nav_wrapper {
+	position: fixed;
+	
+	width: 100%;
+	background-color: rgb(230, 230, 230);
+	height: 3.5em;
+	z-index: 5;
+	top: 0;
+	left: 0%;
+	margin: 0;
+	transition-property: background box-shadow;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.regular-wrapper p {
+	position: relative;
+	top: 500vh;
+}
+
+.navigation_div {
+	position: absolute;
+	display: flex;
+
+	height: 100%;
+	
+	left: 50%;
+	
+	transform: translate(-50%, 0);
+}
+
+
+.navigation_div button {
+	position: relative;
+	height: 100%;
+	font-family: Gill Sans, sans-serif;
+	padding: 3.5%;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 1rem;
+	font-weight: 600;
+	color: rgb(80, 80, 80);
+	cursor: pointer;
+	transition-property: background font-color top;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+	--background-height: 0%;
+
+	width: 8em;
+	
+	/* I don't know why but this fixes an issue where the github nav button gets offset downwards. */
+	padding-bottom: 0;
+	padding-top: 0;
+	
+	white-space: nowrap;
+	top: 0;
+}
+
+.navigation_div button svg {
+
+}
+
+.navigation_div button text {
+
+}
+
+.navigation_div button:after {
+	transition-property: height;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+	
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 100%;
+	background-color: rgba(100,100,100, 0.2);
+	--background-height: inherit;
+	width: 100%;
+	height: var(--background-height);
+	
+	transform: translate(0, -100%);
+}
+
+.navigation_div button:hover {
+	--background-height: 100%;
+	height: 115%;
+	top: -15%;
+}
+
+.navigation_div button text {
+	display: inline-block;
+	position: relative;
+	top: 0;
+	transform: translate(0%, -50%);
+}
+
+
+
+
+.navigation_div button:active {
+	--background-height: 100%;
+	background-color: rgb(190,190,190);
+	height: 115%;
+	top: -15%;
+}
+
+.nav_icon_list {
+	position: absolute;
+	left: 50%;
+	top: 4em;
+	transform: translate(-50%, 0%);
+}
+
+.nav_icon_list button {
+	display: inline;
+	position: relative;
+	border:none;
+	outline:none;
+	background-color: transparent;
+	margin: 0 0.5em;
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	width: 2.1em;
+	height: 2.1em;
+	top: 0;
+	opacity: 0.4;
+	filter: grayscale(100%);
+	
+	transition-property: transform filter opacity;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+	
+	cursor: pointer;
+}
+
+.nav_icon_list button:hover {
+	transform: scale(1.1);
+	filter: grayscale(50%);
+	opacity: 1;
+}
+
+.nav_icon_list button:active {
+	filter: grayscale(100%);
+	transform: scale(1.0);
+}
+
+.steam_img {
+	background-image: url('steam_img.svg');
+}
+
+.youtube_img {
+	background-image: url('yt_icon_rgb.png');
+}
+
+button a {
+	color: rgb(80, 80, 80);
+	text-decoration: none;
+	padding: 1.25em 0;
+	margin: -3.5em 0;
+}
+
+
+
+
+.playfight_header {
+	position: absolute;
+	font-size: 20vmin;
+	
+	left: 50%;
+	top: 30%;
+	
+	transform: translate(-50%, 0%);
+	
+	font-family: Roboto, sans-serif;
+  
+	white-space: nowrap;
+  
+    color: rgb(94,94,94);
+	
+	animation: header_animation 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+}
+
+@keyframes header_animation {
+  100% {
+   left: 70vw;
+   transform: translate(-50%, 0%) rotate(15deg);
+  }
+}
+
+.header_description {
+	position: absolute;
+	font-size: 2vmin;
+	
+	left: 50%;
+	top: 55%;
+	
+	transform: translate(-50%, 0%);
+	
+	font-family: Gill Sans, sans-serif;
+  
+	white-space: nowrap;
+  
+    color: rgb(94,94,94);
+	
+	animation: header_desc_animation 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+}
+
+@keyframes header_desc_animation {
+  100% {
+   left: 80vw;
+   transform: translate(-50%, 0%) rotate(15deg);
+  }
+}
+
+
+.pf_guy_1 {
+	position: absolute;
+	width: 20%;
+	left: 0;
+	top: 60vh;
+	
+	animation: guy_animation_1 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+}
+
+
+@keyframes guy_animation_1 {
+  100% {
+   left: 40vw;
+   transform: rotate(-20deg);
+  }
+}
+
+
+.pf_guy_2 {
+	position: absolute;
+	width: 12%;
+	left: 100%;
+	top: 60%;
+	transform: translate(-100%, 0%);
+	
+	animation: guy_animation_2 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+	animation-iteration-count: 1;
+	animation-fill-mode: both;
+}
+
+@keyframes guy_animation_2 {
+  100% {
+   left: 60vw;
+   transform: translate(-100%, 0%) rotate(20deg);
+  }
+}
+
+
+
+
+.parallax-div {
+	position:absolute;
+	left: 0;
+	top: 0;
+	
+	perspective: 8px;
+	perspective-origin: 50%;
+	transform-style: preserve-3d;
+	
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+}
+
+.main_content_div {
+	position: absolute;
+	width: 100%;
+	height: 80em;
+	top: 75em;
+	left: 0;
+	background-color: rgb(235, 235, 235);
+	
+	transform-style: preserve-3d;
+}	
+
+.main_content_slant_parent {
+	filter: drop-shadow(0px 0em 1.5em rgba(0, 0, 0, 0.3));
+}
+
+.main_content_slant_top {
+	position: absolute;
+	width: 100%;
+	height: 10em;
+	top: 75em;
+	transform: translate(0, -99%);
+	clip-path: polygon(0 0, 100% 5em, 100% 100%, 0% 100%);
+	background-color: rgb(235, 235, 235);
+}
+
+.main_content_slant_2 {
+	
+	
+	position: absolute;
+	width: 100%;
+	height: 120em;
+	top: 55em;
+	left: 0%;
+	background-color: rgb(220, 220, 220);
+	transform: translateZ(3px);
+	clip-path: polygon(0 10vh, 100% 0, 100% 100%, 0% 100%);
+	
+}
+
+.main_content_div img {
+	transition-property: transform filter opacity;
+    transition-duration: 0.6s;
+    transition-timing-function: ease;
+	opacity: 0;
+	transform: translate(0, 20%) rotate(6deg);
+}	
+
+.content_header_1 {
+	position: absolute;
+	font-size: 2em;
+	font-family: Roboto, sans-serif;
+	color: rgb(94,94,94);
+	padding: 1em 1em;
+	top: -2em;
+	left: 50%;
+	white-space: nowrap;
+	transform: translate(-50%, 0) rotate(-2deg);
+	animation-name: content_header_wave;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: cubic-bezier(.78,.23,.4,.82);
+}
+
+@keyframes content_header_wave {
+  0% {
+   transform: translate(-50%, 0) rotate(-2deg);
+  }
+  
+  50% {
+   transform: translate(-50%, -20%) rotate(-2deg);
+  }
+  
+  100% {
+   transform: translate(-50%, 0) rotate(-2deg);
+  }
+}
+
+
+.trailer_video {
+	position: absolute;
+	top:5%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	box-shadow: 0px 0px 2em rgba(0,0,0,0.3);
+	border-radius: 1em;
+	transform-style: preserve-3d;
+	width: 50em;
+	height: 28em;
+	transition-property: border-radius box-shadow;
+	transition-duration: 0.4s;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.175, 1.5);
+}
+
+.trailer_video:hover {
+	border-radius: 0.5em;
+	box-shadow: 0px 0px 4em rgba(0,0,0,0.3);
+}
+
+.screenshot_2 {
+	position: absolute;
+	height: 20em;
+	top: 38em;
+	left: 5em;
+	box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.19);
+}
+
+.paragraph_1 {
+	position: absolute;
+	width: auto;
+	left: 42em;
+	top: 38em;
+}

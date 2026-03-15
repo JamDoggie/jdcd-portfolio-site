@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+	</head>
+	
+	<body onresize="updateScalers(); updateScrolledElements();">
+		
+		
+			<div class="nav_wrapper" id="nav_wrapper_id">
+				<div class="navigation_div" id="navigation_id">
+					<button>Home</button>
+					<button onclick="window.open('https://github.com/JamDoggie/PlayFight')">
+						<svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg> <text>Github</text>
+					</button>
+					<button>News</button>
+				</div>
+				
+				<div class="nav_icon_list">
+					<button class="steam_img" id="steam_img_id" onclick="window.open('https://steamcommunity.com/sharedfiles/filedetails/?id=2017752343')"></button>
+					<button class="youtube_img" id="youtube_img_id" onclick="window.open('https://www.youtube.com/channel/UCprLhlmmHAITXJSjOA7kd1g')"></button>
+				</div>
+			</div>
+			
+			<div class="parallax-div" id="parallax_id">
+				<text class="playfight_header" id="header_id">Play Fight</text>
+				<text class="header_description" id="header_description_id">A GMod Gamemode where you fling yourself into people to hurt them</text>
+					
+				<img src="playfight_load_svg_2.svg" class="pf_guy_1" id="guy_1_id"></img>
+				<img src="playfight_load_svg_1.svg" class="pf_guy_2" id="guy_2_id"></img>
+					
+			
+		
+		
+				<div class="main_content_slant_parent">
+					<div class="main_content_slant_top"></div>
+				</div>
+				<div class="main_content_div" id="main_content_id">
+					<text class="content_header_1">A GMod Gamemode where you fling yourself at other people to hurt them!</text>
+					
+					<iframe class="trailer_video" width="560" height="315" src="https://www.youtube-nocookie.com/embed/sRdJiUM2vYU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					
+					<img src="screenshot_2.jpg" class="screenshot_2"></img>
+					<p class="paragraph_1">With semi-competitive and semi-casual ragdoll based gameplay, verse your friends in either Free for All or Teams mode. On any supported maps, you may even find weapon drops laying on the ground throughout the round. The weapons are as follows:
+					<br><br><br>- Shotgun, has two bullets and a spread. You can choose to either use one bullet at a time or two with right click.
+					<br><br>- 357, has one bullet and does tons of damage, but can be very hard to hit with!
+					<br><br>- Crossbow, a hitscan/non projectile based weapon that sends whoever it hits flying into ragdoll mode as well as doing 25 damage.
+					<br><br>- Ricochet Disk, a disc that you can throw in the horizontal axis that ricochets off walls and does 50 damage to whoever it hits that isn't you or your teammates.
+					<br><br>- Throwable Crowbar, a crowbar that you can throw that will usually one shot enemies but is very hard to hit.</p>
+					
+					<div class="main_content_slant_2">
+						<text class="content_header_2">Maps</text>
+					</div>
+				</div>
+			</div>
+		
+		
+		<script>
+			var guyOne = document.getElementById("guy_1_id");
+			var guyTwo = document.getElementById("guy_2_id");
+		
+			var navWrapper = document.getElementById("nav_wrapper_id");
+			var navigation = document.getElementById("navigation_id");
+		
+			var header = document.getElementById("header_id");
+			var header_desc = document.getElementById("header_description_id");
+		
+			var nav_steam = document.getElementById("steam_img_id");
+		
+			var content = document.getElementById("main_content_id");
+		
+			var parallax = document.getElementById("parallax_id");
+		
+			var vw, vh, vmin, vmax = 0;
+		
+			function updateScalers()
+			{
+				vw = document.documentElement.clientWidth / 100;
+				vh = document.documentElement.clientHeight / 100;
+				
+				vmin = vh;
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				vmax = vw;
+				
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+			}
+			
+			updateScalers();
+			
+			function getScrollPercent() {
+				var h = parallax, 
+				b = parallax,
+				st = 'scrollTop',
+				sh = 'clientHeight';
+				
+				return (h[st]||b[st]) / ((h[sh]||b[sh])) * 100;
+			}
+			
+			
+		    window.addEventListener('scroll', function(e)
+			{ 
+				updateScrolledElements();
+				
+			}, true)
+
+			function isScrolledIntoView(el) {
+				var rect = el.getBoundingClientRect();
+				var elemTop = rect.top;
+				var elemBottom = rect.bottom;
+
+				// Only completely visible elements return true:
+				var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+				// Partially visible elements return true:
+				isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+				return isVisible;
+			}
+
+			function updateScrolledElements()
+			{
+				var scroll = getScrollPercent() / 100;
+				
+				var scrollScaler = 0.9;
+
+			
+				document.body.style.setProperty('--scroll', scroll);
+				
+				if (scroll == 0)
+				{
+					navWrapper.style.setProperty("background-color", "rgb(230, 230, 230)");
+					
+					
+					navWrapper.style.setProperty("box-shadow", "-0.1em 0em 2.5em 0.2em rgba(0,0,0,0)");
+				}
+				else
+				{
+					navWrapper.style.setProperty("background-color", "rgba(230, 230, 230, 0.9)");
+					
+					
+					navWrapper.style.setProperty("box-shadow", "-0.1em -0.6em 2em 0.2em rgba(0,0,0,0.4)");
+				}
+				
+				for(var i = 0; i < content.getElementsByTagName("img").length; i++)
+				{
+					if (isScrolledIntoView(content.getElementsByTagName("img")[i]))
+					{
+						content.getElementsByTagName("img")[i].style.setProperty("opacity", "1");
+						content.getElementsByTagName("img")[i].style.setProperty("transform", "translate(0,0) rotate(0deg)");
+					}
+					
+				}
+			}
+		</script>
+	</body>
+</html>

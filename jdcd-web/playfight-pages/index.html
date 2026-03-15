@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		
+		<style data="slider_thumb" type="text/css">
+		</style>
+	</head>
+	
+	<body onresize="scaleElements()">
+		<div class="playfight_playermodel_select" id="playermodel_panel">
+		
+		</div>
+		
+		<div class="center_div">
+		
+		
+			<button class="playfight_button_play" onclick="playGame()" id="play_button">
+				PLAY
+			</button>
+			
+			<button class="playfight_button_spectate" onclick="spectateGame()" id="spectate_button">
+				SPECTATE
+			</button>
+			
+			
+			
+			
+			<input type="range" min="0" max="100" value="50" class="playfight_volume_slider" id="volume_range">
+			
+			
+			<button class="music_box" onclick="toggleMusicMuted()" id="music_box_id">
+				<text class="music_note" id="music_symbol">
+					&#9835;
+				</text>
+				
+				<text class="music_slash" id="slash_symbol">
+					&#8260;
+				</text>
+			</button>
+		
+			<script>
+			// Element Scaling
+			// PS: I promise i am not committing a crime with this
+			// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+			var playerModelPanel = document.getElementById("playermodel_panel");
+			var musicButton = document.getElementById("music_box_id");
+			var playButton = document.getElementById("play_button");
+			var spectateButton = document.getElementById("spectate_button");
+			var musicNote = document.getElementById("music_symbol");
+			var musicSlash = document.getElementById("slash_symbol");
+				
+			function scaleElements()
+			{
+				var vw = document.documentElement.clientWidth / 100;
+				var vh = document.documentElement.clientHeight / 100;
+				
+				var vmin = vh
+				
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				var musicSize = vmin * 8;
+				var musicBorderSize = vmin * 1.5;
+				musicButton.style.setProperty("width", musicSize.toString() + "px");
+				musicButton.style.setProperty("height", musicSize.toString() + "px");
+				musicButton.style.setProperty("border-radius", musicBorderSize.toString() + "px");
+				
+				var borderRadius = vmin * 2;
+				var fontSize = vmin * 3;
+				playButton.style.setProperty("border-radius", borderRadius.toString() + "px");
+				playButton.style.setProperty("font-size", fontSize.toString() + "px");
+				
+				spectateButton.style.setProperty("border-radius", borderRadius.toString() + "px");
+				spectateButton.style.setProperty("font-size", fontSize.toString() + "px");
+				
+				var panelBorderRadius = vmin * 1;
+				
+				playerModelPanel.style.setProperty("border-radius", panelBorderRadius.toString() + "px");
+				
+				musicNote.style.setProperty("font-size", musicSize.toString() + "px");
+				musicSlash.style.setProperty("font-size", musicSize.toString() + "px");
+				
+				// Alright, since the slider's thumb is a psuedo element here's some even hackier stuff
+				var style = document.querySelector('[data="slider_thumb"]');
+				
+				style.innerHTML = ".playfight_volume_slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width:" + fontSize.toString() + "px" + "; height:" + fontSize.toString() + "px" + "; border-radius: 50%;background: #6ee56c; cursor: pointer; }"
+				
+			}
+			
+			// Do it when the script is started, since scaleElements() is usually only called on window resize
+			scaleElements();
+
+
+			// Game options and buttons code
+			function playGame() {
+			  playfight.playgame();
+			}
+			
+			function spectateGame() {
+			  playfight.spectategame();
+			}
+			
+			var slider = document.getElementById("volume_range");
+			
+			slider.oninput = function() {
+				playfight.setmusicvolume(this.value / 100);
+			}
+			
+			// Music Button
+			var isMusicMuted = true;
+			
+			isMusicMuted = playfight.getmusicmuted();
+
+			if (isMusicMuted)
+			{
+				musicButton.style.setProperty("background-color", "#cfd4d3");
+				musicButton.style.setProperty("color", "#cfd4d3");
+				musicButton.style.setProperty("outline-color", "#cfd4d3");
+				musicButton.style.setProperty("border-color", "#cfd4d3");
+				musicSlash.style.setProperty("color", "rgba(168, 64, 50, 1)");
+			}
+			else
+			{
+				musicSlash.style.setProperty("color", "rgba(168, 64, 50, 0)");
+			}
+			
+			function toggleMusicMuted()
+			{
+				isMusicMuted = !isMusicMuted;
+				
+				if (isMusicMuted)
+				{
+					musicButton.style.setProperty("background-color", "#cfd4d3");
+					musicButton.style.setProperty("color", "#cfd4d3");
+					musicButton.style.setProperty("outline-color", "#cfd4d3");
+					musicButton.style.setProperty("border-color", "#cfd4d3");
+					musicSlash.style.setProperty("color", "rgba(168, 64, 50, 1)");
+				}
+				else
+				{
+					musicButton.style.setProperty("background-color", "#99ed98");
+					musicButton.style.setProperty("color", "#99ed98");
+					musicButton.style.setProperty("outline-color", "#99ed98");
+					musicButton.style.setProperty("border-color", "#99ed98");
+					musicSlash.style.setProperty("color", "rgba(168, 64, 50, 0)");
+				}
+				
+				playfight.setmusicmuted(isMusicMuted);
+			}
+		</script>
+		
+		</div>
+	</body>
+</html>

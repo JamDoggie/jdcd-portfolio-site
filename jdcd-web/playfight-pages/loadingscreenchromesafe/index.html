@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	
+	<body>
+		<div class="container">
+			<img src="playfight_person_1.png" class="img1" id="image1transition"></img>
+			<img src="playfight_person_2.png" class="img2" id="image2transition"></img>
+			<img src="playfight_loadingtext.png" class="img3" id="image3transition"></img>
+			
+			<script>
+			function updateTransition() {
+			  var el = document.getElementById("image1transition");
+			   
+			  if (el) {
+				el.className = "img1t";
+			  } 
+
+						   
+			  var eltwo = document.getElementById("image2transition");
+			   
+			  if (eltwo) {
+				eltwo.className = "img2t";
+			  } 
+			  
+			  var elthree = document.getElementById("image3transition");
+			   
+			  if (elthree) {
+				elthree.className = "img3t";
+			  } 
+			}
+			
+			updateTransition();
+			</script>
+		</div>
+	</body>
+</html>

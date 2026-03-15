@@ -1,0 +1,170 @@
+html {
+	overflow: hidden;
+	
+}
+
+body {
+	margin:0px;
+	background: #18191c;
+	
+	overflow-x: hidden;
+	height: 100vh;
+	transform-style: preserve-3d;
+	overflow-x: hidden;
+	overflow-y: auto;
+	perspective: 1px;
+}
+
+.navigation {
+
+}
+
+.navigation li {
+
+}
+
+.parallax-wrapper {
+
+	
+}
+
+.parallax-wrapper::before {
+	content:"";
+	width: 100vw;
+	height: 100vh;
+	top:0;
+	left:0;
+	background-image: url("screenshot_1.jpg");
+	background-size: cover;
+    background-position: center;
+	background-repeat: no-repeat;
+	
+	position: absolute;
+	z-index: -1;
+	transform: translateZ(-1px) scale(2);
+	
+}
+
+.regular-wrapper {
+	width: 100vw;
+	height: 100vh;
+	background-image: url("screenshot_2.jpg");
+	background-size: cover;
+    background-position: center;
+	background-repeat: no-repeat;
+}
+
+.content {
+	width: 100vw;
+	height: 100vh;
+}
+
+.orion_logo {
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	height: 40vmin;
+	transform: translate(-50%, 0);
+	filter: drop-shadow(2vmin 2vmin 4vmin rgba(0,0,0,0.5));
+}
+
+.blur_div {
+	position: absolute;
+	width: 100vw;
+	height: 45vh;
+	top: 100%;
+	
+	transform: translateY(-100%);
+	
+	border-radius: 23vmin 23vmin 0px 0px;
+	box-shadow: 0 0 50vh rgba(0,0,0,0.5);
+	backdrop-filter: blur(0.5vmax);
+	overflow: auto;
+}
+
+.blur_div_2 {
+	position: absolute;
+	width: 100vw;
+	height: 30vh;
+	top: 120%;
+
+	box-shadow: 0 0 50vh rgba(0,0,0,0.5);
+	backdrop-filter: blur(0.5vmax);
+}
+
+.blur_div_2 .description {
+	display: inline-block;
+	position: relative;
+	font-family: 'Exo';
+	width: 50vw;
+	left: 50%;
+	
+	padding: 0.2vh;
+	
+	transform: translate(-50%, -100%);
+	font-size: 2.5vmin;
+	text-align: center;
+	color: rgba(200,200,200, 1);
+}
+
+.main_header {
+	position: relative;
+	font-family: 'spy_agency_boldbold';
+	width: 85vw;
+	left: 50%;
+	
+	padding: 2vh;
+	
+	transform: translateX(-50%);
+	font-size: 4vmin;
+	text-align: center;
+	color: rgba(200,200,200, 1);
+}
+
+.blur_div .description {
+	display: inline-block;
+	position: relative;
+	font-family: 'Exo';
+	width: 50vw;
+	left: 50%;
+	
+	padding: 1vh;
+	
+	transform: translateX(-50%);
+	font-size: 2.5vmin;
+	text-align: center;
+	color: rgba(200,200,200, 1);
+}
+
+.blur_div a {
+	
+	position: absolute;
+	
+	font-family: 'Exo';
+	color: rgba(200,200,200, 1);
+	font-weight: 700;
+	
+	transition-property: transform font-size;
+	transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.175, 1.5);
+	
+	font-size: 2.1vmin;
+	padding: 0.2vmin;
+	padding: 0% 1%;
+	transform: translate(0, 0%);
+}
+
+.blur_div a:hover {
+	
+	font-size: 2.3vmin;
+	transform: translate(0, -5%);
+
+}
+
+.blur_div a:active {
+	font-size: 2.1vmin;
+	transform: translate(0, 0%);
+	
+}
+
+

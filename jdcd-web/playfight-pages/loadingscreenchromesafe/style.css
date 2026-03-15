@@ -1,0 +1,64 @@
+body {
+  overflow: hidden; /* Hide scrollbars */
+  background-color: #FFF;
+}
+
+.img1 {
+  left: -5%;
+  top: 0%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(0deg);
+}
+
+.img1t {
+  left: 18%;
+  top: 18%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(10deg);
+}
+
+.img2 {
+  left: 100%;
+  top: 0%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(0deg);
+}
+
+.img2t {
+  left: 60%;
+  top: 18%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(-10deg);
+}
+
+.img3 {
+  left: 0%;
+  top: 60%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(0deg);
+}
+
+.img3t {
+  left: 35%;
+  top: 60%;
+  position: absolute;
+  transition-property: left top transform;
+  transition-duration: 5s;
+  transition-timing-function: ease-out;
+  transform: rotate(-10deg);
+}

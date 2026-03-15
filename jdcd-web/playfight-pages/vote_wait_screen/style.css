@@ -1,0 +1,24 @@
+.votetext {
+	position:absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	font-family: Gill Sans, sans-serif;
+	font-weight: 700;
+	white-space: nowrap;
+	color: rgba(255,255,255,255);
+	
+	-webkit-animation-name: wavey_text;
+	-webkit-animation-duration: 4s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	
+	user-select: none;
+	pointer-events: none;
+}
+
+@-webkit-keyframes wavey_text {
+  0% {top: 48%;}
+  50%  {top: 53%;}
+  100% {top: 48%;}
+}

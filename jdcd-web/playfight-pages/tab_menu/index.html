@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	
+	<body onresize="scaleElements()">
+		<text id="rightclick_text">Right click to show mouse</text>
+	
+		<div class="center_div" id="center_div_id">
+		
+			<!-- For the box at the top of the div that says the team name -->
+			<div class="team_label" id="team_orange_label">
+				<text class="team_label_text">A Team</text>
+			</div>
+			
+			<div class="wins_label" id="wins_label_orange">
+				<text class="team_label_text">0 Wins</text>
+			</div>
+			
+			<div class="team_label_line" id="team_orange_line"></div>
+			
+			<ol id="tab_list">
+			
+			</ol>
+		</div>
+		
+		<div class="center_div_blue" id="center_div_blue_id">
+		
+			<div class="team_label" id="team_blue_label">
+				<text class="team_label_text">Orange Team</text>
+			</div>
+			
+			<div class="wins_label" id="wins_label_blue">
+				<text class="team_label_text">0 Wins</text>
+			</div>
+			
+			<div class="team_label_line" id="team_blue_line"></div>
+			
+			<ol id="tab_list_blue">
+			
+				<!--
+				<li class="tab_list_item">
+					<div class="scoreboard_entry">
+						<button class="tabimg"></button>
+						<div class="player_name">
+							<text class="username">JamDoggie</text>
+						</div>
+						<text class="stat_text" id="health_text">100%</text>
+						<text class="stat_text" id="wins_text">Wins: 0</text>
+						<text class="stat_text" id="kills_text">Kills: 0</text>
+						
+						
+						<text class="ping_text">13 Ping</text>
+						
+						<div class="mutebackground"></div>
+						<button class="mute_button"></button>
+					</div>
+				</li>
+				-->
+				
+			</ol>
+		</div>
+		
+		
+		<script>
+			
+			
+			// Element Scaling
+			// PS: I promise i am not committing a crime with this
+			// GMOD Awesomium has forced my hand, since i cannot use vmin, vmax, vh or vw.
+			var centerDiv = document.getElementById("center_div_id");
+			var centerDivBlue = document.getElementById("center_div_blue_id");
+			
+			
+			var namePanels = document.getElementsByClassName("player_name");
+			var panels = document.getElementsByClassName("scoreboard_entry");
+			var statTexts = document.getElementsByClassName("stat_text");
+			var usernames = document.getElementsByClassName("username");
+			var avatars = document.getElementsByClassName("tabimg");
+			var muteButtons = document.getElementsByClassName("mute_button");
+			var muteBackgrounds = document.getElementsByClassName("mutebackground");
+			var pingTexts = document.getElementsByClassName("ping_text");
+			var tabList = document.getElementById("tab_list");
+			var tabListBlue = document.getElementById("tab_list_blue");
+			var tabItems = document.getElementsByClassName("tab_list_item");
+			
+			var teamLabelLine = document.getElementsByClassName("team_label_line");
+			
+			var rightClickText = document.getElementById("rightclick_text");
+			
+			
+			var vw = document.documentElement.clientWidth / 100;
+			var vh = document.documentElement.clientHeight / 100;
+			
+			var vmin = vh
+			
+			if (vw < vh)
+			{
+				vmin = vw;
+			}
+			
+			var vmax = vw;
+			
+			if (vh > vw)
+			{
+				vmax = vh;
+			}
+				
+			var selectedButton = -1;
+				
+			function updateSizeVars()
+			{
+				vw = document.documentElement.clientWidth / 100;
+				vh = document.documentElement.clientHeight / 100;
+				
+				vmin = vh
+			
+				if (vw < vh)
+				{
+					vmin = vw;
+				}
+				
+				vmax = vw;
+			
+				if (vh > vw)
+				{
+					vmax = vh;
+				}
+			}
+				
+			function updateCenterDivs()
+			{
+				centerDiv.style.setProperty("height", (vh * 50).toString() + "px");
+				centerDiv.style.setProperty("width", (vw * 40).toString() + "px");
+				
+				centerDivBlue.style.setProperty("height", (vh * 50).toString() + "px");
+				centerDivBlue.style.setProperty("width", (vw * 40).toString() + "px");
+			}
+				
+			function scaleElements()
+			{
+				updateSizeVars();
+			
+				updateCenterDivs();
+				
+				rightClickText.style.setProperty("text-shadow", "0px 0px " + (vmin * 1).toString() + "px rgba(0,0,0,0.6)");
+				rightClickText.style.setProperty("font-size", (vmin * 1.7) + "px");
+				
+				for(var i = 0; i < statTexts.length; i++)
+				{
+					statTexts[i].style.setProperty("font-size", (2 * vh).toString() + "px");
+					statTexts[i].style.setProperty("text-shadow", "0px 0px " + (1 * vmin).toString() + "px rgba(0,0,0,0.3)");
+				}
+				
+				for(var i = 0; i < usernames.length; i++)
+				{
+					usernames[i].style.setProperty("font-size", (1.8 * vh).toString() + "px");
+					usernames[i].style.setProperty("text-shadow", "text-shadow: 0px 0px " + (1 * vmin).toString() + "px rgba(0,0,0,0.4);");
+				}
+				
+				for(var i = 0; i < avatars.length; i++)
+				{
+					avatars[i].style.setProperty("width", (4.5 * vh).toString() + "px");
+				}
+				
+				for(var i = 0; i < muteButtons.length; i++)
+				{
+					muteButtons[i].style.setProperty("width", (4.5 * vh).toString() + "px");
+				}
+				
+				for(var i = 0; i < muteBackgrounds.length; i++)
+				{
+					muteBackgrounds[i].style.setProperty("width", (4.5 * vh).toString() + "px");
+				}
+
+				for(var i = 0; i < pingTexts.length; i++)
+				{
+					pingTexts[i].style.setProperty("font-size", (2 * vh).toString() + "px");
+				}
+				
+				for(var i = 0; i < namePanels.length; i++)
+				{
+					namePanels[i].style.setProperty("left", (4.5 * vh).toString() + "px");
+				}
+				
+				for(var i = 0; i < tabItems.length; i++)
+				{
+					tabItems[i].style.setProperty("height", (4.5 * vh).toString() + "px");
+				}
+				
+				for(var i = 0; i < teamLabelLine.length; i++)
+				{
+					teamLabelLine[i].style.setProperty("height", Math.floor(0.3 * vmin).toString() + "px");
+				}
+				
+				
+				
+			}
+
+			// Do it when the script is started, since scaleElements() is usually only called on window resize
+			scaleElements();
+
+			var tabList = document.getElementById("tab_list");
+
+			var playerMap = new Object(); 
+			
+			function setGameInfo(isTeams, teamOneName, teamTwoName, teamOneColor, teamTwoColor)
+			{
+				if (!isTeams)
+				{
+					while (tabListBlue.firstChild) {
+						tabListBlue.removeChild(tabListBlue.lastChild);
+				    }
+					
+					centerDivBlue.style.setProperty("left", "0px");
+					centerDiv.style.setProperty("left", "50%");
+					
+					
+					centerDivBlue.style.setProperty("opacity", "0");
+					
+					document.getElementById("team_orange_label").style.setProperty("opacity", "0");
+					document.getElementById("team_orange_line").style.setProperty("opacity", "0");
+					
+					document.getElementById("team_blue_label").style.setProperty("opacity", "0");
+					document.getElementById("team_blue_line").style.setProperty("opacity", "0");
+					
+					document.getElementById("wins_label_blue").style.setProperty("opacity", "0");
+					document.getElementById("wins_label_orange").style.setProperty("opacity", "0");
+				}
+				else
+				{
+					centerDiv.style.setProperty("left", "27%");
+					centerDivBlue.style.setProperty("left", "73%");
+					
+					document.getElementById("team_orange_label").getElementsByTagName('text')[0].textContent = teamOneName + " Team";
+					document.getElementById("team_blue_label").getElementsByTagName('text')[0].textContent = teamTwoName + " Team";
+					
+					
+					document.getElementById("team_orange_label").style.setProperty("background-color", "rgb(" + teamOneColor + ")");
+					document.getElementById("team_orange_line").style.setProperty("background-color", "rgb(" + teamOneColor + ")");
+					
+					document.getElementById("team_blue_label").style.setProperty("background-color", "rgb(" + teamTwoColor + ")");
+					document.getElementById("team_blue_line").style.setProperty("background-color", "rgb(" + teamTwoColor + ")");
+					
+					document.getElementById("wins_label_blue").style.setProperty("background-color", "rgb(" + teamTwoColor + ")");
+					document.getElementById("wins_label_orange").style.setProperty("background-color", "rgb(" + teamOneColor + ")");
+					
+					document.getElementById("team_orange_label").style.setProperty("opacity", "1");
+					document.getElementById("team_orange_line").style.setProperty("opacity", "1");
+					
+					document.getElementById("team_blue_label").style.setProperty("opacity", "1");
+					document.getElementById("team_blue_line").style.setProperty("opacity", "1");
+					
+					document.getElementById("wins_label_blue").style.setProperty("opacity", "1");
+					document.getElementById("wins_label_orange").style.setProperty("opacity", "1");
+				}
+				
+				
+			}
+			
+			//setGameInfo(true, "Orange", "Blue", "232, 174, 102", "0, 163, 232")
+			
+			function updateTeamWins(id, wins)
+			{
+				var winsText = "";
+				if (wins != 1)
+				{
+					winsText = wins + " Wins";
+				}
+				else
+				{
+					winsText = wins + " Win";
+				}
+				
+				
+				if (id == 0)
+				{
+					document.getElementById("wins_label_orange").getElementsByTagName('text')[0].textContent = winsText;
+				}
+				else
+				{
+					document.getElementById("wins_label_blue").getElementsByTagName('text')[0].textContent = winsText;
+				}
+			}
+			
+			//updateTeamWins(0, 1);
+			
+			function updatePlayer(avatar, username, health, wins, kills, ping, id, ismuted, teamId)
+			{
+				if (health < 0)
+				{
+					health = 0;
+				}
+			
+				if (playerMap[id] == null)
+				{
+					if (teamId >= 0)
+					{
+					
+						var listItem = document.createElement("li");
+						listItem.className = "tab_list_item";
+						
+						var entryDiv = document.createElement("div");
+						entryDiv.className = "scoreboard_entry";
+						
+						var avatarButton = document.createElement("button");
+						avatarButton.className = "tabimg";
+						
+						avatarButton.style.setProperty("background-image", "url(\"" + avatar.toString() + "\")");
+						
+						var playerNameDiv = document.createElement("div");
+						playerNameDiv.className = "player_name";
+						
+						var playerNameText = document.createElement("text");
+						playerNameText.className = "username";
+						playerNameText.textContent = username;
+						
+						
+						
+						var healthText = document.createElement("text");
+						healthText.className = "stat_text";
+						healthText.id = "health_text";
+						healthText.textContent = health.toString() + "%";
+						
+						if (health <= 0)
+						{
+							healthText.style.setProperty("color", "rgba(145, 52, 42, 1.0)");
+						}
+						else
+						{
+							healthText.style.setProperty("color", "rgba(255, 255, 255, 1.0)");
+						}
+						
+						healthText.health = health;
+						
+						
+						var winsText = document.createElement("text");
+						winsText.className = "stat_text";
+						winsText.id = "wins_text";
+						winsText.textContent = "Wins: " + wins.toString();
+						
+						var killsText = document.createElement("text");
+						killsText.className = "stat_text";
+						killsText.id = "kills_text";
+						killsText.textContent = "Kills: " + kills.toString();
+						
+						
+						
+						var pingText = document.createElement("text");
+						pingText.className = "ping_text";
+						pingText.textContent = ping.toString() + " Ping";
+						
+						
+						
+						var muteBackground = document.createElement("div");
+						muteBackground.className = "mutebackground";
+						
+						var muteButton = document.createElement("button");
+						muteButton.className = "mute_button";
+					
+						if (ismuted)
+						{
+							muteButton.style.setProperty("background-image", "url('mic_muted_icon.svg')");
+						}
+						else
+						{
+							muteButton.style.setProperty("background-image", "url('mic_icon.svg')");
+						}
+						
+						muteButton.ismuted = ismuted;
+						
+					
+
+						playerMap[id] = listItem; 
+					
+						if (teamId == 0 || teamId == null)
+						{
+							tabList.appendChild(listItem);
+						}
+						else
+						{
+							tabListBlue.appendChild(listItem);
+						}
+						
+						listItem.teamID = teamId;
+						
+						listItem.appendChild(entryDiv);
+						
+						
+						entryDiv.appendChild(avatarButton);
+						
+						entryDiv.appendChild(playerNameDiv);
+						playerNameDiv.appendChild(playerNameText);
+						
+						entryDiv.appendChild(healthText);
+						entryDiv.appendChild(winsText);
+						entryDiv.appendChild(killsText);
+						
+						entryDiv.appendChild(pingText);
+						entryDiv.appendChild(muteBackground);
+						entryDiv.appendChild(muteButton);
+						
+						avatarButton.onclick = function()
+						{	
+							playfight.opensteamprofile(id);
+						}
+						
+						muteButton.onclick = function()
+						{
+							playfight.togglemute(id);
+						}
+						
+						scaleElements();
+					}
+				}
+				else
+				// Update tab listing instead of creating it
+				{	
+					var playerItem = playerMap[id];
+				
+					var children = playerItem.children;
+					
+					
+					if (playerItem.teamID != teamId)
+					{
+						playerItem.teamID = teamId;
+						
+						if (teamId == 0)
+						{
+							tabList.appendChild(playerItem);
+						}
+						else
+						{
+							tabListBlue.appendChild(playerItem);
+						}
+					}
+					
+					
+					for(var i = 0; i < children.length; i++)
+					{
+						var child = children[i];
+						
+						if (child.className == "scoreboard_entry")
+						{	
+							var scoreboardEntry = child;
+							
+							var entryChildren = scoreboardEntry.children;
+							
+							for (var j = 0; j < entryChildren.length; j++)
+							{
+								var entryChild = entryChildren[j];
+								
+								if (entryChild.className == "tabimg")
+								{
+									var img = entryChild,
+									style = img.currentStyle || window.getComputedStyle(img, false),
+									bi = style.backgroundImage.slice(4, -1).replace(/"/g, "");
+									
+									if (bi != avatar)
+									{
+										img.style.setProperty("background-image", "url(\"" + avatar.toString() + "\")");
+									}
+								}
+								
+								if (entryChild.querySelector(".username") != null)
+								{	
+									var usernameElement = entryChild.querySelector(".username");
+									
+									if (usernameElement.textContent != username)
+									{
+										usernameElement.textContent = username;
+									}
+								}
+								
+								if (entryChild.id == "health_text")
+								{
+									if (health <= 0)
+									{
+										if (entryChild.health != health)
+										{
+											entryChild.style.setProperty("color", "rgba(145, 52, 42, 1.0)");
+										}
+										
+									}
+									else
+									{
+										if (entryChild.health != health)
+										{
+											entryChild.style.setProperty("color", "rgba(255, 255, 255, 1.0)");
+										}
+										
+									}
+								
+									if (health != entryChild.health)
+									{
+										entryChild.textContent = health.toString() + "%";
+										entryChild.health = health;
+									}
+									
+									
+								}
+								
+								if (entryChild.id == "wins_text")
+								{
+									if (entryChild.textContent != "Wins: " + wins.toString())
+									{
+										entryChild.textContent = "Wins: " + wins.toString();
+									}
+									
+								}
+								
+								if (entryChild.id == "kills_text")
+								{
+									if (entryChild.textContent != "Kills: " + kills.toString())
+									{	
+										entryChild.textContent = "Kills: " + kills.toString();
+									}
+									
+								}
+								
+								if (entryChild.className == "ping_text")
+								{
+									if (entryChild.textContent != ping.toString() + " Ping")
+									{
+										entryChild.textContent = ping.toString() + " Ping";
+									}
+									
+								}
+								
+								if (entryChild.className == "mute_button")
+								{
+									
+									if (ismuted != entryChild.ismuted)
+									{
+
+										if (ismuted)
+										{
+											
+											
+											entryChild.style.setProperty("background-image", "url('mic_muted_icon.svg')");
+
+										}
+										else
+										{
+											entryChild.style.setProperty("background-image", "url('mic_icon.svg')");
+										}
+
+										entryChild.ismuted = ismuted;
+									}
+									
+									
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			function removePlayer(id)
+			{
+				if (playerMap[id] != null)
+				{
+					playerMap[id].remove();
+					playerMap[id] = null;
+				}
+			}
+			
+			//updatePlayer("", "Bruh", 97, 2, 5, 6, "2312431412124124", true, 0);
+			//removePlayer("2312431412124124");
+			/*updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfasdf", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfasdsdf", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfasjjjjjdf", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfagggsdf", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfaffsdf", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "dfashhhdf", true, 1);
+			
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "234234234drfff", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "76574fgdfgdgdfg", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "SDFG%$5464", true, 1);
+			updatePlayer("", "Blssss ", 97, 2, 5, 2, "dfagdfgsdfgdfshhhdf", true, 1);
+			
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "23423423hhhhh4drfff", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "76574fgdssssdfgdgdfg", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "SDFG%$54ffff64", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "234234%%%234drfff", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "76574fgdfgd$%$#gdfg", true, 1);
+			updatePlayer("", "Bl ue ", 97, 2, 5, 2, "SDFG%$^^^5464", true, 1);*/
+		</script>
+	</body>
+</html>
