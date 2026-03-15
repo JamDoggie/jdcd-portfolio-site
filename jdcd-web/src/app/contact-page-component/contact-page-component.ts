@@ -2,10 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ElementRef, in
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Footer } from '../footer/footer';
+import { SocialMediaRow } from '../portfolio/social-media-row/social-media-row';
 
 @Component({
   selector: 'app-contact-page-component',
-  imports: [FormsModule, Footer],
+  imports: [FormsModule, Footer, SocialMediaRow],
   templateUrl: './contact-page-component.html',
   styleUrl: './contact-page-component.scss',
 })
