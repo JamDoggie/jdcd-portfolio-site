@@ -31,4 +31,14 @@ export class NavBar implements OnInit {
 
     this.scrollPosY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
   }
+
+  scrollToTop(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
 }

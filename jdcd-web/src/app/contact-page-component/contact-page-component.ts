@@ -80,6 +80,8 @@ export class ContactPageComponent implements AfterViewInit {
       return;
     }
 
+    this.scrollToTop();
+
     if (this.bookVideoRef) {
       const video = this.bookVideoRef.nativeElement;
       this.configureBookVideoForAutoplay(video);
@@ -118,6 +120,12 @@ export class ContactPageComponent implements AfterViewInit {
       formObs.observe(formWindow);
       this.destroyRef.onDestroy(() => formObs.disconnect());
     }
+  }
+
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }
 
   private configureBookVideoForAutoplay(video: HTMLVideoElement): void {
