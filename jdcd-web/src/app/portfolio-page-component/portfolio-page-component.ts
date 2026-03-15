@@ -13,6 +13,7 @@ interface ProjectData {
   subtitle: string;
   html: string;
   media: string[];
+  posters: Record<string, string>;
   skills: string[];
 }
 

@@ -16,6 +16,7 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
   html = input<string>('');
   media = input<string[]>([]);
   skills = input<string[]>([]);
+  posters = input<Record<string, string>>({});
   flipped = input<boolean>(false);
   desktopVisibleCount = input<number>(1);
   mobileVisibleCount = input<number>(1);
@@ -136,6 +137,10 @@ export class ProjectShowcase implements OnInit, AfterViewInit {
       case 'ogg': return 'video/ogg';
       default: return '';
     }
+  }
+
+  posterFor(url: string): string {
+    return this.posters()[url] ?? '';
   }
 
   fullscreenPrev(): void {

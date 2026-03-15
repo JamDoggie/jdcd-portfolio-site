@@ -25,6 +25,13 @@ const modelsRoot = join(contentRoot, 'models');
 const skillsRoot = join(contentRoot, 'skills');
 const outDir = join(import.meta.dirname, '.generated', 'api');
 
+// Must match the naming convention in generate-video-thumbnails.mjs
+function videoThumbName(projectSlug, videoFilename) {
+  const sanitised = projectSlug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const base = videoFilename.replace(/\.[^.]+$/, '');
+  return `${sanitised}--${base}.jpg`;
+}
+
 // ── helpers ──────────────────────────────────────────────────
 
 async function ensureDir(dir) {
@@ -60,6 +67,14 @@ async function generateProjects() {
 
     const mediaUrls = mediaFiles.map(f => `content/projects/${slug}/media/${f}`);
 
+    const posters = {};
+    for (const f of mediaFiles) {
+      if (/\.(mp4|webm|ogg)$/i.test(f)) {
+        const url = `content/projects/${slug}/media/${f}`;
+        posters[url] = `video-thumbnails/${videoThumbName(slug, f)}`;
+      }
+    }
+
     let title = slug;
     let subtitle = '';
     let skills = [];
@@ -73,7 +88,7 @@ async function generateProjects() {
       if (Array.isArray(meta.skills)) skills = meta.skills.filter(s => typeof s === 'string');
     } catch { /* meta.json is optional */ }
 
-    projects.push({ slug, title, subtitle, html, media: mediaUrls, skills, order });
+    projects.push({ slug, title, subtitle, html, media: mediaUrls, posters, skills, order });
   }
 
   projects.sort((a, b) => a.order !== b.order ? a.order - b.order : a.slug.localeCompare(b.slug));

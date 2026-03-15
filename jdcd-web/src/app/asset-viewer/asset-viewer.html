@@ -1,7 +1,7 @@
 <section class="asset-viewer" [class.visible]="visible()">
     <div class="asset-preview">
         <div class="asset-title-card" aria-hidden="true">{{ displayTitle }}</div>
-        <div #viewerShell class="asset-viewer-shell" (dblclick)="active() && openFullscreen()">
+        <div #viewerShell class="asset-viewer-shell" (dblclick)="handleViewerDoubleClick()">
             @if (isMobile() && !active()) {
                 <button class="mobile-activate" (click)="activateMobileViewer()" aria-label="Load 3D model viewer">
                     @if (thumbnailUrl) {

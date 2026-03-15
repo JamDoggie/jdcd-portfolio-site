@@ -180,6 +180,11 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy, MobileV
     this.activate();
   }
 
+  protected handleViewerDoubleClick(): void {
+    if (this.isMobile()) return;
+    this.openFullscreen();
+  }
+
   private scheduleSceneInit(retries = 4): void {
     requestAnimationFrame(() => {
       if (!this.active()) return;

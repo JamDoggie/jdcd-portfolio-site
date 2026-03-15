@@ -118,12 +118,33 @@
         font-weight: 600;
         font-size: 1.05rem;
         letter-spacing: 0.02rem;
+
         text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.65);
         background: linear-gradient(190deg, hsl(31, 60%, 62%) 0%, hsl(28, 50%, 48%) 52%, hsl(24, 50%, 35%) 100%);
         outline: 2px solid hsla(31, 100%, 50%, 0.452);
         padding: 0rem 1rem;
         border-radius: 0.5rem;
         box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.3);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :host {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .skill-preview-icon {
+        transition: none;
+    }
+
+    .skill-preview-icon img {
+        transition: none;
+    }
+
+    .skill-preview-panel {
+        transition: none;
     }
 }
 

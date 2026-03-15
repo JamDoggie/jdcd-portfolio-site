@@ -300,3 +300,35 @@
         align-items: center;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .intro-row {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .copied-tooltip {
+        transition: none;
+    }
+
+    .contact-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        transition: none;
+    }
+
+    .send-btn {
+        transition: none;
+
+        &::before,
+        &::after {
+            transition: none;
+        }
+    }
+}

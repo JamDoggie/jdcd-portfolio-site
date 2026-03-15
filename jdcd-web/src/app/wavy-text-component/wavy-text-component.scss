@@ -58,3 +58,15 @@ $skillsGradientEnd: #f1bb7d;
         background-position: calc(var(--char-index) * -1ch) 0;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .ripple-text {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .ripple-char {
+        animation: none;
+    }
+}

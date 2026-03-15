@@ -15,6 +15,7 @@ export class ContactPageComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('bookVideo', { static: false }) bookVideoRef!: ElementRef<HTMLVideoElement>;
+  private awaitingVideoInteraction = false;
 
   introVisible = signal(false);
   formVisible = signal(false);
@@ -29,29 +30,20 @@ export class ContactPageComponent implements AfterViewInit {
   contactMessage = '';
 
   readonly bookAnimSrc: string;
-  readonly bookAnimType: string;
 
   constructor(
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
   ) {
-    const useMp4 = this.shouldUseMp4BookAnim();
-    this.bookAnimSrc = useMp4 ? 'assets/videos/book-anim.mp4' : 'assets/videos/book-anim.webm';
-    this.bookAnimType = useMp4 ? 'video/mp4' : 'video/webm';
+    this.bookAnimSrc = this.isSafari()
+      ? 'assets/videos/book-anim.mp4'
+      : 'assets/videos/book-anim.webm';
   }
 
-  private shouldUseMp4BookAnim(): boolean {
-    if (!isPlatformBrowser(this.platformId)) {
-      return false;
-    }
-
-    const userAgent = navigator.userAgent;
-    const vendor = navigator.vendor || '';
-
-    const isSafariEngine = /Safari/i.test(userAgent) && /Apple/i.test(vendor);
-    const isOtherIosBrowser = /CriOS|FxiOS|EdgiOS|OPiOS|GSA/i.test(userAgent);
-
-    return isSafariEngine && !isOtherIosBrowser;
+  private isSafari(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+    // Safari is the only major browser where vendor starts with "Apple"
+    return navigator.vendor.includes('Apple');
   }
 
   copyEmail(): void {
@@ -89,7 +81,11 @@ export class ContactPageComponent implements AfterViewInit {
     }
 
     if (this.bookVideoRef) {
-      this.bookVideoRef.nativeElement.load();
+      const video = this.bookVideoRef.nativeElement;
+      this.configureBookVideoForAutoplay(video);
+      video.addEventListener('loadeddata', this.onBookVideoReady, { once: true });
+      video.load();
+      this.destroyRef.onDestroy(() => this.removeVideoRetryListeners());
     }
 
     const introRow = this.el.nativeElement.querySelector('.intro-row');
@@ -123,4 +119,74 @@ export class ContactPageComponent implements AfterViewInit {
       this.destroyRef.onDestroy(() => formObs.disconnect());
     }
   }
+
+  private configureBookVideoForAutoplay(video: HTMLVideoElement): void {
+    video.defaultMuted = true;
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.loop = false;
+    video.setAttribute('muted', '');
+    video.setAttribute('autoplay', '');
+    video.setAttribute('playsinline', '');
+    video.removeAttribute('loop');
+  }
+
+  private readonly onBookVideoReady = (): void => {
+    const video = this.bookVideoRef?.nativeElement;
+    if (video) {
+      this.tryPlayBookVideo(video);
+    }
+  };
+
+  private tryPlayBookVideo(video: HTMLVideoElement): void {
+    const playAttempt = video.play();
+    if (!playAttempt) {
+      return;
+    }
+
+    playAttempt
+      .then(() => this.removeVideoRetryListeners())
+      .catch(() => this.addVideoRetryListeners());
+  }
+
+  private addVideoRetryListeners(): void {
+    if (this.awaitingVideoInteraction) {
+      return;
+    }
+
+    this.awaitingVideoInteraction = true;
+    document.addEventListener('pointerdown', this.retryBookVideoPlayback, true);
+    document.addEventListener('keydown', this.retryBookVideoPlayback, true);
+    document.addEventListener('visibilitychange', this.handleBookVideoVisibilityChange);
+  }
+
+  private removeVideoRetryListeners(): void {
+    if (!this.awaitingVideoInteraction) {
+      return;
+    }
+
+    this.awaitingVideoInteraction = false;
+    document.removeEventListener('pointerdown', this.retryBookVideoPlayback, true);
+    document.removeEventListener('keydown', this.retryBookVideoPlayback, true);
+    document.removeEventListener('visibilitychange', this.handleBookVideoVisibilityChange);
+  }
+
+  private readonly retryBookVideoPlayback = (): void => {
+    const video = this.bookVideoRef?.nativeElement;
+    if (!video) {
+      return;
+    }
+
+    this.configureBookVideoForAutoplay(video);
+    this.tryPlayBookVideo(video);
+  };
+
+  private readonly handleBookVideoVisibilityChange = (): void => {
+    if (document.visibilityState !== 'visible') {
+      return;
+    }
+
+    this.retryBookVideoPlayback();
+  };
 }

@@ -1,8 +1,6 @@
 <div class="contact-container">
     <div class="intro-row" [class.visible]="introVisible()">
-        <video #bookVideo autoplay muted playsinline preload="auto" class="book-anim" oncontextmenu="return false;">
-            <source [src]="bookAnimSrc" [type]="bookAnimType">
-        </video>
+        <video #bookVideo [src]="bookAnimSrc" autoplay muted playsinline preload="auto" class="book-anim" oncontextmenu="return false;"></video>
         <div class="text-column">
             <span class="header-text">Contact me!</span>
             <span class="subheader-text">You can reach me at

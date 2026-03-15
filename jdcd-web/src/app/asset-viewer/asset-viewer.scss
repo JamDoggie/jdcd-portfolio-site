@@ -295,3 +295,43 @@
 	}
 }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .asset-viewer {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .asset-title-card {
+        transition: none;
+    }
+
+    .mobile-activate {
+        transition: none;
+    }
+
+    .mobile-thumbnail {
+        transition: none;
+    }
+
+    .asset-viewer-skills skill-preview {
+        transition: none;
+    }
+
+    .maximize-btn {
+        transition: none;
+    }
+
+    .fullscreen-overlay {
+        transition: none;
+    }
+
+    .fullscreen-close {
+        transition: none;
+    }
+
+    .fullscreen-viewer-shell {
+        transition: none;
+    }
+}

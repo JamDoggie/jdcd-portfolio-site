@@ -35,7 +35,7 @@
               @for (url of media(); track url) {
                 <div class="carousel-slide">
                   @if (isVideo(url)) {
-                    <video class="carousel-media" controls playsinline preload="none">
+                    <video class="carousel-media" controls playsinline preload="none" [poster]="posterFor(url)">
                       <source [src]="url" [type]="mimeType(url)">
                     </video>
                   } @else {

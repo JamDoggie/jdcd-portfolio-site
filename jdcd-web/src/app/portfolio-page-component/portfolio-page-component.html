@@ -14,7 +14,7 @@
     </div>
 
     @for (project of projects(); track project.slug; let i = $index) {
-        <app-project-showcase class="project-showcase" [flipped]="i % 2 === 0" [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [skills]="project.skills" />
+        <app-project-showcase class="project-showcase" [flipped]="i % 2 === 0" [slug]="project.slug" [title]="project.title" [subtitle]="project.subtitle" [html]="project.html" [media]="project.media" [posters]="project.posters" [skills]="project.skills" />
     }
 
     <app-wavy-text-component class="asset-showcase" [title]="'Asset Portfolio'"></app-wavy-text-component>

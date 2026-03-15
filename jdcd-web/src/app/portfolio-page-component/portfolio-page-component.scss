@@ -135,3 +135,14 @@ $layered-text-back-color: hsl(32, 40%, 38%);
     75%  { transform: rotateY(13deg) translateX(5vmin); }
     100% { transform: rotateY(15deg) translateX(5vmin); }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-projects-title {
+        transform: none;
+        transition: none;
+    }
+
+    .portfolio-projects-title.is-returning {
+        animation: none;
+    }
+}

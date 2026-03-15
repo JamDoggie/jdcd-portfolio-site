@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node generate-content.mjs && node generate-thumbnails.mjs && ng serve",
-    "build": "node generate-content.mjs && node generate-thumbnails.mjs && ng build && node -e \"require('fs').copyFileSync('dist/jdcd-web/browser/index.html','dist/jdcd-web/browser/404.html')\"",
+    "start": "node generate-content.mjs && node generate-thumbnails.mjs && node generate-video-thumbnails.mjs && ng serve",
+    "build": "node generate-content.mjs && node generate-thumbnails.mjs && node generate-video-thumbnails.mjs && ng build && node -e \"require('fs').copyFileSync('dist/jdcd-web/browser/index.html','dist/jdcd-web/browser/404.html')\"",
     "watch": "node generate-content.mjs && ng build --watch --configuration development",
     "test": "ng test"
   },

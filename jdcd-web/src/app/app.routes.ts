@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-import { PortfolioPageComponent } from './portfolio-page-component/portfolio-page-component';
-import { ContactPageComponent } from './contact-page-component/contact-page-component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'portfolio', pathMatch: 'full' },
-    { path: 'portfolio', component: PortfolioPageComponent },
-    { path: 'contact', component: ContactPageComponent },
+    { path: 'portfolio', loadComponent: () => import('./portfolio-page-component/portfolio-page-component').then(m => m.PortfolioPageComponent) },
+    { path: 'contact', loadComponent: () => import('./contact-page-component/contact-page-component').then(m => m.ContactPageComponent) },
     { path: '**', redirectTo: 'portfolio' }
 ];

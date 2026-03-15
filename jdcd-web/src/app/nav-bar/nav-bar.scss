@@ -181,3 +181,26 @@
         }
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-wrapper {
+        transition: none;
+    }
+
+    .nav-bg {
+        transition: none;
+    }
+
+    .nav-links {
+        transition: none;
+
+        li {
+            transition: none;
+
+            &::after,
+            &::before {
+                transition: none;
+            }
+        }
+    }
+}

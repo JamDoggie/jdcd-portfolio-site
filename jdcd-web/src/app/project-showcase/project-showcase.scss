@@ -60,6 +60,8 @@
         background: rgba(255, 255, 255, 0.4);
         border-radius: 4px;
     }
+
+    padding: 2rem 1.5rem 2rem 2rem;
 }
 
 :host ::ng-deep .project-markdown p {
@@ -123,8 +125,7 @@
     border-radius: margins.$borderRadius;
     background: colors.$surfaceOutlineLight;
     z-index: 2;
-    padding: 2rem 1.5rem 2rem 2rem;
-    
+    padding: 2rem;
 
     &::after {
         content: '';
@@ -173,6 +174,12 @@
     align-items: center;
     padding: 0 0.25rem;
     box-sizing: border-box;
+
+    video {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
 }
 
 .carousel-media {
@@ -371,7 +378,7 @@
     .project-showcase-contents {
         flex-direction: column;
         margin: 0;
-        width: 50%;
+        width: 80%;
 
         &.flipped {
             flex-direction: column;
@@ -382,13 +389,11 @@
         width: 100%;
         font-size: 0.7rem;
         line-height: 1.2rem;
-        text-align: center;
-        padding-right: 2rem;
-        padding-left: 2rem;
+        padding: 1rem;
     }
 
-    :host ::ng-deep .project-markdown p {
-        text-indent: 0;
+    .project-markdown {
+        padding-top: 0;
     }
 
     .media-showcase {
@@ -440,5 +445,45 @@
     .fullscreen-arrow {
         padding: 0.1rem;
         font-size: 2.2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-showcase {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .carousel-track {
+        transition: none;
+    }
+
+    .fullscreen-image-overlay {
+        transition: none;
+    }
+
+    .return-to-page {
+        transition: none;
+    }
+
+    .fullscreen-image {
+        transition: none;
+    }
+
+    .fullscreen-slide-wrapper {
+        transition: none;
+    }
+
+    .fullscreen-arrow {
+        transition: none;
+    }
+
+    .carousel-arrow {
+        transition: none;
+    }
+
+    .carousel-dot {
+        transition: none;
     }
 }
