@@ -110,7 +110,7 @@ export class AssetViewer implements AfterViewInit, OnChanges, OnDestroy, MobileV
       this.scene = new THREE.Scene();
       this.scene.background = null;
 
-      this.camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+      this.camera = new THREE.PerspectiveCamera(40, 1, 0.01, 15);
       this.camera.position.set(0, 1, 4.5);
 
       this.scene.add(new THREE.AmbientLight(0xffffff, 0.65));
